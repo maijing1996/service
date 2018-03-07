@@ -1,0 +1,15 @@
+server:
+  port: 8081
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/transaction
+    username: root
+    password: 1996921
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+#  img:
+#    location: G:\transaction\img
