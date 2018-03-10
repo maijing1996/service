@@ -10,6 +10,13 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
-
-#  img:
-#    location: G:\transaction\img
+  data:
+      rest:
+        base-path: /
+        default-page-size: 10
+        default-page-number: 0
+        page-param-name: number
+        sort-param-name: sort
+        limit-param-name: size
+  img:
+    location: G:\transaction\img

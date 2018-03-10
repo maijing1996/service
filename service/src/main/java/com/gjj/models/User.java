@@ -1,9 +1,13 @@
 package com.gjj.models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by gjj on 2018-03-04
@@ -11,8 +15,8 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name = "user")
 public class User {
-    @GeneratedValue
     @Id
+    @GeneratedValue
     @Column(name = "id")
     @JsonProperty("id")
     private Integer id;
@@ -41,6 +45,15 @@ public class User {
     @Column(name = "qq", length = 50)
     @JsonProperty("qq")
     private String qq;
+
+    @OneToMany(targetEntity = Goods.class, mappedBy = "user",cascade = CascadeType.REMOVE)
+    @JsonProperty("user_goodses")
+    private Set<Goods> goodses = new HashSet<>();
+
+    @ManyToMany(targetEntity = User.class)
+    @JsonProperty("users")
+    @JoinTable(name = "user_relation", joinColumns = @JoinColumn(name = "active_id"), inverseJoinColumns = @JoinColumn(name = "passive_id"))
+    private Set<User> users = new HashSet<>();
 
     public Integer getId() {
         return id;
@@ -96,6 +109,14 @@ public class User {
 
     public void setQq(String qq) {
         this.qq = qq;
+    }
+
+    public Set<Goods> getGoodses() {
+        return goodses;
+    }
+
+    public void setGoodses(Set<Goods> goodses) {
+        this.goodses = goodses;
     }
 
     @Override
