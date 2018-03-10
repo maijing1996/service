@@ -1,8 +1,11 @@
 package com.gjj.services;
 
 import com.gjj.models.Goods;
+import com.gjj.models.User;
+import com.gjj.qModels.QGoods;
 import com.gjj.repositories.GoodsRepository;
 import com.gjj.repositories.UserRepository;
+import com.querydsl.core.BooleanBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -22,15 +25,21 @@ public class GoodsService {
     @Autowired
     private UserRepository userRepository;
 
-    public Page<Goods> getGoods (Integer pageNumber, Integer pageSize) {
+    public Page<Goods> getGoods (Integer id, Integer pageNumber, Integer pageSize) {
+        BooleanBuilder booleanBuilder = new BooleanBuilder();
+        QGoods qGoods = QGoods.goods;
+        if (id != null) {
+            User user = userRepository.getOne(id);
+            booleanBuilder.and(qGoods.user.eq(user));
+        }
         Sort sort = new Sort(Sort.Direction.DESC, "bulletinDate");
-        Pageable pageable = PageRequest.of(pageNumber, pageSize, sort);
-        Page<Goods> goods = goodsRepository.findAll(pageable);
+        Pageable pageable = new PageRequest(pageNumber, pageSize, sort);
+        Page<Goods> goods = goodsRepository.findAll(booleanBuilder,pageable);
         return goods;
     }
 
     public Goods saveGoods(Goods goods) {
-        goods.setUser(userRepository.getOne(1));
+//        goods.setUser(userRepository.getOne(1));
         goodsRepository.save(goods);
         return goods;
     }

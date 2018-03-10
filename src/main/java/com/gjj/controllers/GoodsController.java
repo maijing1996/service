@@ -11,7 +11,6 @@ import com.gjj.models.Goods;
 import com.gjj.services.AttachmentService;
 import com.gjj.services.GoodsService;
 import com.gjj.utils.ImageUtil;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -21,15 +20,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by gjj on 2018-03-06.
  */
 @RestController
-public class GoodsController {
+class GoodsController {
 
     @Value("${spring.img.location}")
     private String location;
@@ -42,11 +39,12 @@ public class GoodsController {
 
     @ResponseBody
     @GetMapping("/goods")
-    public ResponseEntity<?> getGoods(@RequestParam(value = "${spring.data.rest.page-param-name}", required = false, defaultValue = "${spring.data.rest.default-page-number}") Integer pageNum,
-                                          @RequestParam(value = "${spring.data.rest.limit-param-name}", required = false, defaultValue = "${spring.data.rest.default-page-size}") Integer pageSize,
-                                          @RequestParam(value = "${spring.data.rest.sort-param-name}", required = false, defaultValue = "id,desc") String sort) {
-        Page<Goods> goods = goodsService.getGoods(pageNum, pageSize);
-        return null;
+    public ResponseEntity<?> getGoods(@RequestParam(required = false, value = "id") Integer id,
+                                      @RequestParam(value = "${spring.data.rest.page-param-name}", required = false, defaultValue = "${spring.data.rest.default-page-number}") Integer pageNum,
+                                      @RequestParam(value = "${spring.data.rest.limit-param-name}", required = false, defaultValue = "${spring.data.rest.default-page-size}") Integer pageSize,
+                                      @RequestParam(value = "${spring.data.rest.sort-param-name}", required = false, defaultValue = "id,desc") String sort) {
+        Page<Goods> goods = goodsService.getGoods(id, pageNum, pageSize);
+        return ResponseEntity.ok(goods);
     }
 
     @ResponseBody
@@ -77,7 +75,7 @@ public class GoodsController {
         try {
             for (int i = 0; i < multipartFiles.length; i++) {
                 MultipartFile multipartFile = multipartFiles[i];
-                if (multipartFile.isEmpty() || StringUtils.isBlank(multipartFile.getOriginalFilename())) {
+                if (multipartFile.isEmpty()) {
                     throw new BusinessException(ErrorCode.IMG_NOT_EMPTY, ErrorMessage.IMG_NOT_EMPTY);
                 }
                 String contentType = multipartFile.getContentType();
@@ -93,7 +91,7 @@ public class GoodsController {
                 String file_name = null;
                 Attachment attachment = new Attachment();
                 file_name = ImageUtil.saveImg(multipartFile, filePath);
-                if (StringUtils.isNotBlank(file_name)) {
+                if ("".equals(file_name)) {
                     url = filePath + File.separator + file_name;
                     urlList.add(url);
                     attachment.setAttachmentName(file_name);
@@ -109,4 +107,5 @@ public class GoodsController {
         }
         return urlList;
     }
+
 }

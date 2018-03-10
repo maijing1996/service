@@ -20,28 +20,28 @@ public class Goods {
     @JsonProperty("id")
     private Integer id;
 
-//    @NotNull
+    @NotNull
     @Column(name = "goods_name", length = 200)
     @JsonProperty("goodsName")
     private String goodsName;
 
-//    @NotNull
+    @NotNull
     @Column(name = "spec", length = 500)
     @JsonProperty("spec")
     private String spec;
 
-//    @NotNull
+    @NotNull
     @Column(name = "price")
     @JsonProperty("price")
     private Double price;
 
-//    @NotNull
+    @NotNull
     @Column(name = "bulletin_date")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonProperty(value = "bulletinDate")
     private Date bulletinDate;
 
-//    @NotNull
+    @NotNull
     @ManyToOne(targetEntity = User.class)
     @JoinColumn(name = "user_id")
     @JsonProperty("user")
