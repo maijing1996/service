@@ -11,7 +11,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 /**
- * Created by gjj on 2018-03-09.
+ * Created by gjj on 2018-03-09 .
  */
 @Service
 public class GoodsService {
