@@ -86,8 +86,8 @@ public class GoodsController {
                 }
                 String root_fileName = multipartFile.getOriginalFilename();
 //            logger.info("上传图片:name={},type={}", root_fileName, contentType);
-                //处理图片
-//            User currentUser = userService.getCurrentUser();//获取路径
+//            User currentUser = userService.getCurrentUser();   //获取路径
+//            User currentUser = userService.getCurrentUser();   //获取路径
 //            String return_path = ImageUtil.getFilePath(currentUser);
                 String filePath = location;
                 String file_name = null;
