@@ -1,7 +1,7 @@
 package com.gjj.enums;
 
 /**
- * Created by peng on 2017/8/14.
+ *
  */
 
 public enum ErrorCode {

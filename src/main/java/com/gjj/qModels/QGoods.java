@@ -1,15 +1,14 @@
 package com.gjj.qModels;
 
-import static com.querydsl.core.types.PathMetadataFactory.*;
-
 import com.gjj.models.Attachment;
 import com.gjj.models.Goods;
+import com.querydsl.core.types.Path;
+import com.querydsl.core.types.PathMetadata;
 import com.querydsl.core.types.dsl.*;
 
-import com.querydsl.core.types.PathMetadata;
 import javax.annotation.Generated;
-import com.querydsl.core.types.Path;
-import com.querydsl.core.types.dsl.PathInits;
+
+import static com.querydsl.core.types.PathMetadataFactory.forVariable;
 
 
 /**
@@ -35,6 +34,8 @@ public class QGoods extends EntityPathBase<Goods> {
     public final NumberPath<Double> price = createNumber("price", Double.class);
 
     public final StringPath spec = createString("spec");
+
+    public final StringPath type = createString("type");
 
     public final QUser user;
 

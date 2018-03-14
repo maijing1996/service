@@ -1,6 +1,7 @@
 package com.gjj.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
@@ -46,9 +47,10 @@ public class User {
     @JsonProperty("qq")
     private String qq;
 
-//    @OneToMany(targetEntity = Goods.class, mappedBy = "user",cascade = CascadeType.REMOVE)
+    @JsonIgnore
+    @OneToMany(targetEntity = Goods.class,fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.REMOVE)
 //    @JsonProperty("user_goods")
-//    private Set<Goods> goods = new HashSet<>();
+    private Set<Goods> goods = new HashSet<>();
 
     @ManyToMany(targetEntity = User.class)
     @JsonProperty("users")
@@ -111,13 +113,20 @@ public class User {
         this.qq = qq;
     }
 
-
     public Set<User> getUsers() {
         return users;
     }
 
     public void setUsers(Set<User> users) {
         this.users = users;
+    }
+
+    public Set<Goods> getGoods() {
+        return goods;
+    }
+
+    public void setGoods(Set<Goods> goods) {
+        this.goods = goods;
     }
 
     @Override

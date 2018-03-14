@@ -1,5 +1,6 @@
 package com.gjj.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
@@ -27,7 +28,8 @@ public class Attachment {
     private String attachmentUrl;
 
     @NotNull
-    @ManyToOne(targetEntity = Goods.class)
+    @JsonIgnore
+    @ManyToOne(targetEntity = Goods.class,fetch = FetchType.LAZY)
     @JoinColumn(name = "good_id",insertable = false, updatable = false)
     private Goods goods;
 

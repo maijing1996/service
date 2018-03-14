@@ -14,10 +14,14 @@ import com.gjj.utils.ImageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.Resource;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
@@ -40,11 +44,15 @@ class GoodsController {
     @ResponseBody
     @GetMapping("/goods")
     public ResponseEntity<?> getGoods(@RequestParam(required = false, value = "id") Integer id,
+                                      @RequestParam(required = false, value = "goodsName") String goodsName,
+                                      @RequestParam(required = false, value = "type") String type,
                                       @RequestParam(value = "${spring.data.rest.page-param-name}", required = false, defaultValue = "${spring.data.rest.default-page-number}") Integer pageNum,
                                       @RequestParam(value = "${spring.data.rest.limit-param-name}", required = false, defaultValue = "${spring.data.rest.default-page-size}") Integer pageSize,
                                       @RequestParam(value = "${spring.data.rest.sort-param-name}", required = false, defaultValue = "id,desc") String sort) {
-        Page<Goods> goods = goodsService.getGoods(id, pageNum, pageSize);
-        return ResponseEntity.ok(goods);
+        Sort sort1 = new Sort(Sort.Direction.DESC, "bulletinDate");
+        Pageable pageable = new PageRequest(pageNum, pageSize, sort1);
+//        Page<Goods> goods = goodsService.getGoods(id, pageable);
+        return ResponseEntity.ok(goodsService.getGoods(id, goodsName, type, pageable));
     }
 
     @ResponseBody

@@ -1,5 +1,6 @@
 package com.gjj.controllers;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gjj.enums.ErrorCode;
@@ -7,6 +8,7 @@ import com.gjj.enums.ErrorMessage;
 import com.gjj.exceptions.UnAuthorizedException;
 import com.gjj.models.User;
 import com.gjj.services.AuthenticationUserService;
+import com.gjj.utils.IgnoreProperty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
