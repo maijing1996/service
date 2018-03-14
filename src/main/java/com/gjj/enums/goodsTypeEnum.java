@@ -13,8 +13,8 @@ public enum goodsTypeEnum {
     BOOK("闲置书籍"),
     /**鞋服配饰*/
     SHOES_CLOTHING_ACCESSORIES("鞋服配饰"),
-    /**美妆*/
-    COSMETICS("美妆"),
+    /**美妆洗护*/
+    COSMETICS("美妆洗护"),
     /**文体户外*/
     CULTURE_SPORTS_OUTDOORS("文体户外"),
     /**其他*/
