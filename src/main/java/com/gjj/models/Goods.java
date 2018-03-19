@@ -1,6 +1,7 @@
 package com.gjj.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -34,6 +35,11 @@ public class Goods {
     @Column(name = "price")
     @JsonProperty("price")
     private Double price;
+
+    @NotNull
+    @Column(name = "type")
+    @JsonProperty("type")
+    private String type;
 
     @NotNull
     @Column(name = "bulletin_date")
@@ -84,6 +90,14 @@ public class Goods {
         this.price = price;
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
     public Date getBulletinDate() {
         return bulletinDate;
     }
@@ -115,6 +129,7 @@ public class Goods {
                 ", goodsName='" + goodsName + '\'' +
                 ", spec='" + spec + '\'' +
                 ", price=" + price +
+                ", type='" + type + '\'' +
                 ", bulletinDate=" + bulletinDate +
                 ", user=" + user +
                 ", attachments=" + attachments +

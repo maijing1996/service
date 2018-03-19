@@ -1,14 +1,14 @@
 package com.gjj.qModels;
 
-import static com.querydsl.core.types.PathMetadataFactory.*;
-
+import com.gjj.models.Goods;
 import com.gjj.models.User;
+import com.querydsl.core.types.Path;
+import com.querydsl.core.types.PathMetadata;
 import com.querydsl.core.types.dsl.*;
 
-import com.querydsl.core.types.PathMetadata;
 import javax.annotation.Generated;
-import com.querydsl.core.types.Path;
-import com.querydsl.core.types.dsl.PathInits;
+
+import static com.querydsl.core.types.PathMetadataFactory.forVariable;
 
 
 /**
@@ -20,6 +20,8 @@ public class QUser extends EntityPathBase<User> {
     private static final long serialVersionUID = -976157957L;
 
     public static final QUser user = new QUser("user");
+
+    public final SetPath<Goods, QGoods> goods = this.<Goods, QGoods>createSet("goods", Goods.class, QGoods.class, PathInits.DIRECT2);
 
     public final NumberPath<Integer> id = createNumber("id", Integer.class);
 
