@@ -12,4 +12,6 @@
   </view>
   <button bindtap="changeName"> Click me! </button>
   <text class="test">{{test}}</text>
+  <button bindtap="createQrCodeImg"> creat </button>
+  <image src="{{qrcode}}" class="qrcode"></image>
 </view>

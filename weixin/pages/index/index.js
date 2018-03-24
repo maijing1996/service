@@ -2,10 +2,12 @@
 //获取应用实例
 const app = getApp()
 import { get } from './api/api.js'
+import { createQrCodeImg} from './qrcode/wxqrcode.js'
 Page({
   data: {
     motto: 'Hello World',
     test:'222',
+    qrcode:'',
     userInfo: {},
     hasUserInfo: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo')
@@ -54,18 +56,37 @@ Page({
   },
   changeName: function(e){
     var that = this//不要漏了这句，很重要
-    get('/goods', null).then((response) => {
-      if (response.statusCode == '200'){
+    // get('/goods', null).then((response) => {
+    //   if (response.statusCode == '200'){
+    //     that.setData({
+    //       test: response.data.totalElements
+    //     });
+    //   } else {
+    //     that.setData({
+    //       test: response.data.message
+    //     });
+    //   }
+        
+    // });
+    // 只允许从相机扫码
+    wx.scanCode({
+      onlyFromCamera: true,
+      success: (res) => {
+        console.log("12121")
+        console.log(res)
         that.setData({
-          test: response.data.totalElements
-        });
-      } else {
-        that.setData({
-          test: response.data.message
+          test: res.result
         });
       }
-        
+    })
+  },
+  createQrCodeImg : function(e) {
+    var that = this
+    let img = createQrCodeImg('1234545', { 'size': 300 })
+    that.setData({
+      qrcode: img
     });
+
   }
   
 })
