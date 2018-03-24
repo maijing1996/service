@@ -70,7 +70,7 @@ Page({
     // });
     // 只允许从相机扫码
     wx.scanCode({
-      onlyFromCamera: true,
+      // onlyFromCamera: true,
       success: (res) => {
         console.log("12121")
         console.log(res)
