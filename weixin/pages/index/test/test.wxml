@@ -1,0 +1,2 @@
+<!--pages/index/test/test.wxml-->
+<button bindtap="changeName"> Click me! </button>
