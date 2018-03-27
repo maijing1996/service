@@ -1,0 +1,41 @@
+<!--pages/index/publishGoods/publishGoods.wxml-->
+<view class="main">
+  <view class="section">
+    <view class="section__title">商品名称</view>
+    <input name="input" placeholder="please input here" />
+  </view>
+  <view class="section">
+    <view class="section__title">描述</view>
+    <textarea placeholder="描述一下宝贝的细节或故事" auto-focus />
+  </view>
+  <view class="section">
+    <ul>
+      <li class="price">
+        <view class="section__title" style="float:left;margin-right:10rpx">价格 (¥)</view>
+        <input type="digit" placeholder="价格" />
+      </li>
+      <li>
+        <view class="section__title" style="float:left">原价 (¥)</view>
+        <input type="digit" placeholder="原价" />
+      </li>
+    </ul>
+  </view>
+  <view class="section">
+    <view class="section__title">普通选择器</view>
+    <picker bindchange="bindPickerChange" value="{{index}}" range="{{typeList}}">
+      <view class="picker">
+        类别：{{typeList[index]}}
+      </view>
+    </picker>
+  </view>
+  <view class='loadpic' hidden="{{flag}}" bindtap='chooseImage'>选择图片</view>
+  <view class='showPic'>
+    <view wx:for="{{imagesList}}" wx:for-item="image" wx:key="index" class="previewimg">
+      <image class='image' src="{{image}}" bindtap="previewImage"></image>
+    </view>
+  </view>
+  <view style='padding:30rpx; position: fixed; bottom: 0;width: 80%; z-index: 100; '>
+    <button type="primary" size="{{primarySize}}" loading="{{loading}}" plain="{{plain}}" disabled="{{disabled}}" bindtap="primary"> 提交 </button>
+  </view>
+
+</view>
