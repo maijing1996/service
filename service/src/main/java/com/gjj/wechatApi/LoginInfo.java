@@ -24,7 +24,7 @@ public class LoginInfo {
     @GetMapping("/weChat/getUserInfo")
     public ResponseEntity<?> getUser(@RequestParam(required = false, value = "code") String code) {
 
-        String params = "appid=" + APPID +"&secret="+SECRET+"&js_code="+code+"&grant_type=authorization_code";
+        String params = "appid="+ APPID +"&secret="+ SECRET +"&js_code="+ code +"&grant_type=authorization_code";
         String result = sendGet(URL,params);
         return ResponseEntity.ok(result);
     }
