@@ -1,4 +1,5 @@
 //app.js
+import { get } from './pages/index/api/api.js'
 App({
   onLaunch: function () {
     // 展示本地存储能力
@@ -9,7 +10,32 @@ App({
     // 登录
     wx.login({
       success: res => {
-        // 发送 res.code 到后台换取 openId, sessionKey, unionId
+          // 发送 res.code 到后台换取 openId, sessionKey, unionId
+      //   get('/weChat/getUserInfo', res.code).then((response) => {
+      //   if (response.statusCode == '200'){
+      //     console.log(response);
+      //   } else {
+      //     console.log(response);
+      //   }
+
+
+
+      // });
+
+        var aa = res.code;
+        // console.log(res.code)
+        wx.request({
+          url: 'http://192.168.1.117:8081/weChat/getUserInfo',
+          method: 'GET',
+          data: {
+            code: aa
+          },
+          success: function (res) {
+            console.log(res)
+          }
+
+        })
+
       }
     })
     // 获取用户信息
