@@ -1,9 +1,10 @@
 {
   "pages": [
+    "pages/index/publishGoods/publishGoods",
     "pages/index/index",
     "pages/logs/logs",
-    "pages/index/test/test",
-    "pages/index/publishGoods/publishGoods"
+    "pages/index/test/test"
+    
   ],
   "window": {
     "backgroundTextStyle": "light",

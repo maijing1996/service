@@ -98,9 +98,7 @@ Page({
     var current = e.currentTarget.dataset.src;
     // console.log(e)
     // var index = e.currentTarget.dataset.index;
-    // var current = e.target.dataset.src
     console.log(current)
-    console.log(this.data.imagesList)
     wx.previewImage({
       current: current, // 当前显示图片的http链接  
       urls: this.data.imagesList // 需要预览的图片http链接列表  

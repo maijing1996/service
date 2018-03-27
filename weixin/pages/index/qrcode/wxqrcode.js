@@ -1,27 +1,3 @@
-//---------------------------------------------------------------------
-//
-// QR Code Generator for JavaScript
-//
-// Copyright (c) 2009 Kazuhiko Arase
-//
-// URL: [url=http://www.d-project.com/]http://www.d-project.com/[/url]
-//
-// Licensed under the MIT license:
-//        [url=http://www.opensource.org/licenses/mit-license.php]http://www.opensource.org/licenses/mit-license.php[/url]
-//
-// The word 'QR Code' is registered trademark of
-// DENSO WAVE INCORPORATED
-//        [url=http://www.denso-wave.com/qrcode/faqpatent-e.html]http://www.denso-wave.com/qrcode/faqpatent-e.html[/url]
-//
-//---------------------------------------------------------------------
-
-//---------------------------------------------------------------------
-// qrcode
-//代码第1588行为补充代码
-//修改人：chenxing
-//2017-02-27 16:21:32
-//---------------------------------------------------------------------
-
 /**
  * qrcode
  * @param typeNumber 1 to 40

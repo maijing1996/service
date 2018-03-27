@@ -11,6 +11,7 @@
 .previewimg{
   padding: 10rpx;
   float: left;
+  background: white;
 }
 .image{
   display: block;
