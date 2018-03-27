@@ -46,6 +46,4 @@
    <view style=' width: 90%; height:100rpx; position: fixed; margin:auto;left:0; right:0; bottom:0;background:white; z-index: 100;text-align:center '>
     <button type="primary" size="default" bindtap="submitGoods">发布</button>
  </view>
-  
-
 </view>
