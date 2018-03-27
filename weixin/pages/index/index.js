@@ -67,7 +67,6 @@ Page({
     //       test: response.data.message
     //     });
     //   }
-        
     // });
     // 只允许从相机扫码
     wx.scanCode({
