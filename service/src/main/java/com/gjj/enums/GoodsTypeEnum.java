@@ -21,7 +21,7 @@ public enum GoodsTypeEnum {
     OTHERS("其他");
 
     private String code;
-    goodsTypeEnum(String code) {
+    GoodsTypeEnum(String code) {
         this.code = code;
     }
     public String getCode() {
