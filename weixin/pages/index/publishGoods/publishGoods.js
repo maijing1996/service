@@ -7,7 +7,7 @@ Page({
   data: {
     imagesList: [],
     tempFiles:[],
-    pictureNumber: 6,
+    pictureNumber: 3,
     flag: false,
     typeList: ['闲置数码', '家具日用', '图书音像', '鞋服配饰', '美妆洗护', '文体户外','办公用品','其他'],
   },
@@ -79,6 +79,7 @@ Page({
         console.log(res)
         var tempFilePaths = res.tempFilePaths
         var list = that.data.imagesList.concat(tempFilePaths)
+        console.log(list);
         that.setData({
           imagesList: that.data.imagesList.concat(tempFilePaths),
           pictureNumber: 6 - list.length,
