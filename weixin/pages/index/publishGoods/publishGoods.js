@@ -82,7 +82,7 @@ Page({
         console.log(list);
         that.setData({
           imagesList: that.data.imagesList.concat(tempFilePaths),
-          pictureNumber: 6 - list.length,
+          pictureNumber: 3 - list.length,
           tempFiles: res.tempFiles
         })
       },
@@ -111,5 +111,22 @@ Page({
       index: e.detail.value
     })
   },
+  formSubmit: function (e) {
+    var that = this;
+    var formData = e.detail.value;
+    formData.type = this.data.typeList[formData.type];
+    console.log(formData)
+    // wx.request({
+    //   url: 'http://test.com:8080/test/socket.php?msg=2',
+    //   data: formData,
+    //   header: {
+    //     'Content-Type': 'application/json'
+    //   },
+    //   success: function (res) {
+    //     console.log(res.data)
+    //     that.modalTap();
+    //   }
+    // })
+  }
 
 })

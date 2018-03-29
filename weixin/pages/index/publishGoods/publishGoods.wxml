@@ -1,49 +1,53 @@
 <!--pages/index/publishGoods/publishGoods.wxml-->
-<view class="main" >
-   <view class='content' style='margin-bottom:100rpx;'> 
-    <view class="section">
-      <view class="section__title">商品名称</view>
-      <input name="input" placeholder="" focus="true" />
-    </view>
-    <view class="section">
-      <view class="section__title">描述</view>
-      <textarea placeholder="描述一下宝贝的细节或故事" />
-    </view>
-    <view class="section">
-      <ul>
-        <li class="price" style="width:50%;">
-          <view class="section__title" style="float:left;margin-right:10rpx">价格 (¥)</view>
-          <input type="digit" placeholder="" />
-        </li>
-        <li style="width:50%;">
-          <view class="section__title" style="float:left">原价 (¥)</view>
-          <input type="digit" placeholder="" />
-        </li>
-      </ul>
-    </view>
-    <view class="section">
-      <!-- <view class="section__title">普通选择器</view> -->
-      <picker bindchange="bindPickerChange" value="{{index}}" range="{{typeList}}">
-        <view class="picker">
-          类别    {{typeList[index]}}
-        </view>
-      </picker>
-    </view>
-    <view class="section">
-    <!-- <view class='loadpic' hidden="{{flag}}" bindtap='chooseImage'>选择图片</view> -->
-    <view class='showPic' style='background:white'>
-      <view wx:for="{{imagesList}}" wx:for-item="image" wx:key="index" class="previewimg">
-        <image class='image' src="{{image}}" data-src="{{image}}" bindtap="previewImage"></image>
+<view class="main">
+ <form bindsubmit="formSubmit" bindreset="formReset">
+  <view class='content' style='margin-bottom:100rpx;'>
+   
+      <view class="section">
+        <view class="section__title">商品名称</view>
+        <input name="goodsName" placeholder="" focus="true" />
       </view>
-      <view class="previewimg" hidden="{{flag}}" bindtap='chooseImage'>
-         <image class='image' src="../../images/add.jpg"  bindtap=""></image>
+      <view class="section">
+        <view class="section__title">描述</view>
+        <textarea name="spec" placeholder="描述一下宝贝的细节或故事" />
+      </view>
+      <view class="section">
+        <ul>
+          <li class="price" style="width:50%;">
+            <view class="section__title" style="float:left;margin-right:10rpx">价格 (¥)</view>
+            <input type="digit" name="price" placeholder="" />
+          </li>
+          <li style="width:50%;">
+            <view class="section__title" style="float:left">原价 (¥)</view>
+            <input type="digit" name="originalPrice" placeholder="" />
+          </li>
+        </ul>
+      </view>
+      <view class="section">
+        <!-- <view class="section__title">普通选择器</view> -->
+        <picker name='type'  bindchange="bindPickerChange" value="{{index}}" range="{{typeList}}">
+          <view class="picker">
+            类别 {{typeList[index]}}
+          </view>
+        </picker>
+      </view>
+      <view class="section">
+        <!-- <view class='loadpic' hidden="{{flag}}" bindtap='chooseImage'>选择图片</view> -->
+        <view class='showPic' style='background:white'>
+          <view wx:for="{{imagesList}}" wx:for-item="image" wx:key="index" class="previewimg">
+            <image class='image' src="{{image}}" data-src="{{image}}" bindtap="previewImage"></image>
+          </view>
+          <view class="previewimg" hidden="{{flag}}" bindtap='chooseImage'>
+            <image class='image' src="../../images/add.jpg" bindtap=""></image>
+          </view>
+          <view class="clear" style='clear: both;'></view>
+        </view>
       </view>
       <view class="clear" style='clear: both;'></view>
-    </view>
-    </view>
-    <view class="clear" style='clear: both;'></view>
-   </view> 
-   <view style=' width: 90%; height:100rpx; position: fixed; margin:auto;left:0; right:0; bottom:0;background:white; z-index: 100;text-align:center '>
-    <button type="primary" size="default" bindtap="submitGoods">发布</button>
- </view>
+    
+  </view>
+  <view style=' width: 90%; height:100rpx; position: fixed; margin:auto;left:0; right:0; bottom:0;background:white; z-index: 100;text-align:center '>
+    <button type="primary" formType="submit" size="default" >发布</button>
+  </view>
+</form>
 </view>

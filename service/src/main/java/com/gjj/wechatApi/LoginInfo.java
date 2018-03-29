@@ -1,10 +1,16 @@
 package com.gjj.wechatApi;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gjj.enums.ErrorCode;
+import com.gjj.enums.ErrorMessage;
+import com.gjj.exceptions.UnAuthorizedException;
 import com.gjj.models.User;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
@@ -26,7 +32,16 @@ public class LoginInfo {
 
         String params = "appid="+ APPID +"&secret="+ SECRET +"&js_code="+ code +"&grant_type=authorization_code";
         String result = sendGet(URL,params);
-        return ResponseEntity.ok(result);
+        ObjectMapper objectMapper = new ObjectMapper();
+        String session_key;
+        try{
+            JsonNode jsonNode = objectMapper.readTree(result);
+             session_key = jsonNode.get("session_key").textValue();
+        } catch (IOException e){
+            throw new UnAuthorizedException(ErrorCode.JSON_TO_OBJECT_ERROR, ErrorMessage.ERROR_CHANGE_TYPE);
+        }
+
+        return null;
     }
 
 

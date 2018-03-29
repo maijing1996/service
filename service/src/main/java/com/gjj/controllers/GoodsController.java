@@ -18,6 +18,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -57,6 +58,7 @@ class GoodsController {
 
     @ResponseBody
     @PostMapping("/goods/publish")
+    @Transactional
     public ResponseEntity<?> publishGoods(@RequestBody JsonNode jsonNode,
                                           @RequestParam(name = "goodsImage", required = false) MultipartFile[] multipartFiles) throws Exception {
         Goods goods;
@@ -107,7 +109,6 @@ class GoodsController {
                     attachment.setGoods(goods);
                     attachmentService.saveAttachment(attachment);
                 }
-
             }
         } catch (IOException e) {
             goodsService.deleteGoods(goods);
