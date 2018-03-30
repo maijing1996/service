@@ -17,15 +17,22 @@ import java.util.Set;
 @Table(name = "user")
 public class User {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     @JsonProperty("id")
     private Integer id;
 
-    @NotNull
+    @JsonIgnore
+    @Column(name = "openid")
+    private String openid;
+
     @Column(name = "username", unique = true, length = 50)
     @JsonProperty("username")
     private String username;
+
+    @Column(name = "nick_name")
+    @JsonProperty("nickName")
+    private String nickName;
 
     @Column(name = "password", length = 200)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
@@ -46,6 +53,14 @@ public class User {
     @Column(name = "qq", length = 50)
     @JsonProperty("qq")
     private String qq;
+
+    @Column(name = "avatar_url", length = 200)
+    @JsonProperty("avatarUrl")
+    private String avatarUrl;
+
+    @Column(name = "gender", length = 10)
+    @JsonProperty("gender")
+    private String gender;
 
     @JsonIgnore
     @OneToMany(targetEntity = Goods.class,fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.REMOVE)
@@ -129,16 +144,54 @@ public class User {
         this.goods = goods;
     }
 
+    public String getOpenid() {
+        return openid;
+    }
+
+    public void setOpenid(String openid) {
+        this.openid = openid;
+    }
+
+    public String getNickName() {
+        return nickName;
+    }
+
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
+    }
+
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
+                ", openid='" + openid + '\'' +
                 ", username='" + username + '\'' +
+                ", nickName='" + nickName + '\'' +
                 ", password='" + password + '\'' +
                 ", state=" + state +
                 ", role=" + role +
                 ", mobile='" + mobile + '\'' +
                 ", qq='" + qq + '\'' +
+                ", avatarUrl='" + avatarUrl + '\'' +
+                ", gender='" + gender + '\'' +
+                ", goods=" + goods +
+                ", users=" + users +
                 '}';
     }
 }

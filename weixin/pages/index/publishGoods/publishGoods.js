@@ -1,4 +1,5 @@
 // pages/index/publishGoods/publishGoods.js
+var uploadimg = require('../utils/uploadImages.js')
 Page({
 
   /**
@@ -125,6 +126,25 @@ Page({
     //   success: function (res) {
     //     console.log(res.data)
     //     that.modalTap();
+    //   }
+    // })
+
+
+    uploadimg.uploadimg({
+      url: 'http://192.168.1.117:8081/goods/publish',//这里是你图片上传的接口
+      path: that.data.imagesList//这里是选取的图片的地址数组
+    });
+
+    // wx.uploadFile({
+    //   url: 'http://192.168.1.117:8081/goods/publish', 
+    //   filePath: that.data.imagesList,
+    //   name: 'file',
+    //   formData: {
+    //     'goodsName': 'test'
+    //   },
+    //   success: function (res) {
+    //     var data = res.data
+    //     //do something
     //   }
     // })
   }

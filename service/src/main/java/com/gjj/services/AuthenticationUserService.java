@@ -83,5 +83,21 @@ public class AuthenticationUserService {
         }
     }
 
+    public Boolean isExistUser (String openid) {
+        if(userRepository.findByOpenid(openid) == null) {
+            return false;
+        }
+        return true;
+    }
+
+    public void addWechatUser(User user) {
+        userRepository.save(user);
+    }
+
+    public Integer getUserIdByOpenid(String openid) {
+        return userRepository.getUserIdByOpenid(openid);
+    }
+
+
 
 }

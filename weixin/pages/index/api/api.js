@@ -1,4 +1,4 @@
-var devUrl = 'http://192.168.1.113:8081'
+var devUrl = 'http://192.168.1.117:8081'
 export const get = (url, params) => {
   var promise = new Promise(function (resolve, reject) {
     wx.request({

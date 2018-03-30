@@ -59,8 +59,7 @@ class GoodsController {
     @ResponseBody
     @PostMapping("/goods/publish")
     @Transactional
-    public ResponseEntity<?> publishGoods(@RequestBody JsonNode jsonNode,
-                                          @RequestParam(name = "goodsImage", required = false) MultipartFile[] multipartFiles) throws Exception {
+    public ResponseEntity<?> publishGoods(@RequestParam(name = "file", required = false) MultipartFile[] multipartFiles,JsonNode jsonNode) throws Exception {
         Goods goods;
         Goods newGoods;
         try {

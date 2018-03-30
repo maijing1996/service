@@ -4,8 +4,12 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gjj.enums.ErrorCode;
 import com.gjj.enums.ErrorMessage;
+import com.gjj.enums.UserRole;
+import com.gjj.enums.UserState;
 import com.gjj.exceptions.UnAuthorizedException;
 import com.gjj.models.User;
+import com.gjj.services.AuthenticationUserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,22 +30,42 @@ public class LoginInfo {
     private static String APPID = "wxc187cdff32e923ee";
     private static String SECRET = "c06faeb614575173b397c929bbdb5dff";
 
+    @Autowired
+    private AuthenticationUserService authenticationUserService;
+
     @ResponseBody
     @GetMapping("/weChat/getUserInfo")
-    public ResponseEntity<?> getUser(@RequestParam(required = false, value = "code") String code) {
-
+    public ResponseEntity<?> getUser(@RequestParam(required = false, value = "code") String code,
+                                     @RequestParam(required = false, value = "nickName") String nickName,
+                                     @RequestParam(required = false, value = "avatarUrl") String avatarUrl,
+                                     @RequestParam(required = false, value = "gender") String gender) {
         String params = "appid="+ APPID +"&secret="+ SECRET +"&js_code="+ code +"&grant_type=authorization_code";
         String result = sendGet(URL,params);
         ObjectMapper objectMapper = new ObjectMapper();
         String session_key;
+        String openid;
         try{
-            JsonNode jsonNode = objectMapper.readTree(result);
-             session_key = jsonNode.get("session_key").textValue();
+             JsonNode jsonNode = objectMapper.readTree(result);
+             session_key = jsonNode.get("session_key").textValue().trim();
+             openid = jsonNode.get("openid").textValue().trim();
         } catch (IOException e){
             throw new UnAuthorizedException(ErrorCode.JSON_TO_OBJECT_ERROR, ErrorMessage.ERROR_CHANGE_TYPE);
         }
+        if (!authenticationUserService.isExistUser(openid)) {
+            User user = new User();
+            user.setOpenid(openid.trim());
+            user.setNickName(nickName.trim());
+            user.setAvatarUrl(avatarUrl.trim());
+            user.setGender(gender.trim());
+            user.setRole(UserRole.ORDINARY.getRole());
+            user.setState(UserState.NORMAL.getState());
+            authenticationUserService.addWechatUser(user);
+        }
+        Integer id = authenticationUserService.getUserIdByOpenid(openid);
 
-        return null;
+
+
+        return ResponseEntity.ok(id);
     }
 
 
