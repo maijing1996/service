@@ -7,10 +7,10 @@ function uploadimg (data){
   wx.uploadFile({
     url: data.url,
     filePath: data.path[i],
-    header: { "Content-Type": "multipart/form-data" },
+    header: { "Content-Type": "multipart/form-data;charset=UTF-8" },
     name: 'file',//这里根据自己的实际情况改
     formData: {
-      "goodsName":"123"
+      goods: data.goods
     },//这里是上传图片时一起上传的数据
     success: (resp) => {
       success++;//图片上传成功，图片上传成功的变量+1

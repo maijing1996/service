@@ -21,6 +21,7 @@ App({
           wx.getUserInfo({
             success: res => {
               console.log(res)
+              var that = this; 
               // 可以将 res 发送给后台解码出 unionId
               this.globalData.userInfo = res.userInfo
               let params = {

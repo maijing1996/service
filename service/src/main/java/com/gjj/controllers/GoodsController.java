@@ -8,7 +8,9 @@ import com.gjj.exceptions.BusinessException;
 import com.gjj.exceptions.UnAuthorizedException;
 import com.gjj.models.Attachment;
 import com.gjj.models.Goods;
+import com.gjj.models.User;
 import com.gjj.services.AttachmentService;
+import com.gjj.services.AuthenticationUserService;
 import com.gjj.services.GoodsService;
 import com.gjj.utils.ImageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
@@ -42,6 +45,9 @@ class GoodsController {
     @Autowired
     private AttachmentService attachmentService;
 
+    @Autowired
+    private AuthenticationUserService authenticationUserService;
+
     @ResponseBody
     @GetMapping("/goods")
     public ResponseEntity<?> getGoods(@RequestParam(required = false, value = "id") Integer id,
@@ -57,15 +63,35 @@ class GoodsController {
     }
 
     @ResponseBody
-    @PostMapping("/goods/publish")
+    @PostMapping("/goods/publish/{uid}")
     @Transactional
-    public ResponseEntity<?> publishGoods(@RequestParam(name = "file", required = false) MultipartFile[] multipartFiles,JsonNode jsonNode) throws Exception {
+    public ResponseEntity<?> publishGoodsInfo(@PathVariable int uid, @RequestBody JsonNode jsonNode) {
         Goods goods;
         Goods newGoods;
+        User user = authenticationUserService.getUser(uid);
         try {
             goods = new ObjectMapper().readValue(jsonNode.traverse(), Goods.class);
             goods.setBulletinDate(new Date());
+            goods.setUser(user);
             newGoods = goodsService.saveGoods(goods);
+
+        } catch (IOException e) {
+            throw new UnAuthorizedException(ErrorCode.JSON_TO_OBJECT_ERROR, ErrorMessage.ERROR_CHANGE_TYPE);
+        }
+        return ResponseEntity.ok(newGoods);
+
+    }
+
+
+
+    @ResponseBody
+    @PostMapping("/goods/images/upload")
+    @Transactional
+    public ResponseEntity<?> publishGoodsImages(HttpServletRequest request, @RequestParam(name = "file", required = false) MultipartFile multipartFiles) throws Exception {
+        Goods newGoods ;
+        String goods = request.getParameter("goods");
+        try {
+              newGoods = new ObjectMapper().readValue( goods, Goods.class);
             if (multipartFiles != null) {
                 List urlList = uploadFile(multipartFiles, newGoods);
             }
@@ -73,17 +99,17 @@ class GoodsController {
         } catch (IOException e) {
             throw new UnAuthorizedException(ErrorCode.JSON_TO_OBJECT_ERROR, ErrorMessage.ERROR_CHANGE_TYPE);
         }
-        return ResponseEntity.ok(newGoods);
+        return ResponseEntity.ok(null);
     }
 
 //    @ResponseBody
 //    @PostMapping("/goods/upload/images")
-    public List uploadFile(MultipartFile[] multipartFiles, Goods goods) throws Exception {
+    public List uploadFile(MultipartFile multipartFiles, Goods goods) throws Exception {
         List urlList = new ArrayList();
         String url = null;
         try {
-            for (int i = 0; i < multipartFiles.length; i++) {
-                MultipartFile multipartFile = multipartFiles[i];
+//            for (int i = 0; i < multipartFiles.length; i++) {
+                MultipartFile multipartFile = multipartFiles;
                 if (multipartFile.isEmpty()) {
                     throw new BusinessException(ErrorCode.IMG_NOT_EMPTY, ErrorMessage.IMG_NOT_EMPTY);
                 }
@@ -108,7 +134,7 @@ class GoodsController {
                     attachment.setGoods(goods);
                     attachmentService.saveAttachment(attachment);
                 }
-            }
+//            }
         } catch (IOException e) {
             goodsService.deleteGoods(goods);
             throw new BusinessException(ErrorCode.SAVE_IMG_ERROE, ErrorMessage.SAVE_IMG_ERROE);

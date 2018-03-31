@@ -35,6 +35,10 @@ public class Goods {
     @JsonProperty("price")
     private Double price;
 
+    @Column(name = "original_price")
+    @JsonProperty("originalPrice")
+    private Double originalPrice;
+
     @NotNull
     @Column(name = "type")
     @JsonProperty("type")
@@ -121,6 +125,14 @@ public class Goods {
         this.attachments = attachments;
     }
 
+    public Double getOriginalPrice() {
+        return originalPrice;
+    }
+
+    public void setOriginalPrice(Double originalPrice) {
+        this.originalPrice = originalPrice;
+    }
+
     @Override
     public String toString() {
         return "Goods{" +
@@ -128,6 +140,7 @@ public class Goods {
                 ", goodsName='" + goodsName + '\'' +
                 ", spec='" + spec + '\'' +
                 ", price=" + price +
+                ", originalPrice=" + originalPrice +
                 ", type='" + type + '\'' +
                 ", bulletinDate=" + bulletinDate +
                 ", user=" + user +
