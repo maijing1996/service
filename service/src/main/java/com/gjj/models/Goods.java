@@ -1,6 +1,7 @@
 package com.gjj.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -13,6 +14,7 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "goods")
+@JsonIgnoreProperties(value={"hibernateLazyInitializer","handler"})
 public class Goods {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

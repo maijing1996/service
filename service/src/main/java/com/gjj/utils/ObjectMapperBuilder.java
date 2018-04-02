@@ -33,6 +33,22 @@ import org.springframework.data.domain.Pageable;
  */
 public class ObjectMapperBuilder {
 
+    public Map<String,Object> mapObjects (Object object,ObjectMapper objectMapper) {
+        Map<String,Object> map = new HashMap();
+        try {
+
+            String aa =  object.toString();
+            map = objectMapper.readValue( object.toString(),Map.class);
+//            map = objectMapper.writeValueAsString(object);
+
+        } catch (IOException e) {
+            throw new UnAuthorizedException(ErrorCode.JSON_TO_OBJECT_ERROR, ErrorMessage.ERROR_CHANGE_TYPE);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return map;
+    }
+
     public Page<Map<String,Object>> mapPagedObjects (Page<?> objects,ObjectMapper objectMapper) {
         List<Map<String, Object>> mappedObjects = new ArrayList<>();
         try {

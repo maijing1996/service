@@ -3,6 +3,7 @@ package com.gjj.services;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gjj.enums.ErrorCode;
 import com.gjj.enums.ErrorMessage;
+import com.gjj.exceptions.BusinessException;
 import com.gjj.exceptions.UnAuthorizedException;
 import com.gjj.models.Goods;
 import com.gjj.models.User;
@@ -12,6 +13,7 @@ import com.gjj.repositories.UserRepository;
 import com.gjj.utils.IgnoreProperty;
 import com.gjj.utils.ObjectMapperBuilder;
 import com.querydsl.core.BooleanBuilder;
+import javassist.CannotCompileException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -27,6 +29,16 @@ public class GoodsService {
 
     @Autowired
     private GoodsRepository goodsRepository;
+
+    public Goods getGoodsById(Integer id) {
+        Goods goods;
+        try {
+            goods = goodsRepository.getOne(id);
+        } catch (BusinessException e) {
+            throw new UnAuthorizedException(ErrorCode.USERNAME_NOT_EXIST, ErrorMessage.NOT_FOUND_USER);
+        }
+        return goods;
+    }
 
     @IgnoreProperty(pojo = User.class, value = {"user_goods"})
     public Page<Map<String, Object>> getGoods (Integer id, String goodsName, String type, Pageable pageable) {
@@ -53,9 +65,17 @@ public class GoodsService {
         return null;
     }
 
+//    @IgnoreProperty(pojo = User.class, value = {"user_goods"})
     public Goods saveGoods(Goods goods) {
-        goodsRepository.save(goods);
-        return goods;
+//        ObjectMapper objectMapper;
+        Goods goods1 = goodsRepository.save(goods);
+//        try {
+//            objectMapper = new ObjectMapperBuilder().build(GoodsService.class.getMethod("saveGoods",Goods.class));
+//            return new ObjectMapperBuilder().mapObjects(goods1,objectMapper);
+//        }  catch (Exception e) {
+//            e.printStackTrace();
+//        }
+        return goods1;
     }
 
     public void deleteGoods(Goods goods) {

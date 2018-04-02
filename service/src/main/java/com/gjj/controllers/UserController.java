@@ -25,7 +25,7 @@ public class UserController {
 
     @ResponseBody
     @GetMapping("/user/{id}")
-    public ResponseEntity<?> getUser(@PathVariable int id) {
+    public ResponseEntity<?> getUser(@PathVariable Integer id) {
         User user = authenticationUserService.getUser(id);
         return ResponseEntity.ok(user);
     }
@@ -54,7 +54,7 @@ public class UserController {
 
     @ResponseBody
     @PatchMapping("/user/update/{id}")
-    public ResponseEntity<?> updateUser(@PathVariable int id, @RequestBody JsonNode jsonNode) throws Exception {
+    public ResponseEntity<?> updateUser(@PathVariable Integer id, @RequestBody JsonNode jsonNode) throws Exception {
         User userUpdate;
         try {
             userUpdate = new ObjectMapper().readValue(jsonNode.traverse(), User.class);

@@ -89,10 +89,10 @@ Page({
       sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
       success: function (res) {
         // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
-        console.log(res)
+        // console.log(res)
         var tempFilePaths = res.tempFilePaths
         var list = that.data.imagesList.concat(tempFilePaths)
-        console.log(list);
+        // console.log(list);
         that.setData({
           imagesList: that.data.imagesList.concat(tempFilePaths),
           pictureNumber: 3 - list.length,
@@ -112,7 +112,7 @@ Page({
     var current = e.currentTarget.dataset.src;
     // console.log(e)
     // var index = e.currentTarget.dataset.index;
-    console.log(current)
+    // console.log(current)
     wx.previewImage({
       current: current, // 当前显示图片的http链接  
       urls: this.data.imagesList // 需要预览的图片http链接列表  
@@ -128,7 +128,7 @@ Page({
     var that = this;
     var formData = e.detail.value;
     formData.type = this.data.typeList[formData.type];
-    console.log(formData)
+    // console.log(formData)
     // wx.request({
     //   url: 'http://test.com:8080/test/socket.php?msg=2',
     //   data: formData,
@@ -141,18 +141,17 @@ Page({
     //   }
     // })
     post('/goods/publish/'+ this.data.uid, formData).then((res) => {
-      if (response.statusCode == '200'){
+      if (res.statusCode == '200'){
         console.log("12")
         console.log(res.data)
+        console.log("34")
         uploadimg.uploadimg({
-          url: 'http://192.168.1.117:8081/goods/images/upload',//这里是你图片上传的接口
+          url: 'http://192.168.1.114:8081/goods/images/upload',//这里是你图片上传的接口
           path: that.data.imagesList,//这里是选取的图片的地址数组
           goods: res.data
         });
       } else {
-        that.setData({
-          test: response.data.message
-        });
+        console.log(res.data.message)
       }
     });
 

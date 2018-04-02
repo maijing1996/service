@@ -2,6 +2,7 @@ package com.gjj.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
@@ -15,6 +16,7 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "user")
+@JsonIgnoreProperties(value={"hibernateLazyInitializer","handler","goods","users"})
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -63,12 +65,12 @@ public class User {
     private String gender;
 
     @JsonIgnore
+   // @JsonProperty("user_goods")
     @OneToMany(targetEntity = Goods.class,fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.REMOVE)
-//    @JsonProperty("user_goods")
     private Set<Goods> goods = new HashSet<>();
 
+    @JsonIgnore
     @ManyToMany(targetEntity = User.class)
-    @JsonProperty("users")
     @JoinTable(name = "user_relation", joinColumns = @JoinColumn(name = "active_id"), inverseJoinColumns = @JoinColumn(name = "passive_id"))
     private Set<User> users = new HashSet<>();
 
@@ -190,7 +192,7 @@ public class User {
                 ", qq='" + qq + '\'' +
                 ", avatarUrl='" + avatarUrl + '\'' +
                 ", gender='" + gender + '\'' +
-                ", goods=" + goods +
+//                ", goods=" + goods +
                 ", users=" + users +
                 '}';
     }

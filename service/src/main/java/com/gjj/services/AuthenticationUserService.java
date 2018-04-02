@@ -25,7 +25,7 @@ public class AuthenticationUserService {
     @Autowired
     private UserRepository userRepository;
 
-    public User getUser(int id) {
+    public User getUser(Integer id) {
         User user;
         try {
             user = userRepository.getOne(id);

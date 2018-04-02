@@ -1,6 +1,7 @@
 package com.gjj.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
@@ -11,6 +12,7 @@ import javax.validation.constraints.NotNull;
  */
 @Entity
 @Table(name = "attachment")
+@JsonIgnoreProperties(value={"hibernateLazyInitializer","handler","goods"})
 public class Attachment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,8 +31,8 @@ public class Attachment {
 
     @NotNull
     @JsonIgnore
-    @ManyToOne(targetEntity = Goods.class,fetch = FetchType.LAZY)
-    @JoinColumn(name = "good_id",insertable = false, updatable = false)
+    @ManyToOne(targetEntity = Goods.class)
+    @JoinColumn(name = "goods_id",insertable = false, updatable = false)
     private Goods goods;
 
     public Integer getId() {
@@ -71,7 +73,7 @@ public class Attachment {
                 "id=" + id +
                 ", attachmentName='" + attachmentName + '\'' +
                 ", attachmentUrl='" + attachmentUrl + '\'' +
-                ", goods=" + goods +
+//                ", goods=" + goods +
                 '}';
     }
 }

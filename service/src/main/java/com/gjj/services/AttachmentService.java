@@ -19,4 +19,8 @@ public class AttachmentService {
     public void saveAttachment(Attachment attachment) {
         attachmentRepository.save(attachment);
     }
+
+    public void saveAttachmentByParams(String attachmentName, String attachmentUrl, Integer goodId) {
+        attachmentRepository.saveAttachmentByParams(attachmentName, attachmentUrl, goodId);
+    }
 }

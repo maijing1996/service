@@ -49,6 +49,15 @@ class GoodsController {
     private AuthenticationUserService authenticationUserService;
 
     @ResponseBody
+    @GetMapping("/goods/{id}")
+    public ResponseEntity<?> getGoodsById(@PathVariable Integer id) {
+
+        Goods goods = goodsService.getGoodsById(id);
+        return ResponseEntity.ok(goods);
+    }
+
+
+    @ResponseBody
     @GetMapping("/goods")
     public ResponseEntity<?> getGoods(@RequestParam(required = false, value = "id") Integer id,
                                       @RequestParam(required = false, value = "goodsName") String goodsName,
@@ -67,33 +76,31 @@ class GoodsController {
     @Transactional
     public ResponseEntity<?> publishGoodsInfo(@PathVariable int uid, @RequestBody JsonNode jsonNode) {
         Goods goods;
-        Goods newGoods;
         User user = authenticationUserService.getUser(uid);
         try {
             goods = new ObjectMapper().readValue(jsonNode.traverse(), Goods.class);
             goods.setBulletinDate(new Date());
             goods.setUser(user);
-            newGoods = goodsService.saveGoods(goods);
+//            newGoods = goodsService.saveGoods(goods);
 
         } catch (IOException e) {
             throw new UnAuthorizedException(ErrorCode.JSON_TO_OBJECT_ERROR, ErrorMessage.ERROR_CHANGE_TYPE);
         }
-        return ResponseEntity.ok(newGoods);
+        return ResponseEntity.ok(goodsService.saveGoods(goods).getId());
 
     }
-
-
 
     @ResponseBody
     @PostMapping("/goods/images/upload")
     @Transactional
     public ResponseEntity<?> publishGoodsImages(HttpServletRequest request, @RequestParam(name = "file", required = false) MultipartFile multipartFiles) throws Exception {
         Goods newGoods ;
-        String goods = request.getParameter("goods");
+        String goodsId = request.getParameter("goods");
         try {
-              newGoods = new ObjectMapper().readValue( goods, Goods.class);
+            Integer id =  Integer.valueOf(goodsId.trim());
+//            newGoods = goodsService.getGoodsById(Integer.valueOf(goodsId.trim()));
             if (multipartFiles != null) {
-                List urlList = uploadFile(multipartFiles, newGoods);
+                List urlList = uploadFile(multipartFiles, id);
             }
 
         } catch (IOException e) {
@@ -104,7 +111,7 @@ class GoodsController {
 
 //    @ResponseBody
 //    @PostMapping("/goods/upload/images")
-    public List uploadFile(MultipartFile multipartFiles, Goods goods) throws Exception {
+    public List uploadFile(MultipartFile multipartFiles, Integer goodsId) throws Exception {
         List urlList = new ArrayList();
         String url = null;
         try {
@@ -126,17 +133,18 @@ class GoodsController {
                 String file_name = null;
                 Attachment attachment = new Attachment();
                 file_name = ImageUtil.saveImg(multipartFile, filePath);
-                if ("".equals(file_name)) {
+                if (!"".equals(file_name)) {
                     url = filePath + File.separator + file_name;
                     urlList.add(url);
-                    attachment.setAttachmentName(file_name);
-                    attachment.setAttachmentUrl(url);
-                    attachment.setGoods(goods);
-                    attachmentService.saveAttachment(attachment);
+                    attachmentService.saveAttachmentByParams(file_name, url, goodsId);
+//                    attachment.setAttachmentName(file_name);
+//                    attachment.setAttachmentUrl(url);
+//                    attachment.setGoods(goods);
+//                    attachmentService.saveAttachment(attachment);
                 }
 //            }
         } catch (IOException e) {
-            goodsService.deleteGoods(goods);
+//            goodsService.deleteGoods(goods);
             throw new BusinessException(ErrorCode.SAVE_IMG_ERROE, ErrorMessage.SAVE_IMG_ERROE);
         }
         return urlList;

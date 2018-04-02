@@ -12,6 +12,7 @@ public enum ErrorMessage {
     IMG_NOT_EMPTY("图片已存在"),
     IMG_FORMAT_ERROR("图片格式化出错"),
     SAVE_IMG_ERROE("图片保存出错"),
+    NOT_FOUND_GOODS("该商品不存在"),
     LOGIN_NAME_FORBIDDEN("账号已被停用，请与管理员联系"),
     INVALID_TOKEN("身份认证令牌验证失败，请重新登录"),
     LOGIN_NAME_NOT_EXIST("账号不存在"), FILE_SIZE_TOO_LARGE("上传文件过大，单个文件大小不能超过2MB"),
