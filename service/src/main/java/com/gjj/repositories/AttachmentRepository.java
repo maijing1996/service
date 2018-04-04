@@ -14,7 +14,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface AttachmentRepository extends JpaRepository<Attachment, Integer> {
 
-//    @DynamicInsert(value = "insert into attachment(attachment_name, attachment_url,goods_id) values (?1,?2,?3)")
     @Modifying
     @Query(value="insert into attachment(attachment_name, attachment_url,goods_id) values (?1,?2,?3) ", nativeQuery = true)
     void saveAttachmentByParams (String attachmentName, String attachmentUrl, Integer goodsId);

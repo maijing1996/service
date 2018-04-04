@@ -5,7 +5,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    imagesList: ["https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJ1h2oyGvUU6hibPVMvlrd7J9Y3fXElWnXGicz3TwKzeEDX8o0AicVYsJedPOtmaY01oibZibtg5erRZVw/0", "https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJ1h2oyGvUU6hibPVMvlrd7J9Y3fXElWnXGicz3TwKzeEDX8o0AicVYsJedPOtmaY01oibZibtg5erRZVw/0",    "https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJ1h2oyGvUU6hibPVMvlrd7J9Y3fXElWnXGicz3TwKzeEDX8o0AicVYsJedPOtmaY01oibZibtg5erRZVw/0"]
+    imagesList: ["http://120.79.143.90:8088/images/0e1cd7ae-335a-43f0-8d3e-4b3c3117c723.png", "https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJ1h2oyGvUU6hibPVMvlrd7J9Y3fXElWnXGicz3TwKzeEDX8o0AicVYsJedPOtmaY01oibZibtg5erRZVw/0",    "https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJ1h2oyGvUU6hibPVMvlrd7J9Y3fXElWnXGicz3TwKzeEDX8o0AicVYsJedPOtmaY01oibZibtg5erRZVw/0"]
   
   },
 

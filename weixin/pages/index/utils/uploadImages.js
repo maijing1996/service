@@ -28,6 +28,7 @@ function uploadimg (data){
       if (i == data.path.length) {   //当图片传完时，停止调用          
         console.log('执行完毕');
         console.log('成功：' + success + " 失败：" + fail);
+        return true;
       } else {//若图片还没有传完，则继续调用函数
         console.log(i);
         data.i = i;

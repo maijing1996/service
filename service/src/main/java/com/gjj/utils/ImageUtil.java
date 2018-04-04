@@ -21,7 +21,7 @@ public class ImageUtil {
             file.mkdirs();
         }
         FileInputStream fileInputStream = (FileInputStream) multipartFile.getInputStream();
-        String fileName = UUID.randomUUID().toString() + ".png";
+        String fileName = UUID.randomUUID().toString() + ".jpg";
         BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(path + File.separator + fileName));
         byte[] bs = new byte[1024];
         int len;

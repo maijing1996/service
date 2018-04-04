@@ -39,6 +39,9 @@ class GoodsController {
     @Value("${spring.img.location}")
     private String location;
 
+    @Value("${spring.img.url}")
+    private String imagesUrl;
+
     @Autowired
     private GoodsService goodsService;
 
@@ -112,7 +115,7 @@ class GoodsController {
 //    @ResponseBody
 //    @PostMapping("/goods/upload/images")
     public List uploadFile(MultipartFile multipartFiles, Integer goodsId) throws Exception {
-        List urlList = new ArrayList();
+//        List urlList = new ArrayList();
         String url = null;
         try {
 //            for (int i = 0; i < multipartFiles.length; i++) {
@@ -134,8 +137,8 @@ class GoodsController {
                 Attachment attachment = new Attachment();
                 file_name = ImageUtil.saveImg(multipartFile, filePath);
                 if (!"".equals(file_name)) {
-                    url = filePath + File.separator + file_name;
-                    urlList.add(url);
+                    url = imagesUrl + file_name;
+//                    urlList.add(url);
                     attachmentService.saveAttachmentByParams(file_name, url, goodsId);
 //                    attachment.setAttachmentName(file_name);
 //                    attachment.setAttachmentUrl(url);
@@ -147,7 +150,7 @@ class GoodsController {
 //            goodsService.deleteGoods(goods);
             throw new BusinessException(ErrorCode.SAVE_IMG_ERROE, ErrorMessage.SAVE_IMG_ERROE);
         }
-        return urlList;
+        return null;
     }
 
 }

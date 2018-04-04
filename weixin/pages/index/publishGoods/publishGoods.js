@@ -1,5 +1,5 @@
 // pages/index/publishGoods/publishGoods.js
-import { get, put, post, del } from '../api/api.js'
+import { serviceUrl,get, put, post, del } from '../api/api.js'
 var uploadimg = require('../utils/uploadImages.js')
 Page({
 
@@ -141,16 +141,36 @@ Page({
     //   }
     // })
     post('/goods/publish/'+ this.data.uid, formData).then((res) => {
+      wx.showLoading({
+        mask: true
+      })
       if (res.statusCode == '200'){
         console.log("12")
         console.log(res.data)
         console.log("34")
-        uploadimg.uploadimg({
-          url: 'http://192.168.1.114:8081/goods/images/upload',//这里是你图片上传的接口
+        let result = uploadimg.uploadimg({
+          url: serviceUrl + '/goods/images/upload',//这里是你图片上传的接口
           path: that.data.imagesList,//这里是选取的图片的地址数组
           goods: res.data
         });
+        wx.hideLoading()
+        if(result == true) {
+          wx.showToast({
+            title: '成功',
+            icon: 'success',
+            duration: 2000,
+            mask: true,
+            success: function () {
+              that.setData({
+                name: '',
+                phone: '',
+                bs: ''
+              });  
+            }
+          })
+        }
       } else {
+        wx.hideLoading()
         console.log(res.data.message)
       }
     });

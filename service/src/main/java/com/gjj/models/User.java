@@ -1,9 +1,6 @@
 package com.gjj.models;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -66,6 +63,7 @@ public class User {
 
     @JsonIgnore
    // @JsonProperty("user_goods")
+    @JsonBackReference
     @OneToMany(targetEntity = Goods.class,fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.REMOVE)
     private Set<Goods> goods = new HashSet<>();
 
