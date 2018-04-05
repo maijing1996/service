@@ -1,13 +1,12 @@
 package com.gjj.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by gjj on 2018-03-08.
@@ -60,8 +59,8 @@ public class Goods {
 
     @OneToMany(targetEntity = Attachment.class, mappedBy = "goods", cascade = CascadeType.REMOVE)
     @JsonProperty("good_attachments")
-    private Set<Attachment> attachments = new HashSet<>();
-
+//    private Set<Attachment> attachments = new HashSet<>();
+    private List<Attachment> attachments = new ArrayList<>();
 
     public Integer getId() {
         return id;
@@ -119,11 +118,11 @@ public class Goods {
         this.user = user;
     }
 
-    public Set<Attachment> getAttachments() {
+    public List<Attachment> getAttachments() {
         return attachments;
     }
 
-    public void setAttachments(Set<Attachment> attachments) {
+    public void setAttachments(List<Attachment> attachments) {
         this.attachments = attachments;
     }
 

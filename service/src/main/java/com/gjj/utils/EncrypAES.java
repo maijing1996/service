@@ -79,14 +79,14 @@ public class EncrypAES {
      * @throws IllegalBlockSizeException
      * @throws InvalidKeyException
      */
-    public static void main(String[] args) throws Exception {
-        EncrypAES de1 = new EncrypAES();
-        String msg ="121212";
-        byte[] encontent = de1.Encrytor(msg);
-        byte[] decontent = de1.Decryptor(encontent);
-        System.out.println("明文是:" + msg);
-        System.out.println("加密后:" + new String(encontent));
-        System.out.println("解密后:" + new String(decontent));
-    }
+//    public static void main(String[] args) throws Exception {
+//        EncrypAES de1 = new EncrypAES();
+//        String msg ="121212";
+//        byte[] encontent = de1.Encrytor(msg);
+//        byte[] decontent = de1.Decryptor(encontent);
+//        System.out.println("明文是:" + msg);
+//        System.out.println("加密后:" + new String(encontent));
+//        System.out.println("解密后:" + new String(decontent));
+//    }
 
 }

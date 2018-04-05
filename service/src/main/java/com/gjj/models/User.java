@@ -61,7 +61,7 @@ public class User {
     @JsonProperty("gender")
     private String gender;
 
-    @JsonIgnore
+//    @JsonIgnore
    // @JsonProperty("user_goods")
     @JsonBackReference
     @OneToMany(targetEntity = Goods.class,fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.REMOVE)

@@ -5,27 +5,27 @@
    
       <view class="section">
         <view class="section__title">商品名称</view>
-        <input name="goodsName" placeholder="" focus="true" />
+        <input name="goodsName" placeholder="" value='{{goodsForm.goodsName}}' focus="true" />
       </view>
       <view class="section">
         <view class="section__title">描述</view>
-        <textarea name="spec" placeholder="描述一下宝贝的细节或故事" />
+        <textarea name="spec" value='{{goodsForm.spec}}' placeholder="描述一下宝贝的细节或故事" />
       </view>
       <view class="section">
         <ul>
           <li class="price" style="width:50%;">
             <view class="section__title" style="float:left;margin-right:10rpx">价格 (¥)</view>
-            <input type="digit" name="price" placeholder="" />
+            <input type="digit" name="price" value='{{goodsForm.price}}' placeholder="" />
           </li>
           <li style="width:50%;">
             <view class="section__title" style="float:left">原价 (¥)</view>
-            <input type="digit" name="originalPrice" placeholder="" />
+            <input type="digit" name="originalPrice" value='{{goodsForm.originalPrice}}' placeholder="" />
           </li>
         </ul>
       </view>
       <view class="section">
         <!-- <view class="section__title">普通选择器</view> -->
-        <picker name='type'  bindchange="bindPickerChange" value="{{index}}" range="{{typeList}}">
+        <picker name='type'  bindchange="bindPickerChange" value="{{goodsForm.index}}" range="{{typeList}}">
           <view class="picker">
             类别 {{typeList[index]}}
           </view>

@@ -24,13 +24,15 @@ public class QGoods extends EntityPathBase<Goods> {
 
     public static final QGoods goods = new QGoods("goods");
 
-    public final SetPath<Attachment, QAttachment> attachments = this.<Attachment, QAttachment>createSet("attachments", Attachment.class, QAttachment.class, PathInits.DIRECT2);
+    public final ListPath<Attachment, QAttachment> attachments = this.<Attachment, QAttachment>createList("attachments", Attachment.class, QAttachment.class, PathInits.DIRECT2);
 
     public final DateTimePath<java.util.Date> bulletinDate = createDateTime("bulletinDate", java.util.Date.class);
 
     public final StringPath goodsName = createString("goodsName");
 
     public final NumberPath<Integer> id = createNumber("id", Integer.class);
+
+    public final NumberPath<Double> originalPrice = createNumber("originalPrice", Double.class);
 
     public final NumberPath<Double> price = createNumber("price", Double.class);
 

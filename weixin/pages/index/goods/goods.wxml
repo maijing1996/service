@@ -2,122 +2,44 @@
 <view>
   <view class="search">
     <view class="scan">
-      <image class="widgets-img" src="../../images/scan.png" mode="aspectFit" />
+      <image class="widgets-img" bindtap="scanQr" src="../../images/scan.png" mode="aspectFit" />
     </view>
     <view class="search-input">
       <image class="search-icon" src="../../images/search.png" mode="aspectFit" />
-      <input class="serach-text" placeholder="搜索商品" />
+      <input class="serach-text" value='{{goodsName}}' bindconfirm="serachGoods" placeholder="搜索商品" />
     </view>
     <view class="scan">
       <image class="widgets-img" src="../../images/small-info.png" mode="aspectFit" />
     </view>
-     <view class="clear" style='clear: both;'></view>       
+    <view class="clear" style='clear: both;'></view>
   </view>
-  <scroll-view  scroll-y class='scroll-view' bindscrolltoupper="upper" bindscrolltolower="lower" bindscroll="scroll" scroll-into-view="{{toView}}" scroll-top="{{scrollTop}}" >
-    <view id="" class="goods">
-      <view class='user'>
-        <view class='user-image-info'>
-          <image class="user-image" src="https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJ1h2oyGvUU6hibPVMvlrd7J9Y3fXElWnXGicz3TwKzeEDX8o0AicVYsJedPOtmaY01oibZibtg5erRZVw/0" />
-        </view>
-        <view class='user-info'>
-          <view class='user-name-tr'>
-            <view class='user-name'>馒头</view>
-            <view class='price'>￥20</view>
+  <scroll-view scroll-y class='scroll-view' bindscrolltoupper="upper" bindscrolltolower="lower" bindscroll="scroll" scroll-into-view="{{toView}}" scroll-top="{{scrollTop}}">
+    <view wx:for="{{goodsList}}" wx:for-item="goods" wx:key="index">
+      <view id="" class="goods">
+        <view class='user'>
+          <view class='user-image-info'>
+            <image class="user-image" src="{{goods.user.avatarUrl}}" />
           </view>
-          <view class='timestamp'>2017-10-20 10:30:20</view>
+          <view class='user-info'>
+            <view class='user-name-tr'>
+              <view class='user-name'>{{goods.user.nickName}}</view>
+              <view class='price'>￥{{goods.price}}</view>
+            </view>
+            <view class='timestamp'>{{goods.bulletinDate}}</view>
+            <view class="clear" style='clear: both;'></view>
+          </view>
+        </view>
+        <view class='images-list'>
+          <view class='showPic' style='background:white'>
+            <view wx:for="{{goods.good_attachments}}" wx:for-item="image" wx:key="index" class="previewimg">
+              <image class='image' src="{{image.attachmentUrl}}" data-src="{{image.attachmentUrl}}"></image>
+            </view>
+          </view>
           <view class="clear" style='clear: both;'></view>
         </view>
-      </view>
-      <view class='images-list'>
-        <view class='showPic' style='background:white'>
-          <view wx:for="{{imagesList}}" wx:for-item="image" wx:key="index" class="previewimg">
-            <image class='image' src="{{image}}" data-src="{{image}}" bindtap="previewImage"></image>
-          </view>
+        <view class='dec'>
+          <span style='font-weight:bold'>{{goods.goodsName}} </span>{{goods.spec}}
         </view>
-         <view class="clear" style='clear: both;'></view>
-      </view>
-      <view class='dec'>
-      <span style='font-weight:bold'>联想笔记本电脑 </span>这个商品是我买了的东西，现在发现自己不能用所以出售出来，愿意买的可以买啊
-      </view>
-    </view>
-
-
-    <view id="" class="goods">
-      <view class='user'>
-        <view class='user-image-info'>
-          <image class="user-image" src="https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJ1h2oyGvUU6hibPVMvlrd7J9Y3fXElWnXGicz3TwKzeEDX8o0AicVYsJedPOtmaY01oibZibtg5erRZVw/0" />
-        </view>
-        <view class='user-info'>
-          <view class='user-name-tr'>
-            <view class='user-name'>馒头</view>
-            <view class='price'>￥20</view>
-          </view>
-          <view class='timestamp'>2017-10-20 10:30:20</view>
-          <view class="clear" style='clear: both;'></view>
-        </view>
-      </view>
-      <view class='images-list'>
-        <view class='showPic' style='background:white'>
-          <view wx:for="{{imagesList}}" wx:for-item="image" wx:key="index" class="previewimg">
-            <image class='image' src="{{image}}" data-src="{{image}}" bindtap="previewImage"></image>
-          </view>
-        </view>
-         <view class="clear" style='clear: both;'></view>
-      </view>
-      <view class='dec'>
-      这个商品是我买了的东西，现在发现自己不能用所以出售出来，愿意买的可以买啊，商品的夹克很好的不用担心啊
-      </view>
-    </view>
-     <view id="" class="goods">
-      <view class='user'>
-        <view class='user-image-info'>
-          <image class="user-image" src="https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJ1h2oyGvUU6hibPVMvlrd7J9Y3fXElWnXGicz3TwKzeEDX8o0AicVYsJedPOtmaY01oibZibtg5erRZVw/0" />
-        </view>
-        <view class='user-info'>
-          <view class='user-name-tr'>
-            <view class='user-name'>馒头</view>
-            <view class='price'>￥20</view>
-          </view>
-          <view class='timestamp'>2017-10-20 10:30:20</view>
-          <view class="clear" style='clear: both;'></view>
-        </view>
-      </view>
-      <view class='images-list'>
-        <view class='showPic' style='background:white'>
-          <view wx:for="{{imagesList}}" wx:for-item="image" wx:key="index" class="previewimg">
-            <image class='image' src="{{image}}" data-src="{{image}}" bindtap="previewImage"></image>
-          </view>
-        </view>
-         <view class="clear" style='clear: both;'></view>
-      </view>
-      <view class='dec'>
-      这个商品是我买了的东西，现在发现自己不能用所以出售出来，愿意买的可以买啊，商品的夹克很好的不用担心啊
-      </view>
-    </view>
-     <view id="" class="goods">
-      <view class='user'>
-        <view class='user-image-info'>
-          <image class="user-image" src="https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJ1h2oyGvUU6hibPVMvlrd7J9Y3fXElWnXGicz3TwKzeEDX8o0AicVYsJedPOtmaY01oibZibtg5erRZVw/0" />
-        </view>
-        <view class='user-info'>
-          <view class='user-name-tr'>
-            <view class='user-name'>馒头</view>
-            <view class='price'>￥20</view>
-          </view>
-          <view class='timestamp'>2017-10-20 10:30:20</view>
-          <view class="clear" style='clear: both;'></view>
-        </view>
-      </view>
-      <view class='images-list'>
-        <view class='showPic' style='background:white'>
-          <view wx:for="{{imagesList}}" wx:for-item="image" wx:key="index" class="previewimg">
-            <image class='image' src="{{image}}" data-src="{{image}}" bindtap="previewImage"></image>
-          </view>
-        </view>
-         <view class="clear" style='clear: both;'></view>
-      </view>
-      <view class='dec'>
-      这个商品是我买了的东西，现在发现自己不能用所以出售出来，愿意买的可以买啊，商品的夹克很好的不用担心啊
       </view>
     </view>
   </scroll-view>

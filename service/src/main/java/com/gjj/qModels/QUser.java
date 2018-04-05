@@ -22,11 +22,19 @@ public class QUser extends EntityPathBase<User> {
 
     public static final QUser user = new QUser("user");
 
+    public final StringPath avatarUrl = createString("avatarUrl");
+
+    public final StringPath gender = createString("gender");
+
     public final SetPath<Goods, QGoods> goods = this.<Goods, QGoods>createSet("goods", Goods.class, QGoods.class, PathInits.DIRECT2);
 
     public final NumberPath<Integer> id = createNumber("id", Integer.class);
 
     public final StringPath mobile = createString("mobile");
+
+    public final StringPath nickName = createString("nickName");
+
+    public final StringPath openid = createString("openid");
 
     public final StringPath password = createString("password");
 

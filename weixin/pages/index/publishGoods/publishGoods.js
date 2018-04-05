@@ -12,6 +12,13 @@ Page({
     tempFiles:[],
     pictureNumber: 3,
     flag: false,
+    goodsForm: {
+      goodsName:'',
+      spec:'',
+      price:'',
+      originalPrice:'',
+      index:''
+    },
     typeList: ['闲置数码', '家具日用', '图书音像', '鞋服配饰', '美妆洗护', '文体户外','办公用品','其他'],
   },
 
@@ -148,13 +155,17 @@ Page({
         console.log("12")
         console.log(res.data)
         console.log("34")
-        let result = uploadimg.uploadimg({
-          url: serviceUrl + '/goods/images/upload',//这里是你图片上传的接口
-          path: that.data.imagesList,//这里是选取的图片的地址数组
-          goods: res.data
-        });
+        if (that.data.imagesList.length != 0) {
+          let result = uploadimg.uploadimg({
+            url: serviceUrl + '/goods/images/upload',//这里是你图片上传的接口
+            path: that.data.imagesList,//这里是选取的图片的地址数组
+            goods: res.data
+          });
+
+        }
+       
         wx.hideLoading()
-        if(result == true) {
+        // if(result == true) {
           wx.showToast({
             title: '成功',
             icon: 'success',
@@ -162,13 +173,18 @@ Page({
             mask: true,
             success: function () {
               that.setData({
-                name: '',
-                phone: '',
-                bs: ''
+                goodsForm: {
+                  goodsName: '',
+                  spec: '',
+                  price: '',
+                  originalPrice: '',
+                  index: ''
+                },
+                imagesList:[]
               });  
             }
           })
-        }
+        // }
       } else {
         wx.hideLoading()
         console.log(res.data.message)
