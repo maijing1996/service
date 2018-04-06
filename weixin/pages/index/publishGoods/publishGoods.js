@@ -178,9 +178,10 @@ Page({
                   spec: '',
                   price: '',
                   originalPrice: '',
-                  index: ''
+                  index: -1
                 },
-                imagesList:[]
+                imagesList:[],
+                flag: true
               });  
             }
           })

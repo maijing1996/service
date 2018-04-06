@@ -35,7 +35,7 @@ public class GoodsService {
         try {
             goods = goodsRepository.getOne(id);
         } catch (BusinessException e) {
-            throw new UnAuthorizedException(ErrorCode.USERNAME_NOT_EXIST, ErrorMessage.NOT_FOUND_USER);
+            throw new UnAuthorizedException(ErrorCode.NOT_FOUND_GOODS, ErrorMessage.NOT_FOUND_GOODS);
         }
         return goods;
     }

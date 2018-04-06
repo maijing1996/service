@@ -10,6 +10,7 @@ Page({
     pageNum: '',
     pageSize: '',
     goodsName:'',
+    totalPages:'',
     type:'',
     imagesList: ["http://120.79.143.90:8088/images/0e1cd7ae-335a-43f0-8d3e-4b3c3117c723.png", "https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJ1h2oyGvUU6hibPVMvlrd7J9Y3fXElWnXGicz3TwKzeEDX8o0AicVYsJedPOtmaY01oibZibtg5erRZVw/0",    "https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJ1h2oyGvUU6hibPVMvlrd7J9Y3fXElWnXGicz3TwKzeEDX8o0AicVYsJedPOtmaY01oibZibtg5erRZVw/0"],
   },
@@ -62,7 +63,27 @@ Page({
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-  
+    if (this.data.pageNum < this.data.totalPages) {
+      wx.showLoading({
+        mask: true,
+        title: '玩命加载中'
+      })
+      var params = {
+        goodsName: this.data.goodsName,
+        type: this.data.type,
+        pageNum: this.data.pageNum + 1
+      }
+      this.freshGoods(params, true);
+      wx.hideLoading()
+    } else {
+      wx.showToast({
+        title: '没有咯',
+        icon: 'none',
+        duration: 2000,
+        mask: true
+      })
+    }
+
   },
 
   /**
@@ -74,7 +95,7 @@ Page({
   /**
    * 刷新商品列表
    */
-  freshGoods: function (params) {
+  freshGoods: function (params,loadingMore) {
     var that = this
     if (params == undefined) {
       var params = {
@@ -87,14 +108,29 @@ Page({
     get('/goods', params).then((res) => {
       if (res.statusCode == '200') {
         console.log(res.data)
-        that.setData({
-          goodsList : res.data.content,
-          pageNum : res.data.number,
-          pageSize : res.data.size
-        })
+        if (loadingMore == undefined) {
+          that.setData({
+            goodsList: res.data.content,
+            pageNum: res.data.number,
+            pageSize: res.data.size,
+            totalPages: res.data.totalPages
+          })
+        } else {
+          that.setData({
+            goodsList: that.data.goodsList.concat(res.data.content),
+            pageNum: res.data.number,
+            pageSize: res.data.size,
+            totalPages: res.data.totalPages
+          })  
+        }
+        
         
       } else {
-        console.log(res.data.message)
+        wx.showLoading({
+          mask: true,
+          title: res.data.message
+        })
+        // console.log(res.data.message)
       }
     });
   },
@@ -111,6 +147,13 @@ Page({
       success: (res) => {
         console.log(res.result)
       }
+    })
+  },
+
+  goodsDetails: function(e) {
+    console.log(e.currentTarget.dataset.id)
+  wx.navigateTo({
+    url: '../goodsDetails/goodsDetails?id=' + e.currentTarget.dataset.id
     })
   }
 })
