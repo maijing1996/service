@@ -1,11 +1,14 @@
 {
   "pages": [
+    "pages/index/register/register",
     "pages/index/goods/goods",
     "pages/index/publishGoods/publishGoods",
     "pages/index/index",
     "pages/logs/logs",
     "pages/index/test/test",
-    "pages/index/goodsDetails/goodsDetails"
+    "pages/index/goodsDetails/goodsDetails",
+    
+    "pages/index/login/login"
   ],
   "window": {
     "backgroundTextStyle": "light",

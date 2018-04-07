@@ -1,6 +1,8 @@
 // pages/index/publishGoods/publishGoods.js
 import { serviceUrl,get, put, post, del } from '../api/api.js'
 var uploadimg = require('../utils/uploadImages.js')
+import WxValidate from '../utils/WxValidate.js'
+// const appInstance = getApp()
 Page({
 
   /**
@@ -19,6 +21,7 @@ Page({
       originalPrice:'',
       index:''
     },
+    index:'',
     typeList: ['闲置数码', '家具日用', '图书音像', '鞋服配饰', '美妆洗护', '文体户外','办公用品','其他'],
   },
 
@@ -33,9 +36,52 @@ Page({
         that.setData({
           uid: res.data
         })
-        console.log(res.data)
       }
     })
+
+    this.WxValidate = new WxValidate(
+      {
+        goodsName: {
+          required: true,
+          maxlength: 15,
+        },
+        spec: {
+          required: true,
+          minlength: 5
+          // maxlength: 200,
+        },
+        price: {
+          required: true,
+          number: true
+        },
+        originalPrice: {
+          number: true
+        },
+        type: {
+          required: true
+        }
+      }
+      , {
+        goodsName: {
+          required: '请填写商品名称',
+          maxlength:'名称最多15个字'
+        },
+        spec: {
+          required: '请填写商品描述',
+          minlength: '描述至少5个字'
+        },
+        price: {
+          required: '请输入价格',
+          number: '价格格式不正确'
+        },
+        originalPrice: {
+          number: '价格格式不正确'
+        },
+        type: {
+          required: '请选择商品分类',
+        }
+      }
+    )
   
   },
 
@@ -128,33 +174,29 @@ Page({
   bindPickerChange: function (e) {
     console.log('picker发送选择改变，携带值为', e.detail.value)
     this.setData({
-      index: e.detail.value
+        index: e.detail.value
     })
   },
   formSubmit: function (e) {
     var that = this;
     var formData = e.detail.value;
+    //提交错误描述
+    if (!this.WxValidate.checkForm(e)) {
+      const error = this.WxValidate.errorList[0]
+      // `${error.param} : ${error.msg} `
+      wx.showToast({
+        title: error.msg,
+        image: '/pages/images/warning.png',
+        duration: 2000
+      })
+      return false
+    }
     formData.type = this.data.typeList[formData.type];
-    // console.log(formData)
-    // wx.request({
-    //   url: 'http://test.com:8080/test/socket.php?msg=2',
-    //   data: formData,
-    //   header: {
-    //     'Content-Type': 'application/json'
-    //   },
-    //   success: function (res) {
-    //     console.log(res.data)
-    //     that.modalTap();
-    //   }
-    // })
     post('/goods/publish/'+ this.data.uid, formData).then((res) => {
       wx.showLoading({
         mask: true
       })
       if (res.statusCode == '200'){
-        console.log("12")
-        console.log(res.data)
-        console.log("34")
         if (that.data.imagesList.length != 0) {
           let result = uploadimg.uploadimg({
             url: serviceUrl + '/goods/images/upload',//这里是你图片上传的接口
@@ -180,6 +222,7 @@ Page({
                   originalPrice: '',
                   index: -1
                 },
+                index: -1,
                 imagesList:[],
                 flag: true
               });  
@@ -191,21 +234,6 @@ Page({
         console.log(res.data.message)
       }
     });
-
-    
-
-    // wx.uploadFile({
-    //   url: 'http://192.168.1.117:8081/goods/publish', 
-    //   filePath: that.data.imagesList,
-    //   name: 'file',
-    //   formData: {
-    //     'goodsName': 'test'
-    //   },
-    //   success: function (res) {
-    //     var data = res.data
-    //     //do something
-    //   }
-    // })
   }
 
 })

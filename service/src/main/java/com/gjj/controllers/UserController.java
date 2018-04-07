@@ -41,15 +41,20 @@ public class UserController {
 
     @ResponseBody
     @PostMapping("/user/register")
-    public ResponseEntity<?> register(@RequestBody JsonNode jsonNode) throws Exception {
+    public ResponseEntity<?> register(@PathVariable Integer id,@RequestBody JsonNode jsonNode) throws Exception {
         User user;
         try {
             user = new ObjectMapper().readValue(jsonNode.traverse(), User.class);
         } catch (IOException e) {
             throw new UnAuthorizedException(ErrorCode.JSON_TO_OBJECT_ERROR, ErrorMessage.ERROR_CHANGE_TYPE);
         }
-        authenticationUserService.addUser(user);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+        User oldUser = authenticationUserService.getUser(id);
+        oldUser.setUsername(user.getUsername());
+        oldUser.setPassword(user.getPassword());
+        oldUser.setQq(user.getQq());
+        oldUser.setMobile(user.getMobile());
+        authenticationUserService.addUser(oldUser);
+        return ResponseEntity.ok(null);
     }
 
     @ResponseBody

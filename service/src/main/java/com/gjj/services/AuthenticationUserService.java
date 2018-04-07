@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityNotFoundException;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by gjj on 2018-03-04
@@ -97,6 +98,13 @@ public class AuthenticationUserService {
     public Integer getUserIdByOpenid(String openid) {
         return userRepository.getUserIdByOpenid(openid);
     }
+
+    public String getUsernameByOpenid(String openid) {
+        return userRepository.getUsernameByOpenid(openid);
+    }
+
+
+
 
 
 

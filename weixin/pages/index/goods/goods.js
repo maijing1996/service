@@ -151,7 +151,6 @@ Page({
   },
 
   goodsDetails: function(e) {
-    console.log(e.currentTarget.dataset.id)
   wx.navigateTo({
     url: '../goodsDetails/goodsDetails?id=' + e.currentTarget.dataset.id
     })

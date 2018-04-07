@@ -1,5 +1,6 @@
 //app.js
 import { get } from './pages/index/api/api.js'
+import wxValidate from './pages/index/utils/WxValidate.js'
 App({
   onLaunch: function () {
     // 展示本地存储能力
@@ -32,10 +33,18 @@ App({
               } 
               get('/weChat/getUserInfo', params).then((res) => {
                 if (res.statusCode == '200') {
+                  console.log(res.data)
                   wx.setStorage({
                     key: "uid",
-                    data: res.data
+                    data: res.data.id
                   })
+                  if (res.data.username == null) {
+                    wx.navigateTo({
+                      url: '../register/register?id=' + res.data.id
+                    })
+
+                  }
+                  
                 } else {
                   console.log(res.data.message)
                 }
@@ -54,5 +63,6 @@ App({
   globalData: {
     userInfo: null,
     code: ''
-  }
+  },
+  wxValidate: (rules, messages) => new wxValidate(rules, messages)
 })
