@@ -1,0 +1,37 @@
+<!--pages/index/goods/goods.wxml-->
+<view>
+  <scroll-view scroll-y class='scroll-view' bindscrolltoupper="upper" bindscrolltolower="lower" bindscroll="scroll" scroll-into-view="{{toView}}" scroll-top="{{scrollTop}}">
+    <view id="" class="goods">
+      <view class='user'>
+        <view class='user-image-info'>
+          <image class="user-image" src="{{goodsDetails.user.avatarUrl}}" />
+        </view>
+        <view class='user-info'>
+          <view class='user-name-tr'>
+            <view class='user-name'>{{goodsDetails.user.nickName}}</view>
+            <view class='type'>{{goodsDetails.type}}</view>
+          </view>
+          <view class='timestamp'>{{goodsDetails.bulletinDate}}</view>
+          <view class="clear" style='clear: both;'></view>
+        </view>
+      </view>
+      <view class='price'>￥{{goodsDetails.price}}
+        <span class='originalPrice'>￥{{goodsDetails.originalPrice}}</span>
+      </view>
+      <view class='dec'>
+        <span style='font-weight:bold'>{{goodsDetails.goodsName}} </span>{{goodsDetails.spec}}
+      </view>
+      <view class='images-list'>
+        <view class='showPic' style='background:white'>
+          <view wx:for="{{goodsDetails.good_attachments}}" wx:for-item="image" wx:key="index" class="previewimg">
+            <image mode='widthFix' class='image' src="{{image.attachmentUrl}}" data-src="{{image.attachmentUrl}}"></image>
+          </view>
+          <view class="clear" style='clear: both;'></view>
+        </view>
+        <view class="clear" style='clear: both;'></view>
+      </view>
+
+    </view>
+
+  </scroll-view>
+</view>

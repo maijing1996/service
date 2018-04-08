@@ -38,13 +38,11 @@ App({
                     key: "uid",
                     data: res.data.id
                   })
-                  if (res.data.username == null) {
-                    wx.navigateTo({
-                      url: '../register/register?id=' + res.data.id
+                  if (res.data.username == "" || res.data.username == null) {
+                    wx.redirectTo({
+                      url: './register/register?id=' + res.data.id,
                     })
-
                   }
-                  
                 } else {
                   console.log(res.data.message)
                 }

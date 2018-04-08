@@ -48,7 +48,8 @@ public class AuthenticationUserService {
         User user = userRepository.findByUsername(username.trim());
 
         if (user == null) {
-            throw new UnAuthorizedException(ErrorCode.USERNAME_NOT_EXIST, ErrorMessage.NOT_FOUND_USER);
+//            throw new UnAuthorizedException(ErrorCode.USERNAME_NOT_EXIST, ErrorMessage.NOT_FOUND_USER);
+            throw new UnAuthorizedException(ErrorCode.ERROR_PASSWORD, ErrorMessage.ERROR_LOGIN__NAME_OR_PASSWORD);
         }
 
         if (user.getPassword().equals(MD5Util.encode(password.trim()))) {
@@ -66,22 +67,32 @@ public class AuthenticationUserService {
 
     public void updateUser(User user, int id) {
         User oldUser = userRepository.getOne(id);
-        if (user.getUsername().trim().equals(oldUser.getUsername().trim())) {
-            throw new UnAuthorizedException(ErrorCode.USERNAME_EXIST, ErrorMessage.USERNAME_EXIST);
+//        if (user.getUsername().trim().equals(oldUser.getUsername().trim())) {
+//            throw new UnAuthorizedException(ErrorCode.USERNAME_EXIST, ErrorMessage.USERNAME_EXIST);
+//        }
+        if (user.getPassword() != null) {
+            oldUser.setPassword(MD5Util.encode(user.getPassword()));
+        } else {
+            checkUsernameRepeat(user);
+            oldUser.setUsername(user.getUsername().trim());
+            oldUser.setMobile(user.getMobile().trim());
+            oldUser.setQq(user.getQq().trim());
         }
-        oldUser.setUsername(user.getUsername().trim());
-        oldUser.setMobile(user.getMobile().trim());
-        oldUser.setQq(user.getQq().trim());
+
         userRepository.save(oldUser);
     }
 
     public void checkUsernameRepeat(User user) {
-        List<User> list =  userRepository.findAll();
-        for (User user1 : list) {
-            if (user.getUsername().trim().equals(user1.getUsername().trim())) {
-                throw new UnAuthorizedException(ErrorCode.USERNAME_EXIST, ErrorMessage.USERNAME_EXIST);
-            }
-        }
+          User user1 = userRepository.findByUsername(user.getUsername().trim());
+          if (user1 != null && !user.getId().equals(user1.getId())) {
+              throw new UnAuthorizedException(ErrorCode.USERNAME_EXIST, ErrorMessage.USERNAME_EXIST);
+          }
+//        List<User> list =  userRepository.findAll();
+//        for (User user1 : list) {
+//            if (user.getUsername().trim().equals(user1.getUsername().trim())) {
+//                throw new UnAuthorizedException(ErrorCode.USERNAME_EXIST, ErrorMessage.USERNAME_EXIST);
+//            }
+//        }
     }
 
     public Boolean isExistUser (String openid) {

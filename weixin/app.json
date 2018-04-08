@@ -1,14 +1,16 @@
 {
   "pages": [
-    "pages/index/register/register",
+    "pages/index/index",
     "pages/index/goods/goods",
     "pages/index/publishGoods/publishGoods",
-    "pages/index/index",
+    "pages/index/register/register",
     "pages/logs/logs",
     "pages/index/test/test",
     "pages/index/goodsDetails/goodsDetails",
-    
-    "pages/index/login/login"
+    "pages/index/login/login",
+    "pages/index/personal/personal",
+    "pages/index/passwordManage/passwordManage",
+    "pages/index/userInfoManage/userInfoManage"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -48,7 +50,7 @@
       {
         "selectedIconPath": "pages/images/user-fill.png",
         "iconPath": "pages/images/user.png",
-        "pagePath": "pages/index/publishGoods/publishGoods",
+        "pagePath": "pages/index/personal/personal",
         "text": "我的"
       }
     ]

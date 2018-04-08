@@ -40,7 +40,7 @@ public class UserController {
     }
 
     @ResponseBody
-    @PostMapping("/user/register")
+    @PostMapping("/user/register/{id}")
     public ResponseEntity<?> register(@PathVariable Integer id,@RequestBody JsonNode jsonNode) throws Exception {
         User user;
         try {
@@ -58,7 +58,7 @@ public class UserController {
     }
 
     @ResponseBody
-    @PatchMapping("/user/update/{id}")
+    @PostMapping("/user/update/{id}")
     public ResponseEntity<?> updateUser(@PathVariable Integer id, @RequestBody JsonNode jsonNode) throws Exception {
         User userUpdate;
         try {
@@ -67,7 +67,7 @@ public class UserController {
             throw new UnAuthorizedException(ErrorCode.JSON_TO_OBJECT_ERROR, ErrorMessage.ERROR_CHANGE_TYPE);
         }
         authenticationUserService.updateUser(userUpdate, id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+        return ResponseEntity.ok(null);
     }
 
 
