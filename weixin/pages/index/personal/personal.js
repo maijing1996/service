@@ -33,7 +33,7 @@ Page({
           {
             img: "../../images/personal-info.png",
             name: "信息管理",
-            url: "../info/info",
+            url: "../userInfoManage/userInfoManage",
           }
         ]
       },

@@ -34,4 +34,18 @@
     </view>
 
   </scroll-view>
+  <view class='downButton'>
+    <ul>
+      <li class="downButtonLi">
+      <view class='itemli'>
+        <button type="primary" size='mini'>评论</button>
+           </view>
+      </li>
+      <li class="downButtonLi">
+      <view class='itemli'>
+        <button bindtap='moreOperation' type="primary"  size='mini'>操作</button>
+        </view>
+      </li>
+    </ul>
+  </view>
 </view>

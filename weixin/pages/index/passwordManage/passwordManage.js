@@ -18,6 +18,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    var that = this
     wx.getStorage({
       key: 'uid',
       success: function (res) {
@@ -26,8 +27,6 @@ Page({
         })
       }
     })
-    var that = this
-
     this.WxValidate = new WxValidate(
       {
         password: {
@@ -119,7 +118,6 @@ Page({
       })
       return false
     }
-    console.log(this.data.uid)
     post('/user/update/' + this.data.uid, formData).then((res) => {
       wx.showLoading({
         mask: true

@@ -62,6 +62,10 @@ public class Goods {
 //    private Set<Attachment> attachments = new HashSet<>();
     private List<Attachment> attachments = new ArrayList<>();
 
+    @JsonProperty("customerId")
+    @Column(name = "customer_id")
+    private Integer customerId;
+
     public Integer getId() {
         return id;
     }
@@ -134,6 +138,14 @@ public class Goods {
         this.originalPrice = originalPrice;
     }
 
+    public Integer getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(Integer customerId) {
+        this.customerId = customerId;
+    }
+
     @Override
     public String toString() {
         return "Goods{" +
@@ -146,6 +158,7 @@ public class Goods {
                 ", bulletinDate=" + bulletinDate +
                 ", user=" + user +
                 ", attachments=" + attachments +
+                ", customerId=" + customerId +
                 '}';
     }
 }

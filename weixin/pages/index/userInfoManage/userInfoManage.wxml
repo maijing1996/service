@@ -12,22 +12,6 @@
         </view>
         <view class="weui-cell weui-cell_input weui-cell_vcode">
           <view class="weui-cell__hd">
-            <view class="weui-label">密码</view>
-          </view>
-          <view class="weui-cell__bd">
-            <input password type="text" class="weui-input" placeholder="请输入密码" name="password" value="{{userForm.password}}" bindblur="userPasswordChange" />
-          </view>
-        </view>
-        <view class="weui-cell weui-cell_input weui-cell_vcode">
-          <view class="weui-cell__hd">
-            <view class="weui-label">确认密码</view>
-          </view>
-          <view class="weui-cell__bd">
-            <input password type="text" class="weui-input" placeholder="请再次输入密码" name="rePassword" value="{{userForm.rePassword}}" bindblur="userPasswordChange" />
-          </view>
-        </view>
-        <view class="weui-cell weui-cell_input weui-cell_vcode">
-          <view class="weui-cell__hd">
             <view class="weui-label">QQ</view>
           </view>
           <view class="weui-cell__bd">
@@ -44,7 +28,7 @@
         </view>
       </view>
       <view class="weui-btn-area" bindtap="showLive">
-        <button class="weui-btn" formType="submit" type="primary">注册</button>
+        <button class="weui-btn" formType="submit" type="primary">确认</button>
       </view>
     </form>
   </view>

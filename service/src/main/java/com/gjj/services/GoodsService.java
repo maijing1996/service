@@ -41,7 +41,7 @@ public class GoodsService {
     }
 
     @IgnoreProperty(pojo = User.class, value = {"user_goods"})
-    public Page<Map<String, Object>> getGoods (Integer id, String goodsName, String type, Pageable pageable) {
+    public Page<Map<String, Object>> getGoods (Integer id, String goodsName, String type, Integer customerId, Pageable pageable) {
         BooleanBuilder booleanBuilder = new BooleanBuilder();
         QGoods qGoods = QGoods.goods;
 
@@ -54,10 +54,16 @@ public class GoodsService {
         if (type !=null && !type.trim().isEmpty()) {
             booleanBuilder.and(qGoods.type.eq(type.trim()));
         }
+
+        if (customerId != null) {
+            booleanBuilder.and(qGoods.customerId.eq(customerId));
+        } else {
+            booleanBuilder.and(qGoods.customerId.isNull());
+        }
         ObjectMapper objectMapper;
         Page<Goods> goods = goodsRepository.findAll(booleanBuilder,pageable);
         try {
-            objectMapper = new ObjectMapperBuilder().build(GoodsService.class.getMethod("getGoods",Integer.class,String.class,String.class,Pageable.class));
+            objectMapper = new ObjectMapperBuilder().build(GoodsService.class.getMethod("getGoods",Integer.class,String.class,String.class,Integer.class,Pageable.class));
             return new ObjectMapperBuilder().mapPagedObjects(goods,objectMapper);
         }  catch (Exception e) {
             e.printStackTrace();
@@ -78,7 +84,7 @@ public class GoodsService {
         return goods1;
     }
 
-    public void deleteGoods(Goods goods) {
-        goodsRepository.delete(goods);
+    public void deleteGoods(Integer id) {
+        goodsRepository.delete(id);
     }
 }

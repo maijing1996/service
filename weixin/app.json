@@ -10,7 +10,8 @@
     "pages/index/login/login",
     "pages/index/personal/personal",
     "pages/index/passwordManage/passwordManage",
-    "pages/index/userInfoManage/userInfoManage"
+    "pages/index/userInfoManage/userInfoManage",
+    "pages/index/qr/qr"
   ],
   "window": {
     "backgroundTextStyle": "light",

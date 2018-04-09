@@ -10,12 +10,11 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  position:fixed;
-top:0;
-z-index:100;
-width:100%;
-background:white;
-
+  position: fixed;
+  top: 0;
+  z-index: 100;
+  width: 100%;
+  background: white;
 }
 
 .search .scan {
@@ -108,20 +107,23 @@ background:white;
   background-color: #f0f0f0;
 }
 
-
-
 /*goods  */
+
 .scroll-view {
-  background-color: #F4F5F9;
+  background-color: #f4f5f9;
   margin-top: 50rpx;
+  margin-bottom: 100rpx;
 }
+
 .goods {
   background-color: white;
   margin-bottom: 10rpx;
 }
+
 .user {
   padding: 10rpx;
 }
+
 .user-image {
   width: 100rpx;
   height: 100rpx;
@@ -136,47 +138,53 @@ background:white;
 .user-name {
   float: left;
 }
+
 .user-info {
   height: 100rpx;
   display: block;
 }
+
 .timestamp {
-   /* float: left; */
-   color: #808080;
-   font-size: 30rpx;
-   margin-top:30rpx; 
+  /* float: left; */
+  color: #808080;
+  font-size: 30rpx;
+  margin-top: 30rpx;
 }
-.user-name-tr{
+
+.user-name-tr {
   width: 100%;
   display: block;
 }
+
 .type {
   /* float: right; */
   font-size: 30rpx;
   text-align: right;
   color: #808080;
 }
+
 .originalPrice {
   font-size: 25rpx;
   color: #808080;
-  text-decoration:line-through;
-  
+  text-decoration: line-through;
 }
- .price {
-  padding:10rpx;
+
+.price {
+  padding: 10rpx;
   font-size: 40rpx;
   text-align: left;
   color: red;
-} 
+}
+
 /*图片列表  */
+
 .images-list {
   width: 100%;
   display: block;
-  float:left;
-
+  float: left;
 }
 
-.loadpic{
+.loadpic {
   margin: 20px auto;
   width: 500rpx;
   height: 80rpx;
@@ -185,22 +193,52 @@ background:white;
   color: white;
   line-height: 80rpx;
 }
- .previewimg{
+
+.previewimg {
   width: 95%;
   padding: 10rpx;
   float: left;
   background: white;
-} 
-.image{
-   display: block;
-   width: 100%; 
 }
-.showPic{
-   margin: 0 auto; 
 
+.image {
+  display: block;
+  width: 100%;
 }
+
+.showPic {
+  margin: 0 auto;
+}
+
 .dec {
   width: 100%;
   /* overflow-wrap: break-word;  */
   margin: 10rpx;
+}
+
+.downButton {
+  width: 100%;
+  height: 100rpx;
+  position: fixed;
+  margin: 0 auto;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: white;
+  z-index: 100;
+  /* display: flex; *//* text-align: center; */
+}
+
+.downButtonLi {
+  float: left;
+  width: 30%;
+   height: 100%; 
+  /* margin: 0rpx auto  ; */
+  display: flex;
+  text-align: center;
+}
+
+.downButtonLi .itemli {
+   display: block;
+    margin: 20rpx auto; 
 }

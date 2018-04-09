@@ -21,16 +21,16 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    var that = this
     this.setData({
       uid: options.id
     })
-    var that = this
-
+    
     this.WxValidate = new WxValidate(
       {
         username: {
           required: true,
-          maxlength: 8,
+          maxlength: 15,
         },
         password: {
           required: true,
@@ -52,7 +52,7 @@ Page({
       , {
         username: {
           required: '请填写用户名',
-          maxlength: '用户名最多8个字符'
+          maxlength: '用户名最多15个字符'
         },
         password: {
           required: '请填写密码',

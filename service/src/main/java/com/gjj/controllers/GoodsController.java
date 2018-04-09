@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
@@ -65,19 +66,20 @@ class GoodsController {
     public ResponseEntity<?> getGoods(@RequestParam(required = false, value = "id") Integer id,
                                       @RequestParam(required = false, value = "goodsName") String goodsName,
                                       @RequestParam(required = false, value = "type") String type,
+                                      @RequestParam(required = false, value = "customerId") Integer customerId,
                                       @RequestParam(value = "${spring.data.rest.page-param-name}", required = false, defaultValue = "${spring.data.rest.default-page-number}") Integer pageNum,
                                       @RequestParam(value = "${spring.data.rest.limit-param-name}", required = false, defaultValue = "${spring.data.rest.default-page-size}") Integer pageSize,
                                       @RequestParam(value = "${spring.data.rest.sort-param-name}", required = false, defaultValue = "id,desc") String sort) {
         Sort sort1 = new Sort(Sort.Direction.DESC, "bulletinDate");
         Pageable pageable = new PageRequest(pageNum, pageSize, sort1);
 //        Page<Goods> goods = goodsService.getGoods(id, pageable);
-        return ResponseEntity.ok(goodsService.getGoods(id, goodsName, type, pageable));
+        return ResponseEntity.ok(goodsService.getGoods(id, goodsName, type, customerId, pageable));
     }
 
     @ResponseBody
     @PostMapping("/goods/publish/{uid}")
     @Transactional
-    public ResponseEntity<?> publishGoodsInfo(@PathVariable int uid, @RequestBody JsonNode jsonNode) {
+    public ResponseEntity<?> publishGoodsInfo(@PathVariable Integer uid, @RequestBody JsonNode jsonNode) {
         Goods goods;
         User user = authenticationUserService.getUser(uid);
         try {
@@ -152,5 +154,30 @@ class GoodsController {
         }
         return null;
     }
+
+    @ResponseBody
+    @PostMapping("/goods/goodsDeal")
+    public ResponseEntity<?> goodsDeal(@RequestBody JsonNode jsonNode) {
+        Map map = new HashMap<>();
+        try {
+            map = new ObjectMapper().readValue(jsonNode.traverse(), Map.class);
+        } catch (IOException e) {
+            throw new UnAuthorizedException(ErrorCode.JSON_TO_OBJECT_ERROR, ErrorMessage.ERROR_CHANGE_TYPE);
+        }
+        Integer goodsId = Integer.valueOf(map.get("goodsId").toString().trim());
+        Integer customerId = Integer.valueOf(map.get("customerId").toString().trim());
+        Goods goods = goodsService.getGoodsById(goodsId);
+        goods.setCustomerId(customerId);
+        goodsService.saveGoods(goods);
+        return ResponseEntity.ok(null);
+    }
+
+    @ResponseBody
+    @PostMapping("/goods/delete/{id}")
+    public ResponseEntity<?> deleteGoods(@PathVariable Integer id) {
+        goodsService.deleteGoods(id);
+        return ResponseEntity.ok(null);
+    }
+
 
 }

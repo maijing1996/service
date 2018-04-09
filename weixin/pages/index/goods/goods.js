@@ -6,19 +6,28 @@ Page({
    * 页面的初始数据
    */
   data: {
+    uid:'',
     goodsList: [],
     pageNum: '',
     pageSize: '',
     goodsName:'',
     totalPages:'',
-    type:'',
-    imagesList: ["http://120.79.143.90:8088/images/0e1cd7ae-335a-43f0-8d3e-4b3c3117c723.png", "https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJ1h2oyGvUU6hibPVMvlrd7J9Y3fXElWnXGicz3TwKzeEDX8o0AicVYsJedPOtmaY01oibZibtg5erRZVw/0",    "https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJ1h2oyGvUU6hibPVMvlrd7J9Y3fXElWnXGicz3TwKzeEDX8o0AicVYsJedPOtmaY01oibZibtg5erRZVw/0"],
+    type:''
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    var that = this
+    wx.getStorage({
+      key: 'uid',
+      success: function (res) {
+        that.setData({
+          uid: res.data
+        })
+      }
+    })
     this.freshGoods();
   
   },
@@ -126,26 +135,69 @@ Page({
         
         
       } else {
-        wx.showLoading({
-          mask: true,
-          title: res.data.message
+        wx.showToast({
+          title: res.data.message,
+          icon: "none",
+          // image: '/pages/images/warning.png',
+          duration: 2000
         })
         // console.log(res.data.message)
       }
     });
   },
 
+  /**
+   * 查询goods
+   */
   serachGoods: function (e) {
     this.setData({
        goodsName: e.detail.value
     })
     this.freshGoods();
   },
+  /**
+   * 扫码
+   */
   scanQr: function() {
+    var that = this
     wx.scanCode({
       // onlyFromCamera: true,
       success: (res) => {
-        console.log(res.result)
+        // console.log(res.result)
+        let params = {
+          goodsId: res.result,
+          customerId: that.data.uid  
+        }
+
+        wx.showModal({
+          title: '提示',
+          content: '是否确认验货成功？',
+          success: function (res) {
+            if (res.confirm) {
+              post('/goods/goodsDeal', params).then((res) => {
+                if (res.statusCode == '200') {
+                  wx.showToast({
+                    title: "验货收货成功",
+                    icon: "success",
+                    // image: '/pages/images/warning.png',
+                    duration: 2000
+                  })
+                } else {
+                  wx.showToast({
+                    title: res.data.message,
+                    icon: "none",
+                    // image: '/pages/images/warning.png',
+                    duration: 2000
+                  })
+                }
+              });
+
+            } else if (res.cancel) {
+              console.log('用户点击取消')
+            }
+          }
+        }) 
+
       }
     })
   },

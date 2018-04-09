@@ -28,6 +28,8 @@ public class QGoods extends EntityPathBase<Goods> {
 
     public final DateTimePath<java.util.Date> bulletinDate = createDateTime("bulletinDate", java.util.Date.class);
 
+    public final NumberPath<Integer> customerId = createNumber("customerId", Integer.class);
+
     public final StringPath goodsName = createString("goodsName");
 
     public final NumberPath<Integer> id = createNumber("id", Integer.class);

@@ -44,7 +44,7 @@
       </view>
       <view class="clear" style='clear: both;'></view>
     </view>
-    <view style=' width: 90%; height:100rpx; position: fixed; margin:auto;left:0; right:0; bottom:0;background:white; z-index: 100;text-align:center '>
+    <view class='downButton' style=' width: 90%; height:100rpx; position: fixed; margin:auto;left:0; right:0; bottom:0;background:white; z-index: 100;text-align:center '>
       <button type="primary" formType="submit" size="default">发布</button>
     </view>
   </form>

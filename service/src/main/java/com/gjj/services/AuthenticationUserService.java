@@ -65,7 +65,7 @@ public class AuthenticationUserService {
         userRepository.save(user);
     }
 
-    public void updateUser(User user, int id) {
+    public void updateUser(User user, Integer id) {
         User oldUser = userRepository.getOne(id);
 //        if (user.getUsername().trim().equals(oldUser.getUsername().trim())) {
 //            throw new UnAuthorizedException(ErrorCode.USERNAME_EXIST, ErrorMessage.USERNAME_EXIST);
@@ -73,6 +73,7 @@ public class AuthenticationUserService {
         if (user.getPassword() != null) {
             oldUser.setPassword(MD5Util.encode(user.getPassword()));
         } else {
+            user.setId(id);
             checkUsernameRepeat(user);
             oldUser.setUsername(user.getUsername().trim());
             oldUser.setMobile(user.getMobile().trim());
