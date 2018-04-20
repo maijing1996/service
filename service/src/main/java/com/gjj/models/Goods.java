@@ -59,7 +59,6 @@ public class Goods {
 
     @OneToMany(targetEntity = Attachment.class, mappedBy = "goods", cascade = CascadeType.REMOVE)
     @JsonProperty("good_attachments")
-//    private Set<Attachment> attachments = new HashSet<>();
     private List<Attachment> attachments = new ArrayList<>();
 
     @JsonProperty("customerId")

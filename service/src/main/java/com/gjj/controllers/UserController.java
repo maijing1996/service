@@ -70,6 +70,15 @@ public class UserController {
         return ResponseEntity.ok(null);
     }
 
+//    @ResponseBody
+//    @PostMapping("/user/follow/{id}")
+//    public ResponseEntity<?> follow(@PathVariable Integer id,@RequestParam(required = false, value = "id") Integer ) throws Exception {
+//        User user = authenticationUserService.getUser(id);
+//
+//        user.getUsers().add(user);
+//
+//    }
+
 
 
 

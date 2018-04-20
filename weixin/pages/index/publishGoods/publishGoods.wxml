@@ -36,7 +36,8 @@
           <view wx:for="{{imagesList}}" wx:for-item="image" wx:key="index" class="previewimg">
             <image class='image' src="{{image}}" data-src="{{image}}" bindtap="previewImage"></image>
           </view>
-          <view class="previewimg" hidden="{{flag}}" bindtap='chooseImage'>
+          <!-- <view class="previewimg" hidden="{{flag}}" bindtap='chooseImage'> -->
+           <view class="previewimg"  bindtap='chooseImage'>
             <image class='image' src="../../images/add.jpg" bindtap=""></image>
           </view>
           <view class="clear" style='clear: both;'></view>
