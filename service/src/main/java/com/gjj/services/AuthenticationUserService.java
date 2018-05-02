@@ -115,6 +115,10 @@ public class AuthenticationUserService {
         return userRepository.getUsernameByOpenid(openid);
     }
 
+    public void saveUser(User user) {
+        userRepository.save(user);
+    }
+
 
 
 
