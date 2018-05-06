@@ -1,10 +1,12 @@
 package com.gjj.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -30,10 +32,11 @@ public class Comment {
     @JoinColumn(name = "goods_id")
     private Integer goodsId;
 
-//    @NotNull
-//    @ManyToOne(targetEntity = User.class)
-//    @JoinColumn(name = "comment_user_id")
-//    private User user;
+    @NotNull
+    @ManyToOne(targetEntity = User.class)
+    @JsonProperty(value = "commentUser")
+    @JoinColumn(name = "comment_user_id")
+    private User user;
 
     @NotNull
     @Column(name = "comment_date")
@@ -41,9 +44,10 @@ public class Comment {
     @JsonProperty(value = "commentDate")
     private Date commentDate;
 
-    @Column(name = "reply_id")
-    @JsonProperty(value = "replyId")
-    private Integer replyId;
+    @OneToOne(targetEntity = User.class)
+    @JsonProperty(value = "replyUser")
+    @JoinColumn(name="reply_id")
+    private User replyUser;
 
     @Column(name = "type")
     @JsonProperty(value = "type")
@@ -73,13 +77,13 @@ public class Comment {
         this.goodsId = goodsId;
     }
 
-//    public User getUser() {
-//        return user;
-//    }
-//
-//    public void setUser(User user) {
-//        this.user = user;
-//    }
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     public Date getCommentDate() {
         return commentDate;
@@ -87,14 +91,6 @@ public class Comment {
 
     public void setCommentDate(Date commentDate) {
         this.commentDate = commentDate;
-    }
-
-    public Integer getReplyId() {
-        return replyId;
-    }
-
-    public void setReplyId(Integer replyId) {
-        this.replyId = replyId;
     }
 
     public Integer getType() {
@@ -105,15 +101,23 @@ public class Comment {
         this.type = type;
     }
 
+    public User getReplyUser() {
+        return replyUser;
+    }
+
+    public void setReplyUser(User replyUser) {
+        this.replyUser = replyUser;
+    }
+
     @Override
     public String toString() {
         return "Comment{" +
                 "id=" + id +
                 ", content='" + content + '\'' +
                 ", goodsId=" + goodsId +
-//                ", user=" + user +
+                ", user=" + user +
                 ", commentDate=" + commentDate +
-                ", replyId=" + replyId +
+                ", replyUser=" + replyUser +
                 ", type=" + type +
                 '}';
     }

@@ -69,6 +69,7 @@ public class User {
 
     @JsonIgnore
     @ManyToMany(targetEntity = User.class)
+    @JsonBackReference
     @JoinTable(name = "user_relation", joinColumns = @JoinColumn(name = "active_id"), inverseJoinColumns = @JoinColumn(name = "passive_id"))
     private Set<User> users = new HashSet<>();
 
@@ -191,7 +192,7 @@ public class User {
                 ", avatarUrl='" + avatarUrl + '\'' +
                 ", gender='" + gender + '\'' +
 //                ", goods=" + goods +
-                ", users=" + users +
+//                ", users=" + users +
                 '}';
     }
 }

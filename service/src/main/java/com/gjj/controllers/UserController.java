@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Created by gjj on 2018-03-04.
@@ -66,5 +67,14 @@ public class UserController {
         authenticationUserService.updateUser(userUpdate, id);
         return ResponseEntity.ok(null);
     }
+
+    @ResponseBody
+    @GetMapping("/users")
+    public ResponseEntity<?> getAllUser(@RequestParam(value = "nickName", required = false) String nickName) {
+        List<User> list = authenticationUserService.getAllUser(nickName);
+        return ResponseEntity.ok(list);
+    }
+
+
 
 }

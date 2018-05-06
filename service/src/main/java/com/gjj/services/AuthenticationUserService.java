@@ -6,9 +6,11 @@ import com.gjj.exceptions.BusinessException;
 import com.gjj.exceptions.UnAuthorizedException;
 import com.gjj.models.Goods;
 import com.gjj.models.User;
+import com.gjj.qModels.QUser;
 import com.gjj.repositories.UserRepository;
 import com.gjj.utils.IgnoreProperty;
 import com.gjj.utils.MD5Util;
+import com.querydsl.core.BooleanBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -117,6 +119,17 @@ public class AuthenticationUserService {
 
     public void saveUser(User user) {
         userRepository.save(user);
+    }
+
+    public List<User> getAllUser(String nickName) {
+        BooleanBuilder booleanBuilder = new BooleanBuilder();
+        QUser qUser = QUser.user;
+        if (nickName != null && !nickName.trim().isEmpty()) {
+            booleanBuilder.and(qUser.nickName.contains(nickName));
+        }
+        List<User> users = (List<User>) userRepository.findAll(booleanBuilder);
+        return users;
+
     }
 
 
