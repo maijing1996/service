@@ -31,6 +31,8 @@ public class QComment extends EntityPathBase<Comment> {
 
     public final NumberPath<Integer> id = createNumber("id", Integer.class);
 
+    public final NumberPath<Integer> replyCommentId = createNumber("replyCommentId", Integer.class);
+
     public final QUser replyUser;
 
     public final NumberPath<Integer> type = createNumber("type", Integer.class);

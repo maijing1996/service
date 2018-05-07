@@ -1,6 +1,9 @@
 package com.gjj.services;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gjj.enums.ErrorCode;
+import com.gjj.enums.ErrorMessage;
+import com.gjj.exceptions.BusinessException;
+import com.gjj.exceptions.UnAuthorizedException;
 import com.gjj.models.Comment;
 import com.gjj.models.SecondComment;
 import com.gjj.qModels.QComment;
@@ -10,10 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by gjj on 2018-05-05.
@@ -23,18 +24,29 @@ public class CommentService {
     @Autowired
     private CommentRepository commentRepository;
 
+    @Autowired
+    private AuthenticationUserService authenticationUserService;
+
+    public Comment getOneComment(Integer commentId) {
+        Comment comment;
+        try {
+            comment = commentRepository.getOne(commentId);
+        } catch (BusinessException e) {
+            throw new UnAuthorizedException(ErrorCode.COMMENT_NOT_EXIST, ErrorMessage.COMMENT_NOT_EXIST);
+        }
+        return comment;
+    }
+
     public List getComments(Integer goodsId) {
-
-
         BooleanBuilder booleanBuilder = new BooleanBuilder();
         BooleanBuilder secondBooleanBuilder = new BooleanBuilder();
         QComment qComment = QComment.comment;
         QComment secondQComment = QComment.comment;
         if (goodsId != null) {
             booleanBuilder.and(qComment.goodsId.eq(goodsId));
-            booleanBuilder.and(qComment.type.eq(1));
+            booleanBuilder.and(qComment.replyCommentId.isNull());
             secondBooleanBuilder.and(secondQComment.goodsId.eq(goodsId));
-            secondBooleanBuilder.and(secondQComment.type.eq(2));
+            secondBooleanBuilder.and(secondQComment.replyCommentId.isNotNull());
         }
         Sort sort = new Sort(Sort.Direction.ASC, "commentDate");
         List<Comment> list = (List) commentRepository.findAll(booleanBuilder,sort);
@@ -42,39 +54,49 @@ public class CommentService {
         /**
          * 组装评论
          */
-//        ObjectMapper objectMapper = new ObjectMapper();
-//        for (Comment comment : list) {
-//            try {
-//                Map map = objectMapper.readValue(comment.toString(), Map.class);
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        }
         List commentList = new ArrayList();
         for (Comment comment: list) {
+            SecondComment secondComment = new SecondComment();
+            secondComment.setId(comment.getId());
+            secondComment.setContent(comment.getContent());
+            secondComment.setGoodsId(comment.getGoodsId());
+            secondComment.setUser(comment.getUser());
+            secondComment.setCommentDate(comment.getCommentDate());
+            secondComment.setReplyUser(comment.getReplyUser());
+            secondComment.setReplyCommentId(comment.getReplyCommentId());
             for (Comment comment2 : list2) {
-                SecondComment secondComment = new SecondComment();
-                secondComment.setId(comment.getId());
-                secondComment.setContent(comment.getContent());
-                secondComment.setGoodsId(comment.getGoodsId());
-                secondComment.setUser(comment.getUser());
-                secondComment.setCommentDate(comment.getCommentDate());
-                secondComment.setReplyUser(comment.getReplyUser());
-                secondComment.setType(comment.getType());
-                if (secondComment.getId().equals(comment2.getReplyUser().getId())) {
+
+                if (secondComment.getId().equals(comment2.getReplyCommentId())) {
                     if (secondComment.getList() == null) {
                         secondComment.setList(new ArrayList());
                     }
                     secondComment.getList().add(comment2);
                 }
-                commentList.add(secondComment);
+            }
+            commentList.add(secondComment);
+        }
+        return commentList;
+    }
+
+    public void addComment(Comment comment) {
+        commentRepository.save(comment);
+    }
+
+    public void deleteComment(Comment comment) {
+        if (comment.getReplyCommentId() == null) {
+            /**
+             * 删除一级评论
+             */
+            BooleanBuilder booleanBuilder = new BooleanBuilder();
+            QComment qComment = QComment.comment;
+            if (true) {
+                booleanBuilder.and(qComment.replyCommentId.eq(comment.getId()));
+            }
+            List<Comment> list =  (List) commentRepository.findAll(booleanBuilder);
+            if (list != null) {
+                commentRepository.delete(list);
             }
         }
-
-
-
-
-        return commentList;
-
+        commentRepository.delete(comment);
     }
 }

@@ -14,7 +14,8 @@ public enum ErrorCode {
     IMG_NOT_EMPTY("img_not_empty"),
     IMG_FORMAT_ERROR("img_format_error"),
     SAVE_IMG_ERROE("save_img_error"),
-    NOT_FOUND_GOODS("not_found_goods");
+    NOT_FOUND_GOODS("not_found_goods"),
+    COMMENT_NOT_EXIST("comment_not_exist");
 
 
 

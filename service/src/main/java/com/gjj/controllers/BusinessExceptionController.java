@@ -1,5 +1,6 @@
 package com.gjj.controllers;
 
+import com.gjj.exceptions.ServiceUnavailableException;
 import com.gjj.exceptions.UnAuthorizedException;
 import com.gjj.utils.ErrorMessageBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,12 +30,12 @@ public class BusinessExceptionController {
 //        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(errorMessageBuilder
 //                .build(HttpStatus.UNPROCESSABLE_ENTITY.value(), ex.getErrorCode(), ex.getErrorMessage()));
 //    }
-//    @ExceptionHandler(ServiceUnavailableException.class)
-//    public @ResponseBody
-//    ResponseEntity<?> handleBizExp(ServiceUnavailableException ex){
-//        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessageBuilder
-//                .build(HttpStatus.INTERNAL_SERVER_ERROR.value(),ex.getErrorCode(),ex.getErrorMessage()));
-//    }
+    @ExceptionHandler(ServiceUnavailableException.class)
+    public @ResponseBody
+    ResponseEntity<?> handleBizExp(ServiceUnavailableException ex){
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessageBuilder
+                .build(HttpStatus.INTERNAL_SERVER_ERROR.value(),ex.getErrorCode(),ex.getErrorMessage()));
+    }
     @ExceptionHandler(Exception.class)
     public @ResponseBody
     ResponseEntity<?> handleBizExp(Exception ex) {

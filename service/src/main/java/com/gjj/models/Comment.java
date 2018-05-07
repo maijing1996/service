@@ -49,9 +49,9 @@ public class Comment {
     @JoinColumn(name="reply_id")
     private User replyUser;
 
-    @Column(name = "type")
-    @JsonProperty(value = "type")
-    private Integer type;
+    @JsonProperty(value = "replyCommentId")
+    @Column(name = "reply_comment_id")
+    private Integer replyCommentId;
 
     public Integer getId() {
         return id;
@@ -93,20 +93,20 @@ public class Comment {
         this.commentDate = commentDate;
     }
 
-    public Integer getType() {
-        return type;
-    }
-
-    public void setType(Integer type) {
-        this.type = type;
-    }
-
     public User getReplyUser() {
         return replyUser;
     }
 
     public void setReplyUser(User replyUser) {
         this.replyUser = replyUser;
+    }
+
+    public Integer getReplyCommentId() {
+        return replyCommentId;
+    }
+
+    public void setReplyCommentId(Integer replyCommentId) {
+        this.replyCommentId = replyCommentId;
     }
 
     @Override
@@ -118,7 +118,7 @@ public class Comment {
                 ", user=" + user +
                 ", commentDate=" + commentDate +
                 ", replyUser=" + replyUser +
-                ", type=" + type +
+                ", replyCommentId=" + replyCommentId +
                 '}';
     }
 }
