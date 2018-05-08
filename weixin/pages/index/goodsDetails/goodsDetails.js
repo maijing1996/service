@@ -6,7 +6,8 @@ Page({
    * 页面的初始数据
    */
   data: {
-    goodsDetails: ''
+    goodsDetails: '',
+    goodsComments: ''
 
   },
 
@@ -16,6 +17,7 @@ Page({
   onLoad: function (options) {
     // console.log(options.id)
     this.getGoodsDetails(options.id)
+    this.getGoodsComment(options.id)
   },
 
   /**
@@ -86,8 +88,28 @@ Page({
       }
     });
   },
+
+  getGoodsComment : function(id) {
+    var that = this
+    get('/comments/' + id, null).then((res) => {
+      if (res.statusCode == '200') {
+        that.setData({
+          goodsComments: res.data
+        })
+      } else {
+        wx.showToast({
+          title: res.data.message,
+          icon: "none",
+          // image: '/pages/images/warning.png',
+          duration: 2000
+        })
+      }
+    });
+
+
+  },
   /**
-   * 
+   * 操作
    */
   moreOperation: function () {
     var that = this;

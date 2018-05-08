@@ -30,20 +30,70 @@
         </view>
         <view class="clear" style='clear: both;'></view>
       </view>
+      <view class='comment'>
+        <view class='comment-title'>评论</view>
+        <view wx:for="{{goodsComments}}" wx:for-item="goodsComment" wx:key="index">
+          <view data-id='{{goodsComment.id}}' bindtap="" style='display:block'>
+            <view class='firstComment'>
+            <view>
+             <view class='user-image-info-left'>
+                <image class="user-image" src="{{goodsComment.commentUser.avatarUrl}}" />
+              </view>
+              <view class='user-right'>
+                <view class='user-name-tr'>
+                  <view class='user-name-left'>{{goodsComment.commentUser.nickName}}</view>
+                </view>
+                <view class='comment-date'>{{goodsComment.commentDate}}</view>
+               
+      
 
+                 <!-- <view class="clear" style='clear: both;'></view>  -->
+              </view>
+             <view class="clear" style='clear: both;'></view> 
+            </view>
+             
+            <view class='content'>{{goodsComment.content}}</view> 
+            </view>
+          </view>
+
+          <view wx:for="{{goodsComment.list}}" wx:for-item="replyComment" wx:key="index">
+            <view class='secondComment'> 
+            <view> 
+              <view class='user-image-info-left'>
+                <image class="user-image" src="{{replyComment.commentUser.avatarUrl}}" />
+              </view>
+              <view class='user-right'>
+                <view class='user-name-tr'>
+                  <view class='user-name-left'>{{replyComment.commentUser.nickName}}</view>
+                </view>
+                 <view class='comment-date'>{{replyComment.commentDate}}</view>
+        
+               
+              </view>
+               <view class="clear" style='clear: both;'></view> 
+            </view>
+              <view class='content'>回复<span class='reply'>@{{replyComment.replyUser.nickName}}</span>：{{replyComment.content}}</view>
+              <!-- <view>{{replyComment.commentUser.nickName}}</view>
+                <span>回复：</span>
+                <view>{{replyComment.replyUser.nickName}}</view>
+                <view>{{replyComment.content}}</view> -->
+            </view>
+          </view>
+
+        </view>
+      </view>
     </view>
-
   </scroll-view>
   <view class='downButton'>
     <ul>
       <li class="downButtonLi">
-      <view class='itemli'>
-        <button type="primary" size='mini'>评论</button>
-           </view>
+        <view class='itemli'>
+          <button type="primary" size='mini'>评论</button>
+        </view>
       </li>
       <li class="downButtonLi">
-      <view class='itemli'>
-        <button bindtap='moreOperation' type="primary"  size='mini'>操作</button>
+        <view class='itemli'>
+          <button bindtap='moreOperation' type="primary" size='mini'>操作</button>
         </view>
       </li>
     </ul>

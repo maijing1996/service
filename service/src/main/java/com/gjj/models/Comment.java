@@ -53,6 +53,10 @@ public class Comment {
     @Column(name = "reply_comment_id")
     private Integer replyCommentId;
 
+    @JsonProperty(value = "read")
+    @Column(name = "read")
+    private Boolean read;
+
     public Integer getId() {
         return id;
     }
@@ -109,6 +113,14 @@ public class Comment {
         this.replyCommentId = replyCommentId;
     }
 
+    public Boolean getRead() {
+        return read;
+    }
+
+    public void setRead(Boolean read) {
+        this.read = read;
+    }
+
     @Override
     public String toString() {
         return "Comment{" +
@@ -119,6 +131,7 @@ public class Comment {
                 ", commentDate=" + commentDate +
                 ", replyUser=" + replyUser +
                 ", replyCommentId=" + replyCommentId +
+                ", read=" + read +
                 '}';
     }
 }

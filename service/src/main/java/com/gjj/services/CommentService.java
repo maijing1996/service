@@ -6,6 +6,7 @@ import com.gjj.exceptions.BusinessException;
 import com.gjj.exceptions.UnAuthorizedException;
 import com.gjj.models.Comment;
 import com.gjj.models.SecondComment;
+import com.gjj.models.User;
 import com.gjj.qModels.QComment;
 import com.gjj.repositories.CommentRepository;
 import com.querydsl.core.BooleanBuilder;
@@ -64,6 +65,7 @@ public class CommentService {
             secondComment.setCommentDate(comment.getCommentDate());
             secondComment.setReplyUser(comment.getReplyUser());
             secondComment.setReplyCommentId(comment.getReplyCommentId());
+            secondComment.setRead(comment.getRead());
             for (Comment comment2 : list2) {
 
                 if (secondComment.getId().equals(comment2.getReplyCommentId())) {
@@ -98,5 +100,36 @@ public class CommentService {
             }
         }
         commentRepository.delete(comment);
+    }
+
+    public Long getUnreadCount(Integer userId) {
+        BooleanBuilder booleanBuilder = booleanBuilder(userId);
+        Long count = commentRepository.count(booleanBuilder);
+        return count;
+    }
+
+    public List getUnreadComment(Integer userId) {
+        BooleanBuilder booleanBuilder = booleanBuilder(userId);
+        List<Comment> list =  (List) commentRepository.findAll(booleanBuilder);
+        return list;
+    }
+
+    private BooleanBuilder booleanBuilder(Integer userId) {
+        User user = authenticationUserService.getUser(userId);
+        BooleanBuilder booleanBuilder = new BooleanBuilder();
+        QComment qComment = QComment.comment;
+        if (userId != null) {
+            booleanBuilder.and(qComment.replyUser.eq(user));
+            booleanBuilder.and(qComment.read.eq(false));
+        }
+        return booleanBuilder;
+    }
+
+    public void commentIsRead(Integer userId) {
+        List<Comment> list = getUnreadComment(userId);
+        for (Comment comment : list) {
+            comment.setRead(true);
+            commentRepository.save(comment);
+        }
     }
 }

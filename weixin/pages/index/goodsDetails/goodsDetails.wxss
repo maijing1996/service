@@ -242,3 +242,52 @@
    display: block;
     margin: 20rpx auto; 
 }
+
+/*评论  */
+.comment-title {
+  padding-left:10rpx; 
+  background-color: #EAE6E0;
+  color: #82674A;
+}
+.user-image-info-left {
+  float: left;
+}
+.user-right {
+  margin-left: 10rpx; 
+  float: left;
+  text-align: left;
+}
+.firstComment {
+  padding: 10rpx;
+  margin-bottom: 10rpx;
+  display: block;
+  /* border-bottom: 1rpx solid #808080; */
+}
+.comment-date {
+   float: left; 
+  font-size: 30rpx;
+  text-align: left;
+  color: #808080;
+}
+
+.content {
+  /* float: left; */
+  color: #808080;
+  font-size: 30rpx;
+  margin-left:110rpx;
+  /* padding-right: 10rpx;  */
+  text-align: left; 
+  word-wrap:break-word;
+}
+.user-name-left {
+  float: left;
+}
+
+.secondComment {
+  margin: 0rpx 10rpx 10rpx 110rpx;  
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.reply {
+  color: #569CD6; 
+}

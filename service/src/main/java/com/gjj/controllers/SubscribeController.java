@@ -59,7 +59,7 @@ public class SubscribeController {
         User user = authenticationUserService.getUser(id);
         Integer passiveId = Integer.valueOf(jsonNode.path("passiveId").textValue().trim());
         User cancelUser = authenticationUserService.getUser(passiveId);
-        for (User user1:user.getUsers()) {
+        for (User user1 : user.getUsers()) {
             if (user1.equals(cancelUser)) {
                 user.getUsers().remove(user1);
             }

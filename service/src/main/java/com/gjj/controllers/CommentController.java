@@ -76,4 +76,26 @@ public class CommentController {
         commentService.deleteComment(comment);
         return ResponseEntity.ok(null);
     }
+
+    @ResponseBody
+    @GetMapping("/comments/unread/count/{userId}")
+    public ResponseEntity<?> getUnreadCount(@PathVariable Integer userId) {
+        Long count = commentService.getUnreadCount(userId);
+        return ResponseEntity.ok(count);
+    }
+
+    @ResponseBody
+    @GetMapping("/comments/unread/{userId}")
+    public ResponseEntity<?> getUnreadComment(@PathVariable Integer userId) {
+        List list = commentService.getUnreadComment(userId);
+        return ResponseEntity.ok(list);
+    }
+
+    @ResponseBody
+    @GetMapping("/comments/isRead/{userId}")
+    public ResponseEntity<?> commentIsRead(@PathVariable Integer userId) {
+        commentService.commentIsRead(userId);
+        return ResponseEntity.ok(null);
+    }
+
 }

@@ -62,12 +62,11 @@ public class User {
     private String gender;
 
 //    @JsonIgnore
-   // @JsonProperty("user_goods")
+// @JsonProperty("user_goods")
     @JsonBackReference
     @OneToMany(targetEntity = Goods.class,fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.REMOVE)
     private Set<Goods> goods = new HashSet<>();
 
-    @JsonIgnore
     @ManyToMany(targetEntity = User.class)
     @JsonBackReference
     @JoinTable(name = "user_relation", joinColumns = @JoinColumn(name = "active_id"), inverseJoinColumns = @JoinColumn(name = "passive_id"))

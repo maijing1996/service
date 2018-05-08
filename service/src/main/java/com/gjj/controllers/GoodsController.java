@@ -35,7 +35,7 @@ import java.util.*;
  * Created by gjj on 2018-03-06.
  */
 @RestController
-class GoodsController {
+public class GoodsController {
 
     @Value("${spring.img.location}")
     private String location;
