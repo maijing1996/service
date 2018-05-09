@@ -6,8 +6,15 @@ Page({
    * 页面的初始数据
    */
   data: {
+    uid: '',
+    goodsId:'',
     goodsDetails: '',
-    goodsComments: ''
+    goodsComments: '',
+    content:'',
+    replyId:'',
+    commentId:'',
+    releaseName: '',
+    releaseFocus: false
 
   },
 
@@ -16,6 +23,16 @@ Page({
    */
   onLoad: function (options) {
     // console.log(options.id)
+    var that = this
+    wx.getStorage({
+      key: 'uid',
+      success: function (res) {
+        that.setData({
+          uid: res.data,
+          goodsId: options.id
+        })
+      }
+    })
     this.getGoodsDetails(options.id)
     this.getGoodsComment(options.id)
   },
@@ -108,6 +125,64 @@ Page({
 
 
   },
+  replyCommentHandler: function (event) {
+    // console.log(event.detail.value.content);
+    // console.log(event.currentTarget.dataset);
+    var that = this;
+    console.log(event.detail.value)
+    if (event.detail.value.content == "") {
+      wx.showToast({
+        title: "评论不能为空",
+        icon: "none",
+        // image: '/pages/images/warning.png',
+        duration: 2000
+      })
+      return false;
+    }
+    var params = {
+      content: event.detail.value.content,
+      goodsId: this.data.goodsId,
+      replyCommentId: this.data.commentId
+    }
+    post('/comment/add/' + this.data.uid + '/reply/' + this.data.replyId, params).then((res) =>     {
+      if (res.statusCode == '200') {
+        wx.showToast({
+          title: '评论成功',
+          icon: 'success',
+          duration: 2000,
+          mask: true,
+          success: function () {
+            that.setData({
+              content:''
+            });
+            that.getGoodsComment(that.data.goodsId);
+          }
+        })
+      } else {
+        wx.showToast({
+          title: res.data.message,
+          icon: "none",
+          // image: '/pages/images/warning.png',
+          duration: 2000
+        })
+      }
+    });
+   
+  },
+  /**
+* 点击回复
+*/
+  bindReply: function (e) {
+    this.setData({
+      releaseFocus: true,
+      replyId: e.currentTarget.dataset.replyid ,
+      commentId: e.currentTarget.dataset.commentid,
+      releaseName: e.currentTarget.dataset.nickname 
+    })
+  },
+
+
+
   /**
    * 操作
    */

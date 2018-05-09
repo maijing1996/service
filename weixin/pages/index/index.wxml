@@ -1,17 +1,12 @@
 <!--index.wxml-->
-<view class="container">
-  <view class="userinfo">
-    <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 获取头像昵称 </button>
-    <block wx:else>
-      <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" background-size="cover"></image>
-      <text class="userinfo-nickname">{{userInfo.nickName}}</text>
-    </block>
+<view class="">
+  <view class="page-section page-section-spacing swiper picture">
+    <swiper indicator-dots="true" autoplay="true" interval="5000" duration="500">
+      <block wx:for="{{imgUrls}}">
+        <swiper-item>
+          <image src="{{item}}" class="slide-image" width="100%" height="300" />
+        </swiper-item>
+      </block>
+    </swiper>
   </view>
-  <view class="usermotto">
-    <text class="user-motto">{{motto}}</text>
-  </view>
-  <button bindtap="changeName"> Click me! </button>
-  <text class="test">{{test}}</text>
-  <button bindtap="createQrCodeImg"> creat </button>
-  <image src="{{qrcode}}" class="qrcode"></image>
 </view>

@@ -189,7 +189,7 @@ Page({
         image: '/pages/images/warning.png',
         duration: 2000
       })
-      return false
+      return false;
     }
     formData.type = this.data.typeList[formData.type];
     post('/goods/publish/'+ this.data.uid, formData).then((res) => {

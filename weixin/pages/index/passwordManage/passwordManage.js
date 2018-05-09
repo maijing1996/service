@@ -146,7 +146,6 @@ Page({
         // }
       } else {
         wx.hideLoading()
-        console.log(res.data.message)
         wx.showToast({
           title: res.data.message,
           icon: "none",

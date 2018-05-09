@@ -32,13 +32,12 @@ public class Comment {
     @JoinColumn(name = "goods_id")
     private Integer goodsId;
 
-    @NotNull
+
     @ManyToOne(targetEntity = User.class)
     @JsonProperty(value = "commentUser")
     @JoinColumn(name = "comment_user_id")
     private User user;
 
-    @NotNull
     @Column(name = "comment_date")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonProperty(value = "commentDate")
@@ -54,8 +53,8 @@ public class Comment {
     private Integer replyCommentId;
 
     @JsonProperty(value = "read")
-    @Column(name = "read")
-    private Boolean read;
+    @Column(name = "comment_read")
+    private Integer read;
 
     public Integer getId() {
         return id;
@@ -113,11 +112,11 @@ public class Comment {
         this.replyCommentId = replyCommentId;
     }
 
-    public Boolean getRead() {
+    public Integer getRead() {
         return read;
     }
 
-    public void setRead(Boolean read) {
+    public void setRead(Integer read) {
         this.read = read;
     }
 

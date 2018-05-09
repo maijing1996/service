@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gjj.enums.ErrorCode;
 import com.gjj.enums.ErrorMessage;
+import com.gjj.enums.Read;
 import com.gjj.exceptions.UnAuthorizedException;
 import com.gjj.models.Comment;
 import com.gjj.models.Goods;
@@ -52,15 +53,25 @@ public class CommentController {
     public ResponseEntity<?> addComment(@PathVariable(value = "userId") Integer userId,
                                         @PathVariable(value = "replyId") Integer replyId,
                                         @RequestBody JsonNode jsonNode) {
-        Comment comment;
+        Comment comment = new Comment();
         User commentUser = authenticationUserService.getUser(userId);
         User replyUser = authenticationUserService.getUser(replyId);
         try {
             comment = new ObjectMapper().readValue(jsonNode.traverse(), Comment.class);
+//            String content = jsonNode.path("content").textValue();
+//            Integer goodsId = Integer.valueOf(jsonNode.path("goodsId").textValue());
+//            comment.setContent(content);
+//            comment.setGoodsId(goodsId);
+
+
+
+
+//            comment.setReplyCommentId(replyCommentId);
             comment.setCommentDate(new Date());
             comment.setUser(commentUser);
             comment.setReplyUser(replyUser);
-        } catch (IOException e) {
+            comment.setRead(Read.UNREAD.getRead());
+        } catch (Exception e) {
             throw new UnAuthorizedException(ErrorCode.JSON_TO_OBJECT_ERROR, ErrorMessage.ERROR_CHANGE_TYPE);
         }
         commentService.addComment(comment);

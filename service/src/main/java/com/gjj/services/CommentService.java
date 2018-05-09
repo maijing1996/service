@@ -2,6 +2,7 @@ package com.gjj.services;
 
 import com.gjj.enums.ErrorCode;
 import com.gjj.enums.ErrorMessage;
+import com.gjj.enums.Read;
 import com.gjj.exceptions.BusinessException;
 import com.gjj.exceptions.UnAuthorizedException;
 import com.gjj.models.Comment;
@@ -120,7 +121,7 @@ public class CommentService {
         QComment qComment = QComment.comment;
         if (userId != null) {
             booleanBuilder.and(qComment.replyUser.eq(user));
-            booleanBuilder.and(qComment.read.eq(false));
+            booleanBuilder.and(qComment.read.eq(Read.UNREAD.getRead()));
         }
         return booleanBuilder;
     }
@@ -128,7 +129,7 @@ public class CommentService {
     public void commentIsRead(Integer userId) {
         List<Comment> list = getUnreadComment(userId);
         for (Comment comment : list) {
-            comment.setRead(true);
+            comment.setRead(Read.ALREADYREAD.getRead());
             commentRepository.save(comment);
         }
     }

@@ -14,12 +14,12 @@ Page({
           {
             img: "../../images/personal-publish.png",
             name: "发布",
-            url: "../upload/upload"
+            url: "../personalGoods/personalGoods"
           },
           {
             img: "../../images/personal-like.png",
             name: "关注",
-            url: "../upload/upload"
+            url: "../statistics/statistics"
           }
         ]
       },

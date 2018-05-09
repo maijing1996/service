@@ -11,13 +11,15 @@
     "pages/index/personal/personal",
     "pages/index/passwordManage/passwordManage",
     "pages/index/userInfoManage/userInfoManage",
-    "pages/index/qr/qr"
+    "pages/index/qr/qr",
+    "pages/index/personalGoods/personalGoods",
+    "pages/index/statistics/statistics"
   ],
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
     "navigationBarTitleText": "WeChat",
-    "navigationBarTextStyle": "black" 
+    "navigationBarTextStyle": "black"
   },
   "tabBar": {
     "color": "#a9b7b7",

@@ -19,3 +19,11 @@
 .usermotto {
   margin-top: 200px;
 }
+
+/*轮播图  */
+.picture {
+  width: 100%;
+}
+.slide-image {
+  width: 100%;
+}
