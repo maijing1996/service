@@ -48,11 +48,9 @@ public class SubscribeController {
                                               @RequestParam(required = false, value = "nickName") String nickName,
                                               @RequestParam(value = "${spring.data.rest.page-param-name}", required = false, defaultValue = "${spring.data.rest.default-page-number}") Integer pageNum,
                                               @RequestParam(value = "${spring.data.rest.limit-param-name}", required = false, defaultValue = "${spring.data.rest.default-page-size}") Integer pageSize) {
-//        List list = subscribeService.getSubscribe(id,nickName);
-//        return ResponseEntity.ok(list);
-        Object[] objects = subscribeService.getSubscribe(id,nickName);
-        return ResponseEntity.ok(objects);
-    }
+        List<Subscribe> list = subscribeService.getSubscribe(id,nickName);
+        return ResponseEntity.ok(list);
+}
 
     @ResponseBody
     @PostMapping("/subscribe/cancel/{id}")

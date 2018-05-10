@@ -90,8 +90,6 @@ Page({
     var that = this
     get('/goods/' + id, null).then((res) => {
       if (res.statusCode == '200') {
-        console.log(res.data)
-
         that.setData({
           goodsDetails: res.data
         })

@@ -17,10 +17,11 @@ public class SubscribeService {
     @Autowired
     private SubscribeRepository subscribeRepository;
 
-    public Object[] getSubscribe (Integer id, String nickName) {
-//        List list = subscribeRepository.getSubscribe(id, nickName);
-//        return list;
-          Object[] objects = subscribeRepository.getSubscribe(id, nickName);
-        return objects;
+    public List<Subscribe> getSubscribe (Integer id, String nickName) {
+        if (nickName == null) {
+            nickName = "";
+        }
+        List<Subscribe> list = subscribeRepository.getSubscribe(id, nickName);
+        return list;
     }
 }

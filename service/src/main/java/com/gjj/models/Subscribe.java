@@ -3,11 +3,13 @@ package com.gjj.models;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * Created by gjj on 2018-05-02.
  */
 @Entity
+@Table(name = "subscribe")
 public class Subscribe {
 
     @Id
@@ -58,5 +60,15 @@ public class Subscribe {
 
     public void setGender(String gender) {
         this.gender = gender;
+    }
+
+    @Override
+    public String toString() {
+        return "Subscribe{" +
+                "id=" + id +
+                ", nickName='" + nickName + '\'' +
+                ", avatarUrl='" + avatarUrl + '\'' +
+                ", gender='" + gender + '\'' +
+                '}';
     }
 }

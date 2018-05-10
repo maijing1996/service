@@ -1,4 +1,5 @@
 /* pages/index/statistics/statistics.wxss */
+
 .swiper-item {
   display: block;
   width: 750rpx;
@@ -9,12 +10,11 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  position:fixed;
-top:0;
-z-index:100;
-width:100%;
-background:white;
-
+  position: fixed;
+  top: 0;
+  z-index: 100;
+  width: 100%;
+  background: white;
 }
 
 .search .scan {
@@ -78,51 +78,117 @@ background:white;
   color: #aaa;
   font-size: 22rpx;
 }
+
 /*关注  */
+
 .comment-title {
-  padding-left:10rpx; 
-  background-color: #EAE6E0;
-  color: #82674A;
+  padding-left: 10rpx;
+  background-color: #eae6e0;
+  color: #82674a;
 }
+
 .user-image-info-left {
   float: left;
+  display: flex;
+  height: 120rpx;
+  padding-left: 10rpx;
 }
+
 .user-right {
-  margin-left: 10rpx; 
+  margin-left: 10rpx;
   float: left;
   text-align: left;
 }
+
+.user-add {
+  margin-left: 10rpx;
+  margin-right: 10rpx;
+  float: right;
+  text-align: left;
+  display: flex;
+  height: 120rpx;
+}
+
+.user-image {
+  width: 100rpx;
+  height: 100rpx;
+  margin: auto;
+}
+
+.user-image-small {
+  width: 80rpx;
+  height: 80rpx;
+  margin: auto;
+}
+
 .firstComment {
   padding: 10rpx;
   margin-bottom: 10rpx;
   display: block;
   /* border-bottom: 1rpx solid #808080; */
 }
+
 .comment-date {
-   float: left; 
+  float: left;
   font-size: 30rpx;
   text-align: left;
   color: #808080;
 }
 
-.content {
-  /* float: left; */
-  color: #808080;
-  font-size: 30rpx;
-  margin-left:110rpx;
-  /* padding-right: 10rpx;  */
-  text-align: left; 
-  word-wrap:break-word;
-}
 .user-name-left {
   float: left;
 }
 
-.secondComment {
-  margin: 0rpx 10rpx 10rpx 110rpx;  
+.scorll {
+  /* margin-top: 50rpx; */
+  background: white;
   border-bottom: 1rpx solid #f0f0f0;
+  height: 120rpx;
 }
 
-.reply {
-  color: #569CD6; 
+/*tab  */
+
+.swiper-tab {
+  width: 100%;
+  border-bottom: 2rpx solid #777;
+  text-align: center;
+  line-height: 80rpx;
+  position: fixed;
+  z-index: 10;
+  background: white;
+}
+
+.swiper-tab-list {
+  font-size: 30rpx;
+  display: inline-block;
+  width: 50%;
+  color: #777;
+  margin-top: 100rpx;
+}
+
+.on {
+  color: #da7c0c;
+  border-bottom: 5rpx solid #da7c0c;
+}
+
+.swiper-box {
+  display: block;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  background: #eee;
+}
+
+.swiper-box view {
+  text-align: center;
+}
+
+.swiper-item-class {
+  margin-top: 200rpx;
+}
+.gender {
+  width: 30rpx !important;
+  height: 30rpx !important;
+  margin:12rpx 10rpx 0rpx 10rpx;
+
 }
