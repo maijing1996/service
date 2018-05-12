@@ -13,6 +13,12 @@ Page({
     currentTab: 0,
     goodsComments:[],
     goodsAllComments:[],
+    content:'',
+    goodsId: '',
+    replyId: '',
+    commentId: '',
+    releaseName: '',
+    releaseFocus: false
   
   },
 
@@ -194,7 +200,7 @@ Page({
             that.setData({
               content: ''
             });
-            that.getGoodsComment(that.data.goodsId);
+            // that.getGoodsComment(that.data.goodsId);
           }
         })
       } else {
@@ -212,11 +218,13 @@ Page({
 * 点击回复
 */
   bindReply: function (e) {
+    console.log(e.currentTarget.dataset)
     this.setData({
       releaseFocus: true,
       replyId: e.currentTarget.dataset.replyid,
       commentId: e.currentTarget.dataset.commentid,
-      releaseName: e.currentTarget.dataset.nickname
+      releaseName: e.currentTarget.dataset.nickname,
+      goodsId: e.currentTarget.dataset.goodsid
     })
   },
   backGoods: function(e) {

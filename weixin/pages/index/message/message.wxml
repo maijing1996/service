@@ -13,7 +13,7 @@
       <swiper-item class="swiper-item-class">
         <scroll-view scroll-y class='scroll-view' bindscrolltoupper="upper" bindscrolltolower="lower" bindscroll="scroll" scroll-into-view="{{toView}}" scroll-top="{{scrollTop}}">
           <view wx:for="{{goodsComments}}" wx:for-item="goodsComment" wx:key="index">
-            <view data-commentId='{{goodsComment.id}}' data-replyId='{{goodsComment.commentUser.id}}' data-nickName='{{goodsComment.commentUser.nickName}}' bindtap="bindReply" style='display:block;background:white;'>
+            <view data-commentId='{{goodsComment.id}}' data-replyId='{{goodsComment.commentUser.id}}' data-nickName='{{goodsComment.commentUser.nickName}}' data-goodsId='{{goodsComment.goodsId}}' bindtap="bindReply" style='display:block;background:white;'>
               <view class='firstComment'>
                 <view>
                   <view class='user-image-info-left'>
@@ -41,7 +41,7 @@
       <!-- 我是呵呵 -->
       <swiper-item class="swiper-item-class">
         <view wx:for="{{goodsAllComments}}" wx:for-item="goodsComment" wx:key="index">
-          <view data-commentId='{{goodsComment.id}}' data-replyId='{{goodsComment.commentUser.id}}' data-nickName='{{goodsComment.commentUser.nickName}}' bindtap="bindReply" style='display:block;background:white;'>
+          <view data-commentId='{{goodsComment.id}}' data-replyId='{{goodsComment.commentUser.id}}' data-nickName='{{goodsComment.commentUser.nickName}}' data-goodsId='{{goodsComment.goodsId}}' bindtap="bindReply" style='display:block;background:white;'>
             <view class='firstComment'>
               <view>
                 <view class='user-image-info-left'>
@@ -53,6 +53,9 @@
                   </view>
                   <view class='comment-date'>{{goodsComment.commentDate}}</view>
                 </view>
+                <view class='user-add'>
+                    <image data-id='{{goodsComment.goodsId}}' class="user-image-small" src="../../images/back.png" bindtap='backGoods' />
+                  </view>
                 <view class="clear" style='clear: both;'></view>
               </view>
               <view class='content'>{{goodsComment.content}}</view>
