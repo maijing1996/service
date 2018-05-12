@@ -164,7 +164,7 @@
   display: inline-block;
   width: 50%;
   color: #777;
-  margin-top: 100rpx;
+  /* margin-top: 100rpx; */
 }
 
 .on {
@@ -174,9 +174,9 @@
 
 .swiper-box {
   display: block;
-  height: 100%;
-  width: 100%;
-  overflow: hidden;
+  /* height: 100%;
+  width: 100%; */
+  /* overflow: hidden; */
   background: #eee;
 }
 
@@ -185,11 +185,102 @@
 }
 
 .swiper-item-class {
-  margin-top: 200rpx;
+  margin-top: 100rpx;
 }
 .gender {
   width: 30rpx !important;
   height: 30rpx !important;
   margin:12rpx 10rpx 0rpx 10rpx;
 
+}
+
+
+/*评论  */
+.comment-title {
+  padding-left:10rpx; 
+  background-color: #EAE6E0;
+  color: #82674A;
+}
+.user-image-info-left {
+  float: left;
+}
+.user-right {
+  margin-left: 10rpx; 
+  float: left;
+  text-align: left;
+}
+.firstComment {
+  padding: 10rpx;
+  margin-bottom: 10rpx;
+  display: block;
+  /* border-bottom: 1rpx solid #808080; */
+}
+.comment-date {
+   float: left; 
+  font-size: 30rpx;
+  text-align: left;
+  color: #808080;
+}
+
+.content {
+  /* float: left; */
+  text-align:left !important;
+  color: #808080;
+  font-size: 30rpx;
+  margin-left:110rpx;
+  /* padding-right: 10rpx;  */
+  word-wrap:break-word;
+}
+.user-name-left {
+  float: left;
+}
+
+.secondComment {
+  margin: 0rpx 10rpx 10rpx 110rpx;  
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.reply {
+  color: #569CD6; 
+}
+/*评论框  */
+.input_null{
+color: #C9C9C9;
+}
+ 
+.release{
+display: flex;
+align-items: flex-end; /*底部对齐*/
+justify-content: space-between; /*两端对齐*/
+box-sizing: border-box;
+position: fixed;
+left: 0;
+bottom: 0rpx;
+width: 100%;
+padding: 18rpx 0 18rpx 30rpx;
+background-color: #F7F8F7;
+font-size: 28rpx;
+z-index: 999;
+}
+.release .text{
+width: 604rpx;
+min-height: 34rpx;
+max-height: 102rpx; /*最多显示三行*/
+border-width: 15rpx 20rpx; /*使用padding与预期留白不一致，故使用border*/
+border-style: solid;
+border-color: #ffffff;
+line-height: 34rpx;
+font-size: 28rpx;
+background-color: #ffffff;
+border-radius: 4rpx;
+}
+.release .submit{
+width: 116rpx;
+height: 64rpx;
+line-height: 64rpx;
+text-align: center;
+font-size:25rpx;
+color: #66CC00;
+background-color:transparent;
+ border: 0;
 }

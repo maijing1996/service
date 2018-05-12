@@ -13,7 +13,8 @@
     "pages/index/userInfoManage/userInfoManage",
     "pages/index/qr/qr",
     "pages/index/personalGoods/personalGoods",
-    "pages/index/statistics/statistics"
+    "pages/index/statistics/statistics",
+    "pages/index/message/message"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -47,7 +48,7 @@
       {
         "selectedIconPath": "pages/images/info-fill.png",
         "iconPath": "pages/images/info.png",
-        "pagePath": "pages/index/publishGoods/publishGoods",
+        "pagePath": "pages/index/message/message",
         "text": "消息"
       },
       {

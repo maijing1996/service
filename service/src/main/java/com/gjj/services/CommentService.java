@@ -104,24 +104,27 @@ public class CommentService {
     }
 
     public Long getUnreadCount(Integer userId) {
-        BooleanBuilder booleanBuilder = booleanBuilder(userId);
+        BooleanBuilder booleanBuilder = booleanBuilder(userId,"");
         Long count = commentRepository.count(booleanBuilder);
         return count;
     }
 
     public List getUnreadComment(Integer userId) {
-        BooleanBuilder booleanBuilder = booleanBuilder(userId);
-        List<Comment> list =  (List) commentRepository.findAll(booleanBuilder);
+        BooleanBuilder booleanBuilder = booleanBuilder(userId,"");
+        Sort sort = new Sort(Sort.Direction.DESC, "commentDate");
+        List<Comment> list =  (List) commentRepository.findAll(booleanBuilder,sort);
         return list;
     }
 
-    private BooleanBuilder booleanBuilder(Integer userId) {
+    private BooleanBuilder booleanBuilder(Integer userId,String type) {
         User user = authenticationUserService.getUser(userId);
         BooleanBuilder booleanBuilder = new BooleanBuilder();
         QComment qComment = QComment.comment;
         if (userId != null) {
             booleanBuilder.and(qComment.replyUser.eq(user));
-            booleanBuilder.and(qComment.read.eq(Read.UNREAD.getRead()));
+            if (!type.equals("all")) {
+                booleanBuilder.and(qComment.read.eq(Read.UNREAD.getRead()));
+            }
         }
         return booleanBuilder;
     }
@@ -133,4 +136,12 @@ public class CommentService {
             commentRepository.save(comment);
         }
     }
+
+    public List getUserComment(Integer userId) {
+        BooleanBuilder booleanBuilder = booleanBuilder(userId,"all");
+        Sort sort = new Sort(Sort.Direction.DESC, "commentDate");
+        List<Comment> list =  (List) commentRepository.findAll(booleanBuilder,sort);
+        return list;
+    }
+
 }

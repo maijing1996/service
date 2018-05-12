@@ -109,4 +109,14 @@ public class CommentController {
         return ResponseEntity.ok(null);
     }
 
+    /*某用户的所有评论
+    * */
+    @ResponseBody
+    @GetMapping("/comments/user/{userId}")
+    public ResponseEntity<?> getUserComment(@PathVariable Integer userId) {
+        List list = commentService.getUserComment(userId);
+        return ResponseEntity.ok(list);
+    }
+
+
 }

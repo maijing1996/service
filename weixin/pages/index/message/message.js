@@ -1,4 +1,4 @@
-// pages/index/statistics/statistics.js
+// pages/index/message/message.js
 import { serviceUrl, get, put, post, del } from '../api/api.js'
 Page({
 
@@ -11,10 +11,8 @@ Page({
     winHeight: 0,
     // tab切换  
     currentTab: 0,
-    nickName:'',
-    statistics:[],
-    allUsers:[],
-    // isCare:1,//关注里面的是否关注
+    goodsComments:[],
+    goodsAllComments:[],
   
   },
 
@@ -22,20 +20,10 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
-    var that = this;
-    wx.getStorage({
-      key: 'uid',
-      success: function (res) {
-        that.setData({
-          uid: res.data
-        })
-        that.getStatistics()
-      }
-    })
     /** 
-     * 获取系统信息 
-     */
+   * 获取系统信息 
+   */
+    var that = this;
     wx.getSystemInfo({
 
       success: function (res) {
@@ -46,6 +34,16 @@ Page({
       }
 
     }); 
+    wx.getStorage({
+      key: 'uid',
+      success: function (res) {
+        that.setData({
+          uid: res.data
+        })
+        that.getUnreadComment()
+        that.getAllComments()
+      }
+    })
   
   },
 
@@ -53,7 +51,6 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-   
   
   },
 
@@ -123,119 +120,108 @@ Page({
     }
   },
   /**
-   *查询
+   * 获取未读评论
    */
-  serachUsers: function(e) {
+  getUnreadComment: function() {
+    var that = this
+    get('/comments/unread/' + this.data.uid, null).then((res) => {
+      if (res.statusCode == '200') {
+        that.setData({
+          goodsComments: res.data
+        })
+      } else {
+        wx.showToast({
+          title: res.data.message,
+          icon: "none",
+          // image: '/pages/images/warning.png',
+          duration: 2000
+        })
+      }
+    });
+
+  },
+
+  /**
+   * 获取所有评论
+   */
+  getAllComments: function() {
+    var that = this
+    get('/comments/user/' + this.data.uid, null).then((res) => {
+      if (res.statusCode == '200') {
+        that.setData({
+          goodsAllComments: res.data
+        })
+      } else {
+        wx.showToast({
+          title: res.data.message,
+          icon: "none",
+          // image: '/pages/images/warning.png',
+          duration: 2000
+        })
+      }
+    });
+
+  },
+
+
+  replyCommentHandler: function (event) {
+    // console.log(event.detail.value.content);
+    // console.log(event.currentTarget.dataset);
+    var that = this;
+    console.log(event.detail.value)
+    if (event.detail.value.content == "") {
+      wx.showToast({
+        title: "评论不能为空",
+        icon: "none",
+        // image: '/pages/images/warning.png',
+        duration: 2000
+      })
+      return false;
+    }
+    var params = {
+      content: event.detail.value.content,
+      goodsId: this.data.goodsId,
+      replyCommentId: this.data.commentId
+    }
+    post('/comment/add/' + this.data.uid + '/reply/' + this.data.replyId, params).then((res) => {
+      if (res.statusCode == '200') {
+        wx.showToast({
+          title: '评论成功',
+          icon: 'success',
+          duration: 2000,
+          mask: true,
+          success: function () {
+            that.setData({
+              content: ''
+            });
+            that.getGoodsComment(that.data.goodsId);
+          }
+        })
+      } else {
+        wx.showToast({
+          title: res.data.message,
+          icon: "none",
+          // image: '/pages/images/warning.png',
+          duration: 2000
+        })
+      }
+    });
+
+  },
+  /**
+* 点击回复
+*/
+  bindReply: function (e) {
     this.setData({
-      nickName: e.detail.value
+      releaseFocus: true,
+      replyId: e.currentTarget.dataset.replyid,
+      commentId: e.currentTarget.dataset.commentid,
+      releaseName: e.currentTarget.dataset.nickname
     })
-    if (this.data.currentTab == 0) {
-      this.getStatistics();
-    } else {
-      this.getAllUsers();
-    }
   },
-  /** 
-   * 获取关注
-   */
-  getStatistics: function() {
-    var that = this
-    var params = {
-      nickName: this.data.nickName
-    }
-    get('/subscribe/getUsers/' + this.data.uid, params).then((res) => {
-      if (res.statusCode == '200') {
-        that.setData({
-          statistics: res.data
-        })
-      } else {
-        wx.showToast({
-          title: res.data.message,
-          icon: "none",
-          // image: '/pages/images/warning.png',
-          duration: 2000
-        })
-      }
-    });
-  },
-  /** 
-   * 获取全部
-   * 
-   */
-  getAllUsers: function() {
-    var that = this
-    var params = {
-      nickName: this.data.nickName
-    }
-    get('/subscribe/getAllUsers/' + this.data.uid, params).then((res) => {
-      if (res.statusCode == '200') {
-        that.setData({
-          allUsers: res.data
-        })
-      } else {
-        wx.showToast({
-          title: res.data.message,
-          icon: "none",
-          // image: '/pages/images/warning.png',
-          duration: 2000
-        })
-      }
-    });
-
-  },
-  /**
-   * 关注
-   */
-  care: function(e) {
-    var that = this;
-    var params = {
-      userId: e.currentTarget.dataset.id
-    }
-    post('/subscribe/addUser/' + this.data.uid, params).then((res) => {
-      if (res.statusCode == '200') {
-        // that.setData({
-        //   isCare: 1
-        // })
-         that.getAllUsers();
-      } else {
-        wx.showToast({
-          title: res.data.message,
-          icon: "none",
-          // image: '/pages/images/warning.png',
-          duration: 2000
-        })
-      }
-    });
-
-    
-
-  },
-  /**
-   * 取消关注
-   */
-  cancelCare: function(e) {
-    var that = this;
-    var params = {
-      passiveId: e.currentTarget.dataset.id
-    }
-    post('/subscribe/cancel/' + this.data.uid, params).then((res) => {
-      if (res.statusCode == '200') {
-        // that.setData({
-        //   isCare: 0
-        // })
-        that.getStatistics();
-        that.getAllUsers();
-      } else {
-        wx.showToast({
-          title: res.data.message,
-          icon: "none",
-          // image: '/pages/images/warning.png',
-          duration: 2000
-        })
-      }
-    });
-
+  backGoods: function(e) {
+    wx.navigateTo({
+      url: '../goodsDetails/goodsDetails?id=' + e.currentTarget.dataset.id
+    })
   }
-
-
 })

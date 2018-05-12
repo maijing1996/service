@@ -6,7 +6,7 @@
     </view>
     <view class="search-input">
       <image class="search-icon" src="../../images/search.png" mode="aspectFit" />
-      <input class="serach-text" value='{{goodsName}}' bindconfirm="serachGoods" placeholder="搜索商品" />
+      <input class="serach-text" value='{{nickName}}' bindconfirm="serachUsers" placeholder="搜索" />
     </view>
     <view class="scan">
       <!-- <image class="widgets-img" src="../../images/small-info.png" mode="aspectFit" /> -->
@@ -34,13 +34,14 @@
                 <view class='user-name-left'>{{item.nickName}}</view>
               </view>
               <view class='comment-date'>
-                  <image class='gender' wx:if="{{item.gender == 1}}" src="../../images/boy.png" />
-                  <image class='gender' wx:elif="{{item.gender == 0}}" src="../../images/girl.png" />
+                <image class='gender' wx:if="{{item.gender == 1}}" src="../../images/boy.png" />
+                <image class='gender' wx:elif="{{item.gender == 0}}" src="../../images/girl.png" />
               </view>
             </view>
             <view class='user-add'>
               <!-- <view> -->
-              <image class="user-image-small" src="../../images/publish-fill.png" />
+              <!-- <image wx:if="{{isCare == 0}}" data-id='{{item.id}}' class="user-image-small" src="../../images/publish-fill.png" bindtap='care' /> -->
+              <image data-id='{{item.id}}' class="user-image-small" src="../../images/true.png" bindtap='cancelCare' />
               <!-- </view> -->
             </view>
             <view class="clear" style='clear: both;'></view>
@@ -53,6 +54,31 @@
     <!-- 我是呵呵 -->
     <swiper-item class="swiper-item-class">
       <view>快来搜索吧</view>
+            <view wx:for="{{allUsers}}" wx:for-item="item" wx:key="index">
+        <view class='scorll' bindtap="">
+          <view>
+            <view class='user-image-info-left'>
+              <image class="user-image" src="{{item.avatarUrl}}" />
+            </view>
+            <view class='user-right'>
+              <view class='user-name-tr'>
+                <view class='user-name-left'>{{item.nickName}}</view>
+              </view>
+              <view class='comment-date'>
+                <image class='gender' wx:if="{{item.gender == 1}}" src="../../images/boy.png" />
+                <image class='gender' wx:elif="{{item.gender == 0}}" src="../../images/girl.png" />
+              </view>
+            </view>
+            <view class='user-add'>
+              <!-- <view> -->
+              <image wx:if="{{item.subscribe == 0}}" data-id='{{item.id}}' class="user-image-small" src="../../images/publish-fill.png" bindtap='care' />
+              <image wx:elif="{{item.subscribe == 1}}" data-id='{{item.id}}' class="user-image-small" src="../../images/true.png" bindtap='cancelCare' />
+              <!-- </view> -->
+            </view>
+            <view class="clear" style='clear: both;'></view>
+          </view>
+        </view>
+      </view>
     </swiper-item>
   </swiper>
 
