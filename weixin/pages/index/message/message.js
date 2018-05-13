@@ -228,8 +228,64 @@ Page({
     })
   },
   backGoods: function(e) {
+    this.changeRead(e.currentTarget.dataset.commentid);   
     wx.navigateTo({
       url: '../goodsDetails/goodsDetails?id=' + e.currentTarget.dataset.id
     })
-  }
+  },
+  /**
+   * 标记已读
+   */
+   changeRead: function(commentId) {
+     var that = this
+     get('/comments/isRead/' + commentId, null).then((res) => {
+       if (res.statusCode == '200') {
+         //  that.setData({
+         //    goodsAllComments: res.data
+         //  })
+         that.getUnreadComment()
+       } else {
+         wx.showToast({
+           title: res.data.message,
+           icon: "none",
+           // image: '/pages/images/warning.png',
+           duration: 2000
+         })
+       }
+     });
+   },
+
+  /**
+   * 全部为已读
+   */
+   allRead: function(){
+     var that = this
+     console.log("1212")
+     var list = []
+     for (var i = 0; i < this.data.goodsComments.length; i++) {
+      //  list.push(this.data.goodsComments[i].id);
+       get('/comments/isRead/' + this.data.goodsComments[i].id, null).then((res) => {
+         if (res.statusCode == '200') {
+           //  that.setData({
+           //    goodsAllComments: res.data
+           //  })
+         } else {
+           wx.showToast({
+             title: res.data.message,
+             icon: "none",
+             // image: '/pages/images/warning.png',
+             duration: 2000
+           })
+         }
+       });
+
+      //  console.log(this.data.goodsComments[i].id)
+     }
+     setTimeout(function () {
+       this.getUnreadComment()
+     }.bind(this), 1000)
+
+
+     
+   }
 })

@@ -88,7 +88,7 @@ App({
         }
       });
       that.getMessages(id);
-    },50000)
+    },2000)
   },
   globalData: {
     userInfo: null,

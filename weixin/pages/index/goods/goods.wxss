@@ -113,7 +113,7 @@ background:white;
 /*goods  */
 .scroll-view {
   background-color: #F4F5F9;
-  margin-top: 50rpx;
+  margin-top: 150rpx;
 }
 .goods {
   background-color: white;
@@ -206,4 +206,19 @@ background:white;
     -webkit-box-orient: vertical;
 
     -webkit-line-clamp:2;
+}
+.check {
+  position: fixed;
+  top: 50rpx;
+  width:100%;
+
+}
+
+.sectionA {
+  /* padding: 10rpx; */
+  /* margin: 0rpx 0rpx 1rpx 0rpx; */
+  border-bottom:1rpx solid #E5E5E5;
+  background: white;
+  width: 50%;
+  float: left;
 }

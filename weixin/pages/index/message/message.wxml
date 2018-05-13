@@ -12,6 +12,7 @@
       <!-- 我是哈哈 -->
       <swiper-item class="swiper-item-class">
         <scroll-view scroll-y class='scroll-view' bindscrolltoupper="upper" bindscrolltolower="lower" bindscroll="scroll" scroll-into-view="{{toView}}" scroll-top="{{scrollTop}}">
+          <view bindtap='allRead' style='color:#66CC00'>全部标记为已读</view>
           <view wx:for="{{goodsComments}}" wx:for-item="goodsComment" wx:key="index">
             <view data-commentId='{{goodsComment.id}}' data-replyId='{{goodsComment.commentUser.id}}' data-nickName='{{goodsComment.commentUser.nickName}}' data-goodsId='{{goodsComment.goodsId}}' bindtap="bindReply" style='display:block;background:white;'>
               <view class='firstComment'>
@@ -26,7 +27,7 @@
                     <view class='comment-date'>{{goodsComment.commentDate}}</view>
                   </view>
                   <view class='user-add'>
-                    <image data-id='{{goodsComment.goodsId}}' class="user-image-small" src="../../images/back.png" bindtap='backGoods' />
+                    <image data-commentid='{{goodsComment.id}}' data-id='{{goodsComment.goodsId}}' class="user-image-small" src="../../images/back.png" bindtap='backGoods' />
                   </view>
                   <view class="clear" style='clear: both;'></view>
                 </view>

@@ -19,6 +19,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -44,7 +45,6 @@ public class GoodsService {
     public Page<Map<String, Object>> getGoods (Integer id, String goodsName, String type, Integer customerId, Pageable pageable) {
         BooleanBuilder booleanBuilder = new BooleanBuilder();
         QGoods qGoods = QGoods.goods;
-
         if (id != null) {
             booleanBuilder.and(qGoods.user.id.eq(id));
         }
@@ -86,5 +86,24 @@ public class GoodsService {
 
     public void deleteGoods(Integer id) {
         goodsRepository.delete(id);
+    }
+
+    /**
+     * 获取某人的所有商品
+     */
+    public List<Goods> getAllGoodsByUser(Integer id, String goodsName, String type) {
+        BooleanBuilder booleanBuilder = new BooleanBuilder();
+        QGoods qGoods = QGoods.goods;
+        if (id != null) {
+            booleanBuilder.and(qGoods.user.id.eq(id));
+        }
+        if (goodsName != null && !goodsName.trim().isEmpty()) {
+            booleanBuilder.and(qGoods.goodsName.contains(goodsName));
+        }
+        if (type !=null && !type.trim().isEmpty()) {
+            booleanBuilder.and(qGoods.type.eq(type.trim()));
+        }
+        List<Goods> list = (List<Goods>)goodsRepository.findAll(booleanBuilder);
+        return list;
     }
 }

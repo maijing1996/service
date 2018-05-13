@@ -101,7 +101,7 @@
       </li>
       <li class="downButtonLi">
         <view class='itemli'>
-          <button bindtap='moreOperation' type="primary" size='mini'>操作</button>
+          <button  wx:if="{{uid == goodsDetails.user.id }}" bindtap='moreOperation' type="primary" size='mini'>操作</button>
         </view>
       </li>
     </ul>

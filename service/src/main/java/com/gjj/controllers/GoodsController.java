@@ -8,10 +8,12 @@ import com.gjj.exceptions.BusinessException;
 import com.gjj.exceptions.UnAuthorizedException;
 import com.gjj.models.Attachment;
 import com.gjj.models.Goods;
+import com.gjj.models.Subscribe;
 import com.gjj.models.User;
 import com.gjj.services.AttachmentService;
 import com.gjj.services.AuthenticationUserService;
 import com.gjj.services.GoodsService;
+import com.gjj.services.SubscribeService;
 import com.gjj.utils.ImageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -51,6 +53,9 @@ public class GoodsController {
 
     @Autowired
     private AuthenticationUserService authenticationUserService;
+
+    @Autowired
+    private SubscribeService subscribeService;
 
     @ResponseBody
     @GetMapping("/goods/{id}")
@@ -177,6 +182,21 @@ public class GoodsController {
     public ResponseEntity<?> deleteGoods(@PathVariable Integer id) {
         goodsService.deleteGoods(id);
         return ResponseEntity.ok(null);
+    }
+
+    @ResponseBody
+    @GetMapping("/goods/getFollow")
+    public ResponseEntity<?> getFollowGoods(@RequestParam(required = false, value = "id") Integer id,
+                                            @RequestParam(required = false, value = "goodsName") String goodsName,
+                                            @RequestParam(required = false, value = "type") String type) {
+        List list = new ArrayList();
+        List<Subscribe> subscribeList = subscribeService.getSubscribe(id, "");
+        for (Subscribe subscribe : subscribeList) {
+            List<Goods> goodsList = goodsService.getAllGoodsByUser(subscribe.getId(),goodsName,type);
+            list.addAll(goodsList);
+        }
+        return ResponseEntity.ok(list);
+
     }
 
 

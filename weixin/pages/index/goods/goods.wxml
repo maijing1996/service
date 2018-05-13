@@ -13,6 +13,24 @@
     </view>
     <view class="clear" style='clear: both;'></view>
   </view>
+  <view class='check'>
+     <view class="sectionA">
+        <!-- <view class="section__title">普通选择器</view> -->
+        <picker name='type' bindchange="bindPickerChangeDemo" value="{{followIndex}}" range="{{followList}}">
+          <view class="picker">
+            范围 {{followList[followIndex]}}
+          </view>
+        </picker>
+      </view>
+      <view class="sectionA">
+        <!-- <view class="section__title">普通选择器</view> -->
+        <picker name='type' bindchange="bindPickerChange" value="{{index}}" range="{{typeList}}">
+          <view class="picker">
+            类别 {{typeList[index]}}
+          </view>
+        </picker>
+      </view>
+  </view> 
   <scroll-view scroll-y class='scroll-view' bindscrolltoupper="upper" bindscrolltolower="lower" bindscroll="scroll" scroll-into-view="{{toView}}" scroll-top="{{scrollTop}}">
     <view wx:for="{{goodsList}}" wx:for-item="goods" wx:key="index">
       <view id="" class="goods" data-id="{{goods.id}}" bindtap="goodsDetails">

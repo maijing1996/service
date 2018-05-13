@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by gjj on 2018-05-05.
@@ -103,11 +105,12 @@ public class CommentController {
     }
 
     @ResponseBody
-    @GetMapping("/comments/isRead/{userId}")
-    public ResponseEntity<?> commentIsRead(@PathVariable Integer userId) {
-        commentService.commentIsRead(userId);
+    @GetMapping("/comments/isRead/{commentId}")
+    public ResponseEntity<?> commentIsRead(@PathVariable Integer commentId) {
+        commentService.commentIsRead(commentId);
         return ResponseEntity.ok(null);
     }
+
 
     /*某用户的所有评论
     * */

@@ -16,6 +16,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -50,7 +51,7 @@ public class CommentService {
             secondBooleanBuilder.and(secondQComment.goodsId.eq(goodsId));
             secondBooleanBuilder.and(secondQComment.replyCommentId.isNotNull());
         }
-        Sort sort = new Sort(Sort.Direction.ASC, "commentDate");
+        Sort sort = new Sort(Sort.Direction.ASC, "id");
         List<Comment> list = (List) commentRepository.findAll(booleanBuilder,sort);
         List<Comment> list2 = (List) commentRepository.findAll(secondBooleanBuilder,sort);
         /**
@@ -68,13 +69,19 @@ public class CommentService {
             secondComment.setReplyCommentId(comment.getReplyCommentId());
             secondComment.setRead(comment.getRead());
             for (Comment comment2 : list2) {
-
-                if (secondComment.getId().equals(comment2.getReplyCommentId())) {
-                    if (secondComment.getList() == null) {
-                        secondComment.setList(new ArrayList());
+                if (secondComment.getList() == null) {
+                    secondComment.setList(new ArrayList<Comment>());
+                }
+                for (Comment comment3 : secondComment.getList()) {
+                    if (comment3.getId().equals(comment2.getReplyCommentId())) {
+                        comment2.setReplyCommentId(secondComment.getId());
+                        continue;
                     }
+                }
+                if (secondComment.getId().equals(comment2.getReplyCommentId())) {
                     secondComment.getList().add(comment2);
                 }
+
             }
             commentList.add(secondComment);
         }
@@ -129,12 +136,17 @@ public class CommentService {
         return booleanBuilder;
     }
 
-    public void commentIsRead(Integer userId) {
-        List<Comment> list = getUnreadComment(userId);
-        for (Comment comment : list) {
+    public void commentIsRead(Integer commentId) {
+//        List<Comment> list = getUnreadComment(userId);
+//        for (Comment comment : list) {
+//            comment.setRead(Read.ALREADYREAD.getRead());
+//            commentRepository.save(comment);
+//        }
+
+            Comment comment = this.getOneComment(commentId);
             comment.setRead(Read.ALREADYREAD.getRead());
             commentRepository.save(comment);
-        }
+
     }
 
     public List getUserComment(Integer userId) {

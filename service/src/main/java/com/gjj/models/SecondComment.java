@@ -10,13 +10,13 @@ public class SecondComment extends Comment {
         super();
     }
 
-    private List list;
+    private List<Comment> list;
 
-    public List getList() {
+    public List<Comment> getList() {
         return list;
     }
 
-    public void setList(List list) {
+    public void setList(List<Comment> list) {
         this.list = list;
     }
 }

@@ -12,7 +12,12 @@ Page({
     pageSize: '',
     goodsName:'',
     totalPages:'',
-    type:''
+    index:'',
+    type:'',
+    typeList: ['全部', '闲置数码', '家具日用', '图书音像', '鞋服配饰', '美妆洗护', '文体户外', '办公用品', '其他'],
+    userId:'',
+    followIndex:'',
+    followList:['全部','已关注']
   },
 
   /**
@@ -80,6 +85,7 @@ Page({
       var params = {
         goodsName: this.data.goodsName,
         type: this.data.type,
+        id: this.data.userId,
         pageNum: this.data.pageNum + 1
       }
       this.freshGoods(params, true);
@@ -107,43 +113,68 @@ Page({
   freshGoods: function (params,loadingMore) {
     var that = this
     if (params == undefined) {
-      var params = {
+       params = {
         goodsName: this.data.goodsName,
         type: this.data.type,
+        id: this.data.userId,
         pageNum: 0
         //  pageSize: this.data.pageSize   
       }
-    }  
-    get('/goods', params).then((res) => {
-      if (res.statusCode == '200') {
-        console.log(res.data)
-        if (loadingMore == undefined) {
+    } 
+
+    if (this.data.followIndex == 1) {
+      get('/goods/getFollow', params).then((res) => {
+        if (res.statusCode == '200') {
           that.setData({
-            goodsList: res.data.content,
-            pageNum: res.data.number,
-            pageSize: res.data.size,
-            totalPages: res.data.totalPages
+            goodsList: res.data
           })
         } else {
-          that.setData({
-            goodsList: that.data.goodsList.concat(res.data.content),
-            pageNum: res.data.number,
-            pageSize: res.data.size,
-            totalPages: res.data.totalPages
-          })  
+          wx.showToast({
+            title: res.data.message,
+            icon: "none",
+            // image: '/pages/images/warning.png',
+            duration: 2000
+          })
         }
-        
-        
-      } else {
-        wx.showToast({
-          title: res.data.message,
-          icon: "none",
-          // image: '/pages/images/warning.png',
-          duration: 2000
-        })
-        // console.log(res.data.message)
-      }
-    });
+      });
+
+    } else {
+
+      get('/goods', params).then((res) => {
+        if (res.statusCode == '200') {
+          if (loadingMore == undefined) {
+            that.setData({
+              goodsList: res.data.content,
+              pageNum: res.data.number,
+              pageSize: res.data.size,
+              totalPages: res.data.totalPages
+            })
+          } else {
+            that.setData({
+              goodsList: that.data.goodsList.concat(res.data.content),
+              pageNum: res.data.number,
+              pageSize: res.data.size,
+              totalPages: res.data.totalPages
+            })
+          }
+
+
+        } else {
+          wx.showToast({
+            title: res.data.message,
+            icon: "none",
+            // image: '/pages/images/warning.png',
+            duration: 2000
+          })
+          // console.log(res.data.message)
+        }
+      });
+
+    }
+
+    
+
+
   },
 
   /**
@@ -206,5 +237,38 @@ Page({
   wx.navigateTo({
     url: '../goodsDetails/goodsDetails?id=' + e.currentTarget.dataset.id
     })
+  },
+  bindPickerChange: function (e) {
+    console.log('picker发送选择改变，携带值为', e.detail.value)
+    if (e.detail.value == 0) {
+      this.setData({
+        index: e.detail.value,
+        type: ''
+      })
+    } else {
+      this.setData({
+        index: e.detail.value,
+        type: this.data.typeList[e.detail.value]
+      })
+    }
+    
+    this.freshGoods()
+  },
+  bindPickerChangeDemo: function(e) {
+    var that = this;
+    console.log('picker发送选择改变，携带值为', e.detail.value)
+    if (e.detail.value == 0) {
+      this.setData({
+        followIndex: e.detail.value,
+        userId: ''
+      })
+    } else {
+      this.setData({
+        followIndex: e.detail.value,
+        userId: that.data.uid 
+      })
+    }
+
+    this.freshGoods()
   }
 })
