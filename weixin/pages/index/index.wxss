@@ -27,3 +27,41 @@
 .slide-image {
   width: 100%;
 }
+ec-canvas {
+  width: 100%;
+  height: 100%;
+}
+
+.containerIndex {
+  position: absolute;
+  top: 300rpx;
+  bottom: 0;
+  left: 0rpx;
+  right: 0;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+
+
+}
+
+#mychart-dom-multi-scatter {
+  position: absolute;
+  top: 60%;
+  bottom: 0;
+  left: 0;
+  right: 0;
+} 
+
+.user-image-small {
+  width: 50rpx;
+  height: 50rpx;
+  margin: auto;
+}
+.title {
+  padding: 5rpx;
+  text-align:center;
+}

@@ -222,3 +222,11 @@ background:white;
   width: 50%;
   float: left;
 }
+
+.picker {
+  color: #808080;
+  padding: 10rpx 10rpx 0rpx 10rpx;
+}
+.picker-value {
+  color: #11CD6E;
+}

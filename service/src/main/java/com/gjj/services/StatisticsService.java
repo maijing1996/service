@@ -38,4 +38,14 @@ public class StatisticsService {
         Long count = goodsRepository.count(booleanBuilder);
         return count;
     }
+
+    public Long getGoodsCountByType(String GoodsType) {
+        BooleanBuilder booleanBuilder = new BooleanBuilder();
+        QGoods qGoods = QGoods.goods;
+        if (GoodsType != null && !GoodsType.trim().isEmpty()) {
+            booleanBuilder.and(qGoods.type.eq(GoodsType));
+        }
+        Long  count = goodsRepository.count(booleanBuilder);
+        return count;
+    }
 }

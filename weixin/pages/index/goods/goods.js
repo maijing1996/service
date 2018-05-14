@@ -270,5 +270,11 @@ Page({
     }
 
     this.freshGoods()
+  },
+  messege: function() {
+    /**跳转 */
+    wx.switchTab({
+      url: '../message/message',
+    })
   }
 })

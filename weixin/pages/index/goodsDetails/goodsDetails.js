@@ -100,6 +100,12 @@ Page({
           // image: '/pages/images/warning.png',
           duration: 2000
         })
+        setTimeout(function(){
+          wx.navigateBack({
+            delta: 1
+          })
+        },500)
+        
       }
     });
   },
@@ -197,6 +203,39 @@ Page({
         } else if (res.tapIndex == 1) {
 
         } else if (res.tapIndex == 2) {
+
+          wx.showModal({
+            title: '提示',
+            content: '是否删除该商品？',
+            success: function (res) {
+              if (res.confirm) {
+                post('/goods/delete/' + that.data.goodsDetails.id, null).then((res) => {
+                  if (res.statusCode == '200') {
+                    wx.showToast({
+                      title: "删除成功",
+                      icon: "success",
+                      duration: 2000
+                    })
+                    wx.navigateBack({
+                      delta: 1
+                    })
+                  } else {
+                    wx.showToast({
+                      title: res.data.message,
+                      icon: "none",
+                      // image: '/pages/images/warning.png',
+                      duration: 2000
+                    })
+                  }
+                });
+
+              } else if (res.cancel) {
+                console.log('用户点击取消')
+              }
+            }
+          }) 
+
+
 
         }
         

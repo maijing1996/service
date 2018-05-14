@@ -19,6 +19,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Map;
 
@@ -33,11 +34,14 @@ public class GoodsService {
 
     public Goods getGoodsById(Integer id) {
         Goods goods;
-        try {
-            goods = goodsRepository.getOne(id);
-        } catch (BusinessException e) {
-            throw new UnAuthorizedException(ErrorCode.NOT_FOUND_GOODS, ErrorMessage.NOT_FOUND_GOODS);
-        }
+//        try {
+            goods = goodsRepository.findOne(id);
+            if (goods == null) {
+                throw new UnAuthorizedException(ErrorCode.NOT_FOUND_GOODS, ErrorMessage.NOT_FOUND_GOODS);
+            }
+//        } catch (BusinessException e) {
+//            throw new UnAuthorizedException(ErrorCode.NOT_FOUND_GOODS, ErrorMessage.NOT_FOUND_GOODS);
+//        }
         return goods;
     }
 

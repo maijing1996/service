@@ -9,4 +9,18 @@
       </block>
     </swiper>
   </view>
+  <!-- <view class='title'>
+  <image class="user-image-small" src="../images/bar.png" bindtap='cancelCare' />
+  统计</view> -->
+  <view class="containerIndex">
+    <view class='title'>
+      <image class="user-image-small" src="../images/bar.png" bindtap='cancelCare' /> 概况统计
+    </view>
+    <ec-canvas id="mychart-dom-bar" canvas-id="mychart-multi-scatter" ec="{{ ecBar }}"></ec-canvas>
+    <view class='title'>
+      <image class="user-image-small" src="../images/pie.png" bindtap='cancelCare' /> 商品类别统计
+    </view>
+    <ec-canvas id="mychart-dom-multi-scatter" canvas-id="mychart-bar" ec="{{ ecFar }}"></ec-canvas>
+   <view class="clear" style='clear: both;'></view>
+  </view>
 </view>
