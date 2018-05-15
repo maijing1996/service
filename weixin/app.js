@@ -34,11 +34,18 @@ App({
                   }
                   get('/weChat/getUserInfo', params).then((res) => {
                     if (res.statusCode == '200') {
-                      console.log(res.data)
+                      // console.log(res.data)
                       wx.setStorage({
                         key: "uid",
                         data: res.data.id
                       })
+                      // console.log("橘色" +res.data.role )
+                      that.globalData.role = res.data.role 
+                      if (res.data.state == 1) {
+                        wx.redirectTo({
+                          url: './error/error'
+                        })
+                      }
                       if (res.data.username == "" || res.data.username == null) {
                         wx.redirectTo({
                           url: './register/register?id=' + res.data.id,
@@ -92,7 +99,9 @@ App({
   },
   globalData: {
     userInfo: null,
-    code: ''
+    code: '',
+    role:'',
+    state:''
   },
   wxValidate: (rules, messages) => new wxValidate(rules, messages)
 })

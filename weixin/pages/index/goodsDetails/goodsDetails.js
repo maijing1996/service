@@ -1,4 +1,5 @@
 // pages/index/goodsDetails/goodsDetails.js
+const app = getApp()
 import { serviceUrl, get, put, post, del } from '../api/api.js'
 Page({
 
@@ -14,7 +15,8 @@ Page({
     replyId:'',
     commentId:'',
     releaseName: '',
-    releaseFocus: false
+    releaseFocus: false,
+    role: ''
 
   },
 
@@ -33,8 +35,12 @@ Page({
         })
       }
     })
+    this.setData({
+      role: app.globalData.role 
+    })
     this.getGoodsDetails(options.id)
     this.getGoodsComment(options.id)
+    console.log("角色" + this.data.role)
   },
 
   /**
@@ -184,6 +190,44 @@ Page({
       releaseName: e.currentTarget.dataset.nickname 
     })
   },
+  /**
+   * 长按删除
+   */
+  deleteReply: function(e){
+    var that = this
+    if (this.data.uid == e.currentTarget.dataset.replyid) {
+
+      wx.showModal({
+        title: '提示',
+        content: '是否删除该评论？',
+        success: function (res) {
+          if (res.confirm) {
+            post('/comment/delete/' + e.currentTarget.dataset.commentid, null).then((res) => {
+              if (res.statusCode == '200') {
+                wx.showToast({
+                  title: "删除成功",
+                  icon: "success",
+                  duration: 2000
+                })
+                that.getGoodsComment(that.data.goodsId);
+              } else {
+                wx.showToast({
+                  title: res.data.message,
+                  icon: "none",
+                  // image: '/pages/images/warning.png',
+                  duration: 2000
+                })
+              }
+            });
+
+          } else if (res.cancel) {
+            console.log('用户点击取消')
+          }
+        }
+      }) 
+
+    }
+  },
 
 
 
@@ -193,7 +237,7 @@ Page({
   moreOperation: function () {
     var that = this;
     wx.showActionSheet({
-      itemList: ['生成二维码', '修改', '删除'],
+      itemList: ['生成交易二维码', '删除'],
       success: function (res) {
         if (res.tapIndex == 0) {
           console.log("res.tapIndex")
@@ -201,8 +245,6 @@ Page({
             url: '../qr/qr?id=' + that.data.goodsDetails.id + '&goodsName=' + that.data.goodsDetails.goodsName 
           })
         } else if (res.tapIndex == 1) {
-
-        } else if (res.tapIndex == 2) {
 
           wx.showModal({
             title: '提示',

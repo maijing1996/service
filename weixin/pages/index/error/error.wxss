@@ -1,0 +1,6 @@
+/* pages/index/error/error.wxss */
+.error {
+  font-size: 30rpx;
+  padding:10rpx;
+
+}

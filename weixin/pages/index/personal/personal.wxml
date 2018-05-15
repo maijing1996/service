@@ -15,6 +15,15 @@
       </view> -->
     </view>
   </view>
+  <view wx:if="{{role == 1}}">
+    <view class="graySpace"></view>
+    <view class="item-avatar-xs" data-url="../userAdmin/userAdmin" bindtap="goPage">
+      <image src="../../images/user-controller.png" />
+      <view style="padding-left:10px">
+        <text class="title">用户管理</text>
+      </view>
+    </view>
+  </view>
   <view wx:for="{{list}}" wx:key="index" wx:for-item="item">
     <view class="graySpace"></view>
     <view class="item-avatar-xs" wx:for="{{item.list_tool}}" wx:key="index" wx:for-item="i" data-log="{{i.name}}" data-url="{{i.url}}" bindtap="goPage">

@@ -1,0 +1,54 @@
+<!--pages/index/statistics/statistics.wxml-->
+<view>
+  <view class="search">
+    <!-- <view class="scan">
+      <image class="widgets-img" bindtap="scanQr" src="../../images/scan.png" mode="aspectFit" />
+    </view> -->
+    <view class="search-input">
+      <image class="search-icon" src="../../images/search.png" mode="aspectFit" />
+      <input class="serach-text" value='{{nickName}}' bindconfirm="serachUsers" placeholder="搜索" />
+    </view>
+    <view class="scan">
+      <!-- <image class="widgets-img" src="../../images/small-info.png" mode="aspectFit" /> -->
+    </view>
+    <view class="clear" style='clear: both;'></view>
+  </view>
+  
+   <view class='content'>
+    <view wx:for="{{allUsers}}" wx:for-item="item" wx:key="index">
+        <view class='scorll' bindtap="">
+          <view>
+            <view class='user-image-info-left'>
+              <image class="user-image" src="{{item.avatarUrl}}" />
+            </view>
+            <view class='user-right'>
+              <view class='user-name-tr'>
+                <view class='user-name-left'>{{item.nickName}}</view>
+              </view>
+              <view class='comment-date'>
+                <image class='gender' wx:if="{{item.gender == 1}}" src="../../images/boy.png" />
+                <image class='gender' wx:elif="{{item.gender == 0}}" src="../../images/girl.png" />
+              </view>
+            </view>
+            <view class='user-add'>
+              <!-- <view> -->
+              <view class='state' wx:if="{{item.state == 0}}" data-message='禁用状态' data-id='{{item.id}}' data-state='1' bindtap='userAdmin'>正常状态 </view>
+              <view class='state-a' wx:elif="{{item.state == 1}}" data-message='正常状态' data-id='{{item.id}}' data-state='0' bindtap='userAdmin' >禁用状态</view>
+              <!-- </view> -->
+            </view>
+            <view class="clear" style='clear: both;'></view>
+          </view>
+        </view>
+      </view>
+
+   
+   
+   </view>
+  
+
+
+
+
+
+
+</view>

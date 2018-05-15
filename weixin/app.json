@@ -14,7 +14,10 @@
     "pages/index/qr/qr",
     "pages/index/personalGoods/personalGoods",
     "pages/index/statistics/statistics",
-    "pages/index/message/message"
+    "pages/index/message/message",
+    "pages/index/error/error",
+    "pages/index/userAdmin/userAdmin",
+    "pages/index/activity/activity"
   ],
   "window": {
     "backgroundTextStyle": "light",

@@ -65,8 +65,12 @@ public class LoginInfo {
         Map<String,Object> map = new HashMap<>();
         Integer id = authenticationUserService.getUserIdByOpenid(openid);
         String username = authenticationUserService.getUsernameByOpenid(openid);
+        Integer role = authenticationUserService.getUserRoleByOpenid(openid);
+        Integer state = authenticationUserService.getUserStateByOpenid(openid);
         map.put("id",id);
         map.put("username",username);
+        map.put("role",role);
+        map.put("state",state);
         return ResponseEntity.ok(map);
     }
 

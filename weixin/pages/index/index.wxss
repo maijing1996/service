@@ -62,6 +62,6 @@ ec-canvas {
   margin: auto;
 }
 .title {
-  padding: 5rpx;
+  padding-top:10rpx;
   text-align:center;
 }

@@ -18,7 +18,8 @@ Page({
     replyId: '',
     commentId: '',
     releaseName: '',
-    releaseFocus: false
+    releaseFocus: false,
+    refresh:1
   
   },
 
@@ -44,7 +45,8 @@ Page({
       key: 'uid',
       success: function (res) {
         that.setData({
-          uid: res.data
+          uid: res.data,
+          refresh:2
         })
         that.getUnreadComment()
         that.getAllComments()
@@ -64,6 +66,18 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
+      //  this.getUnreadComment()
+      //  this.getAllComments()
+    var that = this
+    this.setData({
+      refresh: this.data.refresh + 1
+    })
+    // console.log(this.data.refresh)
+    if (this.data.refresh >= 3) {
+      this.getUnreadComment()
+      this.getAllComments()
+
+    }
   
   },
 

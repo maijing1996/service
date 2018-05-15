@@ -33,7 +33,7 @@
       <view class='comment'>
         <view class='comment-title'>评论</view>
         <view wx:for="{{goodsComments}}" wx:for-item="goodsComment" wx:key="index">
-          <view data-commentId='{{goodsComment.id}}' data-replyId='{{goodsComment.commentUser.id}}' data-nickName='{{goodsComment.commentUser.nickName}}' bindtap="bindReply" style='display:block'>
+          <view data-commentId='{{goodsComment.id}}' data-replyId='{{goodsComment.commentUser.id}}' data-nickName='{{goodsComment.commentUser.nickName}}' bindlongtap='deleteReply' bindtap="bindReply" style='display:block'>
             <view class='firstComment'>
               <view>
                 <view class='user-image-info-left'>
@@ -57,7 +57,7 @@
           </view>
 
           <view wx:for="{{goodsComment.list}}" wx:for-item="replyComment" wx:key="index">
-            <view class='secondComment' data-commentId='{{replyComment.id}}' data-replyId='{{replyComment.commentUser.id}}' data-nickName='{{replyComment.commentUser.nickName}}' bindtap="bindReply">
+            <view class='secondComment' data-commentId='{{replyComment.id}}' data-replyId='{{replyComment.commentUser.id}}' data-nickName='{{replyComment.commentUser.nickName}}' bindlongtap='deleteReply' bindtap="bindReply">
               <view>
                 <view class='user-image-info-left'>
                   <image class="user-image" src="{{replyComment.commentUser.avatarUrl}}" />
@@ -101,7 +101,7 @@
       </li>
       <li class="downButtonLi">
         <view class='itemli'>
-          <button  wx:if="{{uid == goodsDetails.user.id }}" bindtap='moreOperation' type="primary" size='mini'>操作</button>
+          <button  wx:if="{{uid == goodsDetails.user.id || role == 1}}" bindtap='moreOperation' type="primary" size='mini'>操作</button>
         </view>
       </li>
     </ul>

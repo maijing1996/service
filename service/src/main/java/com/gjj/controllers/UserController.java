@@ -75,6 +75,16 @@ public class UserController {
         return ResponseEntity.ok(list);
     }
 
+    @ResponseBody
+    @PostMapping("/admin/personal/management/{id}/state/{state}")
+    public ResponseEntity<?> adminControllerUser(@PathVariable(value = "id") Integer id,
+                                                 @PathVariable(value = "state") Integer state) {
+        User user = authenticationUserService.getUser(id);
+        user.setState(state);
+        authenticationUserService.saveUser(user);
+        return ResponseEntity.ok(state);
+    }
+
 
 
 }

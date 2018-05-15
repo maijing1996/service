@@ -117,6 +117,14 @@ public class AuthenticationUserService {
         return userRepository.getUsernameByOpenid(openid);
     }
 
+    public Integer getUserRoleByOpenid(String openid) {
+        return userRepository.getUserRoleByOpenid(openid);
+    }
+
+    public Integer getUserStateByOpenid(String openid) {
+        return userRepository.getUserStateByOpenid(openid);
+    }
+
     public void saveUser(User user) {
         userRepository.save(user);
     }

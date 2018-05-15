@@ -8,6 +8,7 @@ Page({
   data: {
     uid: '',
     userInfo: '',
+    role:'',
     list: [
       {
         list_tool: [
@@ -65,8 +66,10 @@ Page({
       }
     })
     console.log(app.globalData.userInfo)
+    console.log(app.globalData.role)
     that.setData({
-      userInfo: app.globalData.userInfo
+      userInfo: app.globalData.userInfo,
+      role: app.globalData.role
     })
 
   },
@@ -135,4 +138,10 @@ Page({
       })
     }
   },
+  goPageAdmin: function() {
+    console.log("1")
+    wx.navigateTo({
+      url: '../userInfoManage/userInfoManage'
+    })
+  }
 })

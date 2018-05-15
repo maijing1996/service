@@ -24,4 +24,11 @@ public interface UserRepository extends JpaRepository<User,Integer>, QueryDslPre
     @Query(value="select u.username from user u where u.openid = ?1", nativeQuery = true)
     String  getUsernameByOpenid (String openid);
 
+    @Query(value="select u.role from user u where u.openid = ?1", nativeQuery = true)
+    Integer getUserRoleByOpenid (String openid);
+
+    @Query(value="select u.state from user u where u.openid = ?1", nativeQuery = true)
+    Integer getUserStateByOpenid (String openid);
+
+
 }
