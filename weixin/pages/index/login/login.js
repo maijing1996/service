@@ -12,7 +12,8 @@ Page({
       password: '',
       rePassword: '',
       qq: '',
-      mobile: ''
+      mobile: '',
+      code:''
     }
   },
 
@@ -151,5 +152,44 @@ Page({
         })
       }
     });
+  },
+  /**
+   * 微信授权的登陆
+   */
+  weLogin: function() {
+    var that = this;
+    wx.showModal({
+      title: '提示',
+      content: '是否微信授权登陆？',
+      success: function (res) {
+        if (res.confirm) {
+          // 登录
+          wx.login({
+            success: res => {
+              // 发送 res.code 到后台换取 openId, sessionKey, unionId
+
+              // that.data.globalData.code = res.code;
+              that.setData({
+                code: res.code
+              })
+              // 获取用户信息
+              wx.getSetting({
+                success: res => {
+                  if (res.authSetting['scope.userInfo']) {
+                    // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
+                    /**跳转 */
+                    wx.switchTab({
+                      url: '/pages/index/index'
+                    })
+                  }
+                }
+              })
+            }
+          })
+        } else if (res.cancel) {
+          console.log('用户点击取消')
+        }
+      }
+    })
   }
 })
