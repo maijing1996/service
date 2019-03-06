@@ -3,13 +3,14 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/transaction?characterEncoding=utf8&useSSL=true
+    url: jdbc:mysql://127.0.0.1:3306/transaction?characterEncoding=utf8&useSSL=true&useUnicode=true&serverTimeZone=UTC
     username: root
-    password: 1996921
-  jpa:
-    hibernate:
-      ddl-auto: update
-    show-sql: true
+    password: imagedt
+#  jpa:
+#    hibernate:
+#      ddl-auto: update
+#      naming.physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+#    show-sql: true
   data:
       rest:
         base-path: /
@@ -22,3 +23,11 @@ spring:
     location: G:\transaction\img
     url: http://192.168.1.100:8088/images/
     #url: http://192.168.43.231:8088/images/
+mybatis:
+  mapper-locations: classpath*:mapper/*Mapper.xml
+  configuration:
+    map-underscore-to-camel-case: true
+
+pagehelper:
+  helperDialect: mysql
+  pageSizeZero: true
