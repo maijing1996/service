@@ -40,6 +40,6 @@ public class BusinessExceptionController {
     public @ResponseBody
     ResponseEntity<?> handleBizExp(Exception ex) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessageBuilder
-                .build(HttpStatus.INTERNAL_SERVER_ERROR.value(), ex.getMessage(), "服务器发生错误，我们会尽快处理"));
+                .build2(HttpStatus.INTERNAL_SERVER_ERROR.value(), ex.getMessage(), "服务器发生错误，我们会尽快处理"));
     }
 }

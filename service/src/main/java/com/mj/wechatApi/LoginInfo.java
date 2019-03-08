@@ -8,7 +8,8 @@ import com.mj.enums.UserRole;
 import com.mj.enums.UserState;
 import com.mj.exceptions.UnAuthorizedException;
 import com.mj.model.User;
-import com.mj.service.AuthenticationUserService;
+import com.mj.service.Impl.UserServiceImpl;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +26,7 @@ import java.util.Map;
 /**
  * Created by mj on 2018-03-25.
  */
+@Slf4j
 @RestController
 public class LoginInfo {
     private static String URL = "https://api.weixin.qq.com/sns/jscode2session";
@@ -32,7 +34,7 @@ public class LoginInfo {
     private static String SECRET = "d07b846ba63c994f65b7ff2b9a3843d7";
 
     @Autowired
-    private AuthenticationUserService authenticationUserService;
+    private UserServiceImpl userService;
 
     @ResponseBody
     @GetMapping("/weChat/getUserInfo")
@@ -40,6 +42,7 @@ public class LoginInfo {
                                      @RequestParam(required = false, value = "nickName") String nickName,
                                      @RequestParam(required = false, value = "avatarUrl") String avatarUrl,
                                      @RequestParam(required = false, value = "gender") String gender) {
+        log.info(code);
         String params = "appid="+ APPID +"&secret="+ SECRET +"&js_code="+ code +"&grant_type=authorization_code";
         String result = sendGet(URL,params);
         ObjectMapper objectMapper = new ObjectMapper();
@@ -49,10 +52,12 @@ public class LoginInfo {
              JsonNode jsonNode = objectMapper.readTree(result);
              session_key = jsonNode.get("session_key").textValue().trim();
              openid = jsonNode.get("openid").textValue().trim();
+             log.info(openid);
         } catch (IOException e){
             throw new UnAuthorizedException(ErrorCode.JSON_TO_OBJECT_ERROR, ErrorMessage.ERROR_CHANGE_TYPE);
         }
-        if (!authenticationUserService.isExistUser(openid)) {
+        Boolean existUser = userService.isExistUser(openid);
+        if (!existUser) {
             User user = new User();
             user.setOpenid(openid.trim());
             user.setNickName(nickName.trim());
@@ -60,13 +65,13 @@ public class LoginInfo {
             user.setGender(gender.trim());
             user.setRole(UserRole.ORDINARY.getRole());
             user.setState(UserState.NORMAL.getState());
-            authenticationUserService.addWechatUser(user);
+            userService.addWechatUser(user);
         }
         Map<String,Object> map = new HashMap<>();
-        Integer id = authenticationUserService.getUserIdByOpenid(openid);
-        String username = authenticationUserService.getUsernameByOpenid(openid);
-        Integer role = authenticationUserService.getUserRoleByOpenid(openid);
-        Integer state = authenticationUserService.getUserStateByOpenid(openid);
+        Integer id = userService.getUserIdByOpenid(openid);
+        String username = userService.getUsernameByOpenid(openid);
+        Integer role = userService.getUserRoleByOpenid(openid);
+        Integer state = userService.getUserStateByOpenid(openid);
         map.put("id",id);
         map.put("username",username);
         map.put("role",role);

@@ -8,8 +8,9 @@ import com.mj.enums.Read;
 import com.mj.exceptions.UnAuthorizedException;
 import com.mj.model.Comment;
 import com.mj.model.User;
-import com.mj.service.AuthenticationUserService;
-import com.mj.service.CommentService;
+import com.mj.service.Impl.UserServiceImpl;
+import com.mj.service.Impl.CommentServiceImpl;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,16 +21,17 @@ import java.util.List;
 /**
  * Created by mj on 2018-05-05.
  */
+@Slf4j
+@ResponseBody
 @RestController
 public class CommentController {
 
     @Autowired
-    private CommentService commentService;
+    private CommentServiceImpl commentService;
 
     @Autowired
-    private AuthenticationUserService authenticationUserService;
+    private UserServiceImpl userService;
 
-    @ResponseBody
     @GetMapping("/comments/{goodsId}")
     public ResponseEntity<?> getComments(@PathVariable Integer goodsId) {
         List list = commentService.getComments(goodsId);
@@ -46,14 +48,13 @@ public class CommentController {
     }
      * @return
      */
-    @ResponseBody
     @PostMapping("/comment/add/{userId}/reply/{replyId}")
     public ResponseEntity<?> addComment(@PathVariable(value = "userId") Integer userId,
                                         @PathVariable(value = "replyId") Integer replyId,
                                         @RequestBody JsonNode jsonNode) {
         Comment comment = new Comment();
-        User commentUser = authenticationUserService.getUser(userId);
-        User replyUser = authenticationUserService.getUser(replyId);
+        User commentUser = userService.getUser(userId);
+        User replyUser = userService.getUser(replyId);
         try {
             comment = new ObjectMapper().readValue(jsonNode.traverse(), Comment.class);
 //            String content = jsonNode.path("content").textValue();
@@ -67,6 +68,7 @@ public class CommentController {
 //            comment.setReplyCommentId(replyCommentId);
             comment.setCommentDate(new Date());
             comment.setUser(commentUser);
+            comment.setUserId(userId);
             comment.setReplyUser(replyUser);
             comment.setRead(Read.UNREAD.getRead());
         } catch (Exception e) {
@@ -77,7 +79,6 @@ public class CommentController {
     }
 
 
-    @ResponseBody
     @PostMapping("/comment/delete/{commentId}")
     public ResponseEntity<?> deleteComment(@PathVariable(value = "commentId") Integer commentId) {
 
@@ -86,31 +87,31 @@ public class CommentController {
         return ResponseEntity.ok(null);
     }
 
-    @ResponseBody
     @GetMapping("/comments/unread/count/{userId}")
     public ResponseEntity<?> getUnreadCount(@PathVariable Integer userId) {
-        Long count = commentService.getUnreadCount(userId);
+        Integer count = commentService.getUnreadCount(userId);
         return ResponseEntity.ok(count);
     }
 
-    @ResponseBody
     @GetMapping("/comments/unread/{userId}")
     public ResponseEntity<?> getUnreadComment(@PathVariable Integer userId) {
         List list = commentService.getUnreadComment(userId);
         return ResponseEntity.ok(list);
     }
 
-    @ResponseBody
     @GetMapping("/comments/isRead/{commentId}")
     public ResponseEntity<?> commentIsRead(@PathVariable Integer commentId) {
+        log.info(commentId.toString());
         commentService.commentIsRead(commentId);
         return ResponseEntity.ok(null);
     }
 
 
-    /*某用户的所有评论
-    * */
-    @ResponseBody
+    /**
+     * 用户所有评论
+     * @param userId
+     * @return
+     */
     @GetMapping("/comments/user/{userId}")
     public ResponseEntity<?> getUserComment(@PathVariable Integer userId) {
         List list = commentService.getUserComment(userId);

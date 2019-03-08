@@ -1,6 +1,10 @@
 package com.mj.model;
 
 import com.fasterxml.jackson.annotation.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -10,13 +14,16 @@ import java.util.Set;
  * Created by mj on 2018-03-04
  */
 @Entity
+@Data
+@Builder
 @Table(name = "user")
-@JsonIgnoreProperties(value={"hibernateLazyInitializer","handler","goods","users"})
+@NoArgsConstructor
+@AllArgsConstructor
+//@JsonIgnoreProperties(value={"hibernateLazyInitializer","handler","goods","users"})
 public class User extends SubscribeUser{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    @JsonProperty("id")
     private Integer id;
 
     @JsonIgnore
@@ -61,135 +68,15 @@ public class User extends SubscribeUser{
 
 //    @JsonIgnore
 // @JsonProperty("user_goods")
-    @JsonBackReference(value = "b")
-    @OneToMany(targetEntity = Goods.class,fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.REMOVE)
+//    @JsonBackReference(value = "b")
+//    @OneToMany(targetEntity = Goods.class,fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.REMOVE)
+    @Transient
     private Set<Goods> goods = new HashSet<>();
 
-    @ManyToMany(targetEntity = User.class)
-    @JsonBackReference(value = "a")
-    @JoinTable(name = "user_relation", joinColumns = @JoinColumn(name = "active_id"), inverseJoinColumns = @JoinColumn(name = "passive_id"))
+//    @ManyToMany(targetEntity = User.class)
+//    @JsonBackReference(value = "a")
+//    @JoinTable(name = "user_relation", joinColumns = @JoinColumn(name = "active_id"), inverseJoinColumns = @JoinColumn(name = "passive_id"))
+    @Transient
     private Set<User> users = new HashSet<>();
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Integer getState() {
-        return state;
-    }
-
-    public void setState(Integer state) {
-        this.state = state;
-    }
-
-    public Integer getRole() {
-        return role;
-    }
-
-    public void setRole(Integer role) {
-        this.role = role;
-    }
-
-    public String getMobile() {
-        return mobile;
-    }
-
-    public void setMobile(String mobile) {
-        this.mobile = mobile;
-    }
-
-    public String getQq() {
-        return qq;
-    }
-
-    public void setQq(String qq) {
-        this.qq = qq;
-    }
-
-    public Set<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(Set<User> users) {
-        this.users = users;
-    }
-
-    public Set<Goods> getGoods() {
-        return goods;
-    }
-
-    public void setGoods(Set<Goods> goods) {
-        this.goods = goods;
-    }
-
-    public String getOpenid() {
-        return openid;
-    }
-
-    public void setOpenid(String openid) {
-        this.openid = openid;
-    }
-
-    public String getNickName() {
-        return nickName;
-    }
-
-    public void setNickName(String nickName) {
-        this.nickName = nickName;
-    }
-
-    public String getAvatarUrl() {
-        return avatarUrl;
-    }
-
-    public void setAvatarUrl(String avatarUrl) {
-        this.avatarUrl = avatarUrl;
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", openid='" + openid + '\'' +
-                ", username='" + username + '\'' +
-                ", nickName='" + nickName + '\'' +
-                ", password='" + password + '\'' +
-                ", state=" + state +
-                ", role=" + role +
-                ", mobile='" + mobile + '\'' +
-                ", qq='" + qq + '\'' +
-                ", avatarUrl='" + avatarUrl + '\'' +
-                ", gender='" + gender + '\'' +
-//                ", goods=" + goods +
-//                ", users=" + users +
-                '}';
-    }
 }

@@ -6,7 +6,7 @@ import com.mj.enums.ErrorCode;
 import com.mj.enums.ErrorMessage;
 import com.mj.exceptions.UnAuthorizedException;
 import com.mj.model.User;
-import com.mj.service.AuthenticationUserService;
+import com.mj.service.Impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,12 +19,12 @@ import java.util.List;
 @RestController
 public class UserController {
     @Autowired
-    private AuthenticationUserService authenticationUserService;
+    private UserServiceImpl userService;
 
     @ResponseBody
     @GetMapping("/user/{id}")
     public ResponseEntity<?> getUser(@PathVariable Integer id) {
-        User user = authenticationUserService.getUser(id);
+        User user = userService.getUser(id);
         return ResponseEntity.ok(user);
     }
 
@@ -33,7 +33,7 @@ public class UserController {
     public ResponseEntity<?> auth(@RequestBody JsonNode jsonNode) throws Exception {
         String username = jsonNode.path("username").textValue();
         String password = jsonNode.path("password").textValue();
-        User user = authenticationUserService.AuthenticateUser(username,password);
+        User user = userService.AuthenticateUser(username,password);
         return ResponseEntity.ok(user);
     }
 
@@ -46,12 +46,12 @@ public class UserController {
         } catch (IOException e) {
             throw new UnAuthorizedException(ErrorCode.JSON_TO_OBJECT_ERROR, ErrorMessage.ERROR_CHANGE_TYPE);
         }
-        User oldUser = authenticationUserService.getUser(id);
+        User oldUser = userService.getUser(id);
         oldUser.setUsername(user.getUsername());
         oldUser.setPassword(user.getPassword());
         oldUser.setQq(user.getQq());
         oldUser.setMobile(user.getMobile());
-        authenticationUserService.addUser(oldUser);
+        userService.updateUser(oldUser, id);
         return ResponseEntity.ok(null);
     }
 
@@ -64,14 +64,14 @@ public class UserController {
         } catch (IOException e) {
             throw new UnAuthorizedException(ErrorCode.JSON_TO_OBJECT_ERROR, ErrorMessage.ERROR_CHANGE_TYPE);
         }
-        authenticationUserService.updateUser(userUpdate, id);
+        userService.updateUser(userUpdate, id);
         return ResponseEntity.ok(null);
     }
 
     @ResponseBody
     @GetMapping("/users")
     public ResponseEntity<?> getAllUser(@RequestParam(value = "nickName", required = false) String nickName) {
-        List<User> list = authenticationUserService.getAllUser(nickName);
+        List<User> list = userService.getAllUser(nickName);
         return ResponseEntity.ok(list);
     }
 
@@ -79,9 +79,9 @@ public class UserController {
     @PostMapping("/admin/personal/management/{id}/state/{state}")
     public ResponseEntity<?> adminControllerUser(@PathVariable(value = "id") Integer id,
                                                  @PathVariable(value = "state") Integer state) {
-        User user = authenticationUserService.getUser(id);
+        User user = userService.getUser(id);
         user.setState(state);
-        authenticationUserService.saveUser(user);
+        userService.saveUser(user);
         return ResponseEntity.ok(state);
     }
 

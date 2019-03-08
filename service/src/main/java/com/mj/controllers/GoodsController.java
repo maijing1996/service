@@ -2,6 +2,7 @@ package com.mj.controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.pagehelper.PageInfo;
 import com.mj.enums.ErrorCode;
 import com.mj.enums.ErrorMessage;
 import com.mj.exceptions.BusinessException;
@@ -10,16 +11,13 @@ import com.mj.model.Attachment;
 import com.mj.model.Goods;
 import com.mj.model.Subscribe;
 import com.mj.model.User;
-import com.mj.service.AttachmentService;
-import com.mj.service.AuthenticationUserService;
-import com.mj.service.GoodsService;
-import com.mj.service.SubscribeService;
+import com.mj.service.Impl.AttachmentServiceImpl;
+import com.mj.service.Impl.GoodsServiceImpl;
+import com.mj.service.Impl.SubscribeServiceImpl;
+import com.mj.service.Impl.UserServiceImpl;
 import com.mj.utils.ImageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -43,21 +41,25 @@ public class GoodsController {
     private String imagesUrl;
 
     @Autowired
-    private GoodsService goodsService;
+    private GoodsServiceImpl goodsService;
 
     @Autowired
-    private AttachmentService attachmentService;
+    private AttachmentServiceImpl attachmentService;
 
     @Autowired
-    private AuthenticationUserService authenticationUserService;
+    private UserServiceImpl userService;
 
     @Autowired
-    private SubscribeService subscribeService;
+    private SubscribeServiceImpl subscribeService;
 
     @GetMapping("/goods/{id}")
     public ResponseEntity<?> getGoodsById(@PathVariable Integer id) {
 
         Goods goods = goodsService.getGoodsById(id);
+        User user = userService.getUser(goods.getUserId());
+        List<Attachment> list = attachmentService.findAttachmentByGoodsId(id);
+        goods.setAttachments(list);
+        goods.setUser(user);
         return ResponseEntity.ok(goods);
     }
 
@@ -67,20 +69,26 @@ public class GoodsController {
                                       @RequestParam(required = false, value = "goodsName") String goodsName,
                                       @RequestParam(required = false, value = "type") String type,
                                       @RequestParam(required = false, value = "customerId") Integer customerId,
-                                      @RequestParam(value = "${spring.data.rest.page-param-name}", required = false, defaultValue = "${spring.data.rest.default-page-number}") Integer pageNum,
-                                      @RequestParam(value = "${spring.data.rest.limit-param-name}", required = false, defaultValue = "${spring.data.rest.default-page-size}") Integer pageSize,
-                                      @RequestParam(value = "${spring.data.rest.sort-param-name}", required = false, defaultValue = "id,desc") String sort) {
-        Sort sort1 = new Sort(Sort.Direction.DESC, "bulletinDate");
-        Pageable pageable = new PageRequest(pageNum, pageSize, sort1);
+                                      @RequestParam(required = false, value = "pageNum") Integer pageNum,
+                                      @RequestParam(required = false, value = "pageSize") Integer pageSize) {
+//        Sort sort1 = new Sort(Sort.Direction.DESC, "bulletinDate");
+//        Pageable pageable = new PageRequest(pageNum, pageSize, sort1);
 //        Page<Goods> goods = goodsService.getGoods(id, pageable);
-        return ResponseEntity.ok(goodsService.getGoods(id, goodsName, type, customerId, pageable));
+        PageInfo<Goods> goods = goodsService.getGoods(id, goodsName, type, customerId, pageNum, pageSize);
+        return ResponseEntity.ok(goods);
     }
 
+    /**
+     * 发布商品
+     * @param uid
+     * @param jsonNode
+     * @return
+     */
     @Transactional
     @PostMapping("/goods/publish/{uid}")
     public ResponseEntity<?> publishGoodsInfo(@PathVariable Integer uid, @RequestBody JsonNode jsonNode) {
         Goods goods;
-        User user = authenticationUserService.getUser(uid);
+        User user = userService.getUser(uid);
         try {
             goods = new ObjectMapper().readValue(jsonNode.traverse(), Goods.class);
             goods.setBulletinDate(new Date());
@@ -90,7 +98,10 @@ public class GoodsController {
         } catch (IOException e) {
             throw new UnAuthorizedException(ErrorCode.JSON_TO_OBJECT_ERROR, ErrorMessage.ERROR_CHANGE_TYPE);
         }
-        return ResponseEntity.ok(goodsService.saveGoods(goods).getId());
+        goods.setUserId(uid);
+        goodsService.saveGoods(goods);
+        Integer id = goods.getId();
+        return ResponseEntity.ok(id);
 
     }
 
@@ -101,7 +112,7 @@ public class GoodsController {
         Goods newGoods ;
         String goodsId = request.getParameter("goods");
         try {
-            Integer id =  Integer.valueOf(goodsId.trim());
+            Integer id =  Integer.valueOf(goodsId);
 //            newGoods = goodsService.getGoodsById(Integer.valueOf(goodsId.trim()));
             if (multipartFiles != null) {
                 List urlList = uploadFile(multipartFiles, id);
@@ -135,7 +146,7 @@ public class GoodsController {
 //            String return_path = ImageUtil.getFilePath(currentUser);
                 String filePath = location;
                 String file_name = null;
-                Attachment attachment = new Attachment();
+                Attachment attachment = Attachment.builder().build();
                 file_name = ImageUtil.saveImg(multipartFile, filePath);
                 if (!"".equals(file_name)) {
                     url = imagesUrl + file_name;
@@ -154,6 +165,11 @@ public class GoodsController {
         return null;
     }
 
+    /**
+     * 商品交易
+     * @param jsonNode
+     * @return
+     */
     @PostMapping("/goods/goodsDeal")
     public ResponseEntity<?> goodsDeal(@RequestBody JsonNode jsonNode) {
         Map map = new HashMap<>();
@@ -167,15 +183,27 @@ public class GoodsController {
         Goods goods = goodsService.getGoodsById(goodsId);
         goods.setCustomerId(customerId);
         goodsService.saveGoods(goods);
-        return ResponseEntity.ok(null);
+        return ResponseEntity.ok("保存成功！");
     }
 
+    /**
+     * 删除商品
+     * @param id
+     * @return
+     */
     @PostMapping("/goods/delete/{id}")
     public ResponseEntity<?> deleteGoods(@PathVariable Integer id) {
         goodsService.deleteGoods(id);
         return ResponseEntity.ok(null);
     }
 
+    /**
+     * 获取订阅
+     * @param id
+     * @param goodsName
+     * @param type
+     * @return
+     */
     @GetMapping("/goods/getFollow")
     public ResponseEntity<?> getFollowGoods(@RequestParam(required = false, value = "id") Integer id,
                                             @RequestParam(required = false, value = "goodsName") String goodsName,

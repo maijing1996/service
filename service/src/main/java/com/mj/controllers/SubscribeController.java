@@ -5,8 +5,8 @@ import com.mj.enums.SubscribeEnum;
 import com.mj.model.Subscribe;
 import com.mj.model.SubscribeUser;
 import com.mj.model.User;
-import com.mj.service.AuthenticationUserService;
-import com.mj.service.SubscribeService;
+import com.mj.service.Impl.UserServiceImpl;
+import com.mj.service.Impl.SubscribeServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,21 +22,21 @@ import java.util.List;
 public class SubscribeController {
 
     @Autowired
-    private AuthenticationUserService authenticationUserService;
+    private UserServiceImpl userService;
 
     @Autowired
-    private SubscribeService subscribeService;
+    private SubscribeServiceImpl subscribeService;
 
     @ResponseBody
     @PostMapping("/subscribe/addUser/{id}")
     public ResponseEntity<?> subscribe(@PathVariable Integer id,
                                        @RequestBody JsonNode jsonNode) throws Exception {
-        User user = authenticationUserService.getUser(id);
+        User user = userService.getUser(id);
         Integer userId = jsonNode.path("userId").asInt();
 //        Integer userId = Integer.valueOf(jsonNode.path("userId").textValue().trim());
-        User OtherUser = authenticationUserService.getUser(userId);
+        User OtherUser = userService.getUser(userId);
         user.getUsers().add(OtherUser);
-        authenticationUserService.saveUser(user);
+        userService.saveUser(user);
         return ResponseEntity.ok(null);
     }
 
@@ -62,10 +62,10 @@ public class SubscribeController {
     @PostMapping("/subscribe/cancel/{id}")
     public ResponseEntity<?> cancelSubscribe(@PathVariable Integer id,
                                              @RequestBody JsonNode jsonNode) throws Exception {
-        User user = authenticationUserService.getUser(id);
+        User user = userService.getUser(id);
         Integer passiveId = jsonNode.path("passiveId").asInt();
 //        Integer passiveId = Integer.valueOf(jsonNode.path("passiveId").textValue().trim());
-        User cancelUser = authenticationUserService.getUser(passiveId);
+        User cancelUser = userService.getUser(passiveId);
 
         Iterator<User> iterator = user.getUsers().iterator();
         while (iterator.hasNext()) {
@@ -80,7 +80,7 @@ public class SubscribeController {
 //                user.getUsers().remove(user1);
 //            }
 //        }
-        authenticationUserService.saveUser(user);
+        userService.saveUser(user);
         return ResponseEntity.ok(null);
     }
 
@@ -92,7 +92,7 @@ public class SubscribeController {
             return ResponseEntity.ok(null);
         }
         List list = new ArrayList();
-        List<User> userList = authenticationUserService.getAllUser(nickName);
+        List<User> userList = userService.getAllUser(nickName);
         List<Subscribe> subscribeList = subscribeService.getSubscribe(id, nickName);
         for (SubscribeUser subscribeUser : userList) {
             for (Subscribe subscribe : subscribeList) {

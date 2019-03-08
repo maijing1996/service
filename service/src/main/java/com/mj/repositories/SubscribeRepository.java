@@ -1,3 +1,4 @@
+/*
 package com.mj.repositories;
 
 import com.mj.model.Subscribe;
@@ -8,9 +9,11 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+*/
 /**
  * Created by mj on 2018-04-29.
- */
+ *//*
+
 @Repository
 public interface SubscribeRepository extends JpaRepository<Subscribe,Integer> {
 
@@ -22,3 +25,4 @@ public interface SubscribeRepository extends JpaRepository<Subscribe,Integer> {
 
 
 }
+*/

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mj.mapper.SubscribeMapper">
+    <select id="getSubscribe" resultType="com.mj.model.Subscribe">
+        SELECT user_relation.passive_id as id ,user.nick_name,`user`.avatar_url,`user`.gender,`user`.gender
+        FROM   user_relation LEFT JOIN `user` ON user_relation.passive_id = `user`.id
+        WHERE user_relation.active_id = #{id} and `user`.nick_name LIKE CONCAT('%', #{nickName}, '%')
+    </select>
+
+</mapper>

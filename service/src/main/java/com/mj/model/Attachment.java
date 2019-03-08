@@ -1,8 +1,11 @@
 package com.mj.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -11,8 +14,11 @@ import javax.validation.constraints.NotNull;
  * Created by mj on 2018-03-08.
  */
 @Entity
+@Data
+@Builder
 @Table(name = "attachment")
-@JsonIgnoreProperties(value={"hibernateLazyInitializer","handler","goods"})
+@AllArgsConstructor
+@NoArgsConstructor
 public class Attachment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,60 +26,21 @@ public class Attachment {
     @JsonProperty("id")
     private Integer id;
 
-    @Column(name = "attachment_name", length = 200)
+    @Column(name = "attachment_name")
     @JsonProperty("attachmentName")
     private String attachmentName;
 
     @NotNull
-    @Column(name = "attachment_url", length = 200)
+    @Column(name = "attachment_url")
     @JsonProperty("attachmentUrl")
     private String attachmentUrl;
 
     @NotNull
     @JsonIgnore
-    @ManyToOne(targetEntity = Goods.class)
-    @JoinColumn(name = "goods_id",insertable = false, updatable = false)
-    private Goods goods;
+//    @ManyToOne(targetEntity = Goods.class)
+//    @JoinColumn(name = "goods_id",insertable = false, updatable = false)
+    @Column(name = "goods_id")
+    @JsonProperty("goodsId")
+    private Integer goodsId;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getAttachmentName() {
-        return attachmentName;
-    }
-
-    public void setAttachmentName(String attachmentName) {
-        this.attachmentName = attachmentName;
-    }
-
-    public String getAttachmentUrl() {
-        return attachmentUrl;
-    }
-
-    public void setAttachmentUrl(String attachmentUrl) {
-        this.attachmentUrl = attachmentUrl;
-    }
-
-    public Goods getGoods() {
-        return goods;
-    }
-
-    public void setGoods(Goods goods) {
-        this.goods = goods;
-    }
-
-    @Override
-    public String toString() {
-        return "Attachment{" +
-                "id=" + id +
-                ", attachmentName='" + attachmentName + '\'' +
-                ", attachmentUrl='" + attachmentUrl + '\'' +
-//                ", goods=" + goods +
-                '}';
-    }
 }

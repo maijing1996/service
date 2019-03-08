@@ -1,6 +1,10 @@
 package com.mj.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
@@ -8,6 +12,10 @@ import javax.persistence.*;
  * Created by mj on 2018-05-02.
  */
 @Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Table(name = "subscribe")
 public class Subscribe {
 
@@ -29,45 +37,4 @@ public class Subscribe {
     @JsonProperty("gender")
     private String gender;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getNickName() {
-        return nickName;
-    }
-
-    public void setNickName(String nickName) {
-        this.nickName = nickName;
-    }
-
-    public String getAvatarUrl() {
-        return avatarUrl;
-    }
-
-    public void setAvatarUrl(String avatarUrl) {
-        this.avatarUrl = avatarUrl;
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
-
-    @Override
-    public String toString() {
-        return "Subscribe{" +
-                "id=" + id +
-                ", nickName='" + nickName + '\'' +
-                ", avatarUrl='" + avatarUrl + '\'' +
-                ", gender='" + gender + '\'' +
-                '}';
-    }
 }

@@ -1,7 +1,7 @@
 package com.mj.controllers;
 
 import com.mj.enums.GoodsTypeEnum;
-import com.mj.service.StatisticsService;
+import com.mj.service.Impl.StatisticsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,16 +18,16 @@ import java.util.List;
 public class StatisticsController {
 
     @Autowired
-    private StatisticsService statisticsService;
+    private StatisticsServiceImpl statisticsService;
 
 
     @ResponseBody
     @GetMapping("/statistics/userAndGoodsCount")
     public ResponseEntity<?> userAndGoodsCount(){
         List list = new ArrayList();
-        Long registerUsers = statisticsService.registerCount();
-        Long goodsCount = statisticsService.goodsCount();
-        Long count = statisticsService.isDealGoodsCount();
+        Integer registerUsers = statisticsService.registerCount();
+        Integer goodsCount = statisticsService.goodsCount();
+        Integer count = statisticsService.isDealGoodsCount();
         list.add(registerUsers);
         list.add(goodsCount);
         list.add(count);
@@ -40,8 +40,8 @@ public class StatisticsController {
      */
     @ResponseBody
     @GetMapping("/statistics/register")
-    public Long registerCount(){
-        Long registerUsers = statisticsService.registerCount();
+    public Integer registerCount(){
+        Integer registerUsers = statisticsService.registerCount();
         return registerUsers;
     }
 
@@ -51,8 +51,8 @@ public class StatisticsController {
      */
     @ResponseBody
     @GetMapping("/statistics/goods/count")
-    public Long goodsCount() {
-        Long goodsCount = statisticsService.goodsCount();
+    public Integer goodsCount() {
+        Integer goodsCount = statisticsService.goodsCount();
         return goodsCount;
     }
 
@@ -62,8 +62,8 @@ public class StatisticsController {
      */
     @ResponseBody
     @GetMapping("/statistics/goods/isDeal/count")
-    public Long isDealGoodsCount() {
-        Long count = statisticsService.isDealGoodsCount();
+    public Integer isDealGoodsCount() {
+        Integer count = statisticsService.isDealGoodsCount();
         return count;
     }
 
@@ -77,7 +77,7 @@ public class StatisticsController {
         List list = new ArrayList();
         for (GoodsTypeEnum goodsTypeEnum : GoodsTypeEnum.values()) {
 
-            Long count = statisticsService.getGoodsCountByType(goodsTypeEnum.getCode()) ;
+            Integer count = statisticsService.getGoodsCountByType(goodsTypeEnum.getCode()) ;
             System.out.println(goodsTypeEnum.getCode() +" "+ count);
             list.add(count);
         }

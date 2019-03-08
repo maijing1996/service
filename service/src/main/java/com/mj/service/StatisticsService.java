@@ -1,51 +1,13 @@
 package com.mj.service;
 
-import com.mj.qModels.QGoods;
-import com.mj.repositories.GoodsRepository;
-import com.mj.repositories.UserRepository;
-import com.querydsl.core.BooleanBuilder;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+public interface StatisticsService {
 
-/**
- * Created by mj on 2018-05-08.
- */
-@Service
-public class StatisticsService {
+    Integer registerCount();
 
-    @Autowired
-    private UserRepository userRepository;
+    Integer goodsCount();
 
-    @Autowired
-    private GoodsRepository goodsRepository;
+    Integer isDealGoodsCount();
 
-    public Long registerCount() {
-        Long registerUsers = userRepository.count();
-        return registerUsers;
-    }
+    Integer getGoodsCountByType(String goodsType);
 
-    public Long goodsCount() {
-        Long goodsCount = goodsRepository.count();
-        return goodsCount;
-    }
-
-    public Long isDealGoodsCount() {
-        BooleanBuilder booleanBuilder = new BooleanBuilder();
-        QGoods qGoods = QGoods.goods;
-        if (true) {
-            booleanBuilder.and(qGoods.customerId.isNotNull());
-        }
-        Long count = goodsRepository.count(booleanBuilder);
-        return count;
-    }
-
-    public Long getGoodsCountByType(String GoodsType) {
-        BooleanBuilder booleanBuilder = new BooleanBuilder();
-        QGoods qGoods = QGoods.goods;
-        if (GoodsType != null && !GoodsType.trim().isEmpty()) {
-            booleanBuilder.and(qGoods.type.eq(GoodsType));
-        }
-        Long  count = goodsRepository.count(booleanBuilder);
-        return count;
-    }
 }

@@ -22,7 +22,7 @@ public class ImageUtil {
         }
         FileInputStream fileInputStream = (FileInputStream) multipartFile.getInputStream();
         String fileName = UUID.randomUUID().toString() + ".jpg";
-        BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(path + File.separator + fileName));
+        BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(path + File.separator+ fileName));
         byte[] bs = new byte[1024];
         int len;
         while ((len = fileInputStream.read(bs)) != -1) {

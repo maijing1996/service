@@ -1,9 +1,20 @@
 package com.mj.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.Transient;
+
 /**
  * Created by mj on 2018-05-12.
  */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class SubscribeUser {
+
+    @Transient
     private Integer id;
 
     private String nickName;
@@ -12,56 +23,7 @@ public class SubscribeUser {
 
     private String gender;
 
+    @Transient
     private Integer subscribe;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getNickName() {
-        return nickName;
-    }
-
-    public void setNickName(String nickName) {
-        this.nickName = nickName;
-    }
-
-    public String getAvatarUrl() {
-        return avatarUrl;
-    }
-
-    public void setAvatarUrl(String avatarUrl) {
-        this.avatarUrl = avatarUrl;
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
-
-    public Integer getSubscribe() {
-        return subscribe;
-    }
-
-    public void setSubscribe(Integer subscribe) {
-        this.subscribe = subscribe;
-    }
-
-    @Override
-    public String toString() {
-        return "SubscribeUser{" +
-                "id=" + id +
-                ", nickName='" + nickName + '\'' +
-                ", avatarUrl='" + avatarUrl + '\'' +
-                ", gender='" + gender + '\'' +
-                ", subscribe=" + subscribe +
-                '}';
-    }
 }

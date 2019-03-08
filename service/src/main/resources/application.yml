@@ -3,7 +3,7 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/transaction?characterEncoding=utf8&useSSL=true&useUnicode=true&serverTimeZone=UTC
+    url: jdbc:mysql://127.0.0.1:3306/transaction?characterEncoding=utf8&useSSL=true&useUnicode=true&serverTimezone=UTC
     username: root
     password: imagedt
 #  jpa:
@@ -20,9 +20,16 @@ spring:
         sort-param-name: sort
         limit-param-name: pageSize
   img:
-    location: G:\transaction\img
-    url: http://192.168.1.100:8088/images/
+    location: E:\image
+    url : http://127.0.0.1:8081/static/images/
+  mvc:
+    view:
+      prefix: /static/
+      suffix: .html
+    static-path-pattern: /**
+#    url: http://192.168.1.100:8088/images/
     #url: http://192.168.43.231:8088/images/
+
 mybatis:
   mapper-locations: classpath*:mapper/*Mapper.xml
   configuration:

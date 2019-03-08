@@ -1,21 +1,18 @@
 package com.mj.qModels;
 
-import static com.querydsl.core.types.PathMetadataFactory.*;
-
 import com.mj.model.Attachment;
 import com.mj.model.Goods;
+import com.querydsl.core.types.Path;
+import com.querydsl.core.types.PathMetadata;
 import com.querydsl.core.types.dsl.*;
 
-import com.querydsl.core.types.PathMetadata;
-import javax.annotation.Generated;
-import com.querydsl.core.types.Path;
-import com.querydsl.core.types.dsl.PathInits;
+import static com.querydsl.core.types.PathMetadataFactory.forVariable;
 
 
 /**
  * QGoods is a Querydsl query type for Goods
  */
-@Generated("com.querydsl.codegen.EntitySerializer")
+//@Generated("com.querydsl.codegen.EntitySerializer")
 public class QGoods extends EntityPathBase<Goods> {
 
     private static final long serialVersionUID = -209164762L;
