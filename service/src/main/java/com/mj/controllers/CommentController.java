@@ -61,15 +61,12 @@ public class CommentController {
 //            Integer goodsId = Integer.valueOf(jsonNode.path("goodsId").textValue());
 //            comment.setContent(content);
 //            comment.setGoodsId(goodsId);
-
-
-
-
 //            comment.setReplyCommentId(replyCommentId);
             comment.setCommentDate(new Date());
             comment.setUser(commentUser);
             comment.setUserId(userId);
             comment.setReplyUser(replyUser);
+            comment.setReplyId(replyId);
             comment.setRead(Read.UNREAD.getRead());
         } catch (Exception e) {
             throw new UnAuthorizedException(ErrorCode.JSON_TO_OBJECT_ERROR, ErrorMessage.ERROR_CHANGE_TYPE);
@@ -93,6 +90,11 @@ public class CommentController {
         return ResponseEntity.ok(count);
     }
 
+    /**
+     * 获取用户未读信息
+     * @param userId
+     * @return
+     */
     @GetMapping("/comments/unread/{userId}")
     public ResponseEntity<?> getUnreadComment(@PathVariable Integer userId) {
         List list = commentService.getUnreadComment(userId);

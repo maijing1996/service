@@ -35,7 +35,7 @@ public class UserServiceImpl implements UserService {
         try {
             User user1 = new User();
             user1.setId(id);
-            user = userMapper.selectOne(user1);
+            user = userMapper.findById(id);
 //            user = userRepository.getOne(id);
         } catch (BusinessException e) {
             throw new UnAuthorizedException(ErrorCode.USERNAME_NOT_EXIST, ErrorMessage.NOT_FOUND_USER);
@@ -58,7 +58,8 @@ public class UserServiceImpl implements UserService {
         {
             throw new UnAuthorizedException(ErrorCode.EMPTY_PASSWORD, ErrorMessage.EMPTY_PASSWORD);
         }
-        User user = userMapper.selectByPrimaryKey(username.trim());
+        User user2 = User.builder().username(username.trim()).build();
+        User user = userMapper.selectOne(user2);
 //        User user = userRepository.findByUsername(username.trim());
 
         if (user == null) {
@@ -103,6 +104,11 @@ public class UserServiceImpl implements UserService {
             oldUser.setUsername(user.getUsername());
             oldUser.setMobile(user.getMobile());
             oldUser.setQq(user.getQq());
+            oldUser.setAvatarUrl(user.getAvatarUrl());
+            oldUser.setState(user.getState());
+            oldUser.setGender(user.getGender());
+            oldUser.setNickName(user.getNickName());
+            oldUser.setRole(user.getRole());
         }
         userMapper.updateByPrimaryKeySelective(oldUser);
 //        userRepository.save(oldUser);

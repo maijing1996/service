@@ -16,4 +16,11 @@ public interface CommentMapper extends Mapper<Comment> {
     List<Comment> findCommentByUserId(@Param("userId") Integer userId);
 
     List<Comment> findAllCommentByUserId(@Param("userId") Integer userId);
+
+    /**
+     *
+     * @param goodsId
+     * @return
+     */
+    List<Comment> findCommentByGoodIdAndReplyCommentIdIsNotNull(@Param("goodsId") Integer goodsId);
 }

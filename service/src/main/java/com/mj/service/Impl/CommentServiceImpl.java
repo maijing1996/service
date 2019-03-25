@@ -60,8 +60,15 @@ public class CommentServiceImpl implements CommentService {
         }
 
         List<Comment> list = commentMapper.findCommentByGoodId(goodsId);
-        List<Comment> list2 = commentMapper.findCommentByGoodId(goodsId);
-
+        List<Comment> list2 = commentMapper.findCommentByGoodIdAndReplyCommentIdIsNotNull(goodsId);
+        for (Comment comment:list2) {
+            Integer replyId = comment.getReplyId();
+            Integer userId2 = comment.getUserId();
+            User user = userService.getUser(replyId);
+            User user1 = userService.getUser(userId2);
+            comment.setReplyUser(user);
+            comment.setUser(user1);
+        }
 
 //        Sort sort = new Sort(Sort.Direction.ASC, "id");
 //        List<Comment> list = (List) commentRepository.findAll(booleanBuilder,sort);
@@ -107,7 +114,7 @@ public class CommentServiceImpl implements CommentService {
      * @param comment
      */
     public void addComment(Comment comment) {
-        commentMapper.insert(comment);
+        commentMapper.insertSelective(comment);
 //        commentRepository.save(comment);
     }
 
@@ -159,6 +166,15 @@ public class CommentServiceImpl implements CommentService {
         Sort sort = new Sort(Sort.Direction.DESC, "commentDate");
         List<Comment> list =  (List) commentRepository.findAll(booleanBuilder,sort);*/
         List<Comment> list = commentMapper.findCommentByUserId(userId);
+        for (Comment comment:list) {
+            Integer replyId = comment.getReplyId();
+            Integer userId2 = comment.getUserId();
+            User user = userService.getUser(replyId);
+            User user1 = userService.getUser(userId2);
+            comment.setReplyUser(user);
+            comment.setCommentUser(user);
+            comment.setUser(user1);
+        }
         log.info("Unread"+list.size()+list.toString());
         return list;
     }
@@ -206,7 +222,19 @@ public class CommentServiceImpl implements CommentService {
         /*BooleanBuilder booleanBuilder = booleanBuilder(userId,"all");
         Sort sort = new Sort(Sort.Direction.DESC, "commentDate");
         List<Comment> list =  (List) commentRepository.findAll(booleanBuilder,sort);*/
-        List<Comment> list = commentMapper.findAllCommentByUserId(userId);
+        Comment com = new Comment();
+        com.setUserId(userId);
+        List<Comment> list = commentMapper.select(com);
+//        List<Comment> list = commentMapper.findAllCommentByUserId(userId);
+        for (Comment comment:list) {
+            Integer replyId = comment.getReplyId();
+            Integer userId2 = comment.getUserId();
+            User user = userService.getUser(replyId);
+            User user1 = userService.getUser(userId2);
+            comment.setReplyUser(user);
+            comment.setCommentUser(user);
+            comment.setUser(user1);
+        }
         log.info("Comment:"+list.toString()+list.size());
         return list;
     }

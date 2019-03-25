@@ -4,7 +4,7 @@
 
     <!-- 查询商品的评论 -->
     <select id="findCommentByGoodId" resultType="com.mj.model.Comment">
-        select * from comment where goods_id = #{goodsId} order by id asc
+        select * from comment where goods_id = #{goodsId} and (reply_comment_id is null) order by id asc
     </select>
 
     <!-- 获取用户未读信息 -->
@@ -14,7 +14,13 @@
 
     <!--获取用户所有评论-->
     <select id="findAllCommentByUserId" resultType="com.mj.model.Comment">
-        select * from comment where comment_user_id = #{userId} order by comment_date desc
+        select *
+        from comment
+        where comment_user_id = #{userId}
+        order by comment_date desc
     </select>
-
+    
+    <select id="findCommentByGoodIdAndReplyCommentIdIsNotNull" resultType="com.mj.model.Comment">
+        select * from comment where goods_id = #{goodsId} and (reply_comment_id is not null) order by id asc
+    </select>
 </mapper>
