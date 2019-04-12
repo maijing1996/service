@@ -2,25 +2,37 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mj.mapper.CommentMapper">
 
+    <sql id="result">
+        id, content, goods_id goodsId, comment_user_id userId, comment_date commentDate, reply_id replyId,
+        reply_comment_id replyCommentId, comment_read `read`
+    </sql>
+
     <!-- 查询商品的评论 -->
     <select id="findCommentByGoodId" resultType="com.mj.model.Comment">
-        select * from comment where goods_id = #{goodsId} and (reply_comment_id is null) order by id asc
+        select
+        <include refid="result" />
+        from comment
+        where goods_id = #{goodsId} and (reply_comment_id is null) order by id asc
     </select>
 
     <!-- 获取用户未读信息 -->
     <select id="findCommentByUserId" resultType="com.mj.model.Comment">
-        select * from comment where comment_user_id = #{userId} and comment_read = 0 order by comment_date desc
+        select <include refid="result" />
+        from comment
+        where reply_id = #{userId} and comment_read = 0 order by comment_date desc
     </select>
 
     <!--获取用户所有评论-->
     <select id="findAllCommentByUserId" resultType="com.mj.model.Comment">
-        select *
+        select <include refid="result" />
         from comment
-        where comment_user_id = #{userId}
+        where reply_id = #{userId}
         order by comment_date desc
     </select>
     
     <select id="findCommentByGoodIdAndReplyCommentIdIsNotNull" resultType="com.mj.model.Comment">
-        select * from comment where goods_id = #{goodsId} and (reply_comment_id is not null) order by id asc
+        select <include refid="result" />
+        from comment
+        where goods_id = #{goodsId} and (reply_id is not null) order by id asc
     </select>
 </mapper>

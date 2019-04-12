@@ -76,6 +76,11 @@ public class CommentController {
     }
 
 
+    /**
+     * 删除评论
+     * @param commentId
+     * @return
+     */
     @PostMapping("/comment/delete/{commentId}")
     public ResponseEntity<?> deleteComment(@PathVariable(value = "commentId") Integer commentId) {
 
@@ -84,6 +89,11 @@ public class CommentController {
         return ResponseEntity.ok(null);
     }
 
+    /**
+     * 获取用户未读信息数量
+     * @param userId
+     * @return
+     */
     @GetMapping("/comments/unread/count/{userId}")
     public ResponseEntity<?> getUnreadCount(@PathVariable Integer userId) {
         Integer count = commentService.getUnreadCount(userId);

@@ -40,7 +40,7 @@
                       left join attachment a on g.id = a.goods_id
         <where>
             <if test="id != null and id != ''">
-                g.id = #{id}
+                g.user_id = #{id}
             </if>
             <if test="goodsName != null and goodsName != ''">
                 and g.goods_name LIKE CONCAT('%', #{goodsName}, '%')

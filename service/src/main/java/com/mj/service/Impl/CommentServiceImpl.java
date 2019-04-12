@@ -61,13 +61,23 @@ public class CommentServiceImpl implements CommentService {
 
         List<Comment> list = commentMapper.findCommentByGoodId(goodsId);
         List<Comment> list2 = commentMapper.findCommentByGoodIdAndReplyCommentIdIsNotNull(goodsId);
-        for (Comment comment:list2) {
+
+        for (Comment comment:list) {
             Integer replyId = comment.getReplyId();
             Integer userId2 = comment.getUserId();
             User user = userService.getUser(replyId);
             User user1 = userService.getUser(userId2);
             comment.setReplyUser(user);
             comment.setUser(user1);
+        }
+
+        for (Comment comment:list2) {
+            Integer replyId = comment.getReplyId();
+            Integer userId2 = comment.getUserId();
+            User user = userService.getUser(replyId);
+            User user1 = userService.getUser(userId2);
+            comment.setReplyUser(user1);
+            comment.setUser(user);
         }
 
 //        Sort sort = new Sort(Sort.Direction.ASC, "id");
@@ -150,7 +160,7 @@ public class CommentServiceImpl implements CommentService {
 //        BooleanBuilder booleanBuilder = booleanBuilder(userId,"");
         Comment comment = new Comment();
         comment.setRead(0);
-        comment.setUserId(userId);
+        comment.setReplyId(userId);
         int count = commentMapper.selectCount(comment);
 //        Long count = commentRepository.count(booleanBuilder);
         return count;
@@ -223,7 +233,7 @@ public class CommentServiceImpl implements CommentService {
         Sort sort = new Sort(Sort.Direction.DESC, "commentDate");
         List<Comment> list =  (List) commentRepository.findAll(booleanBuilder,sort);*/
         Comment com = new Comment();
-        com.setUserId(userId);
+        com.setReplyId(userId);
         List<Comment> list = commentMapper.select(com);
 //        List<Comment> list = commentMapper.findAllCommentByUserId(userId);
         for (Comment comment:list) {
