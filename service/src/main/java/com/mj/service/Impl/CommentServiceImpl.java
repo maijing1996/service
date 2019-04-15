@@ -182,7 +182,7 @@ public class CommentServiceImpl implements CommentService {
             User user = userService.getUser(replyId);
             User user1 = userService.getUser(userId2);
             comment.setReplyUser(user);
-            comment.setCommentUser(user);
+            comment.setCommentUser(user1);
             comment.setUser(user1);
         }
         log.info("Unread"+list.size()+list.toString());
@@ -242,7 +242,7 @@ public class CommentServiceImpl implements CommentService {
             User user = userService.getUser(replyId);
             User user1 = userService.getUser(userId2);
             comment.setReplyUser(user);
-            comment.setCommentUser(user);
+            comment.setCommentUser(user1);
             comment.setUser(user1);
         }
         log.info("Comment:"+list.toString()+list.size());
