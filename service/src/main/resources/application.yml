@@ -20,8 +20,9 @@ spring:
         sort-param-name: sort
         limit-param-name: pageSize
   img:
-    location: E:\image
-    url : http://127.0.0.1:8081/static/images/
+    location: E:/test/shopWeixin-SecondhandShop/image
+    url : /image/
+    #url : http://127.0.0.1:8081/static/images/
   mvc:
     view:
       prefix: /static/

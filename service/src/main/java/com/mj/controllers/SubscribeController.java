@@ -27,16 +27,23 @@ public class SubscribeController {
     @Autowired
     private SubscribeServiceImpl subscribeService;
 
+    /**
+     * 添加关注用户
+     * @param id
+     * @param jsonNode
+     * @return
+     * @throws Exception
+     */
     @ResponseBody
     @PostMapping("/subscribe/addUser/{id}")
     public ResponseEntity<?> subscribe(@PathVariable Integer id,
                                        @RequestBody JsonNode jsonNode) throws Exception {
         User user = userService.getUser(id);
-        Integer userId = jsonNode.path("userId").asInt();
-//        Integer userId = Integer.valueOf(jsonNode.path("userId").textValue().trim());
+        Integer userId = jsonNode.path("userId").asInt();//被关注的id
         User OtherUser = userService.getUser(userId);
         user.getUsers().add(OtherUser);
-        userService.saveUser(user);
+
+        subscribeService.saveSubscribe(user, userId);
         return ResponseEntity.ok(null);
     }
 

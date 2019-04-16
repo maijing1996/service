@@ -51,6 +51,7 @@
             <if test="customerId != null and customerId != ''">
                 and g.customer_id = #{customerId}
             </if>
+            and (g.customer_id is null)
         </where>
     </select>
     <!--LIKE CONCAT('%', #{title}, '%')-->
@@ -70,6 +71,7 @@
             <if test="customerId != null and customerId != ''">
                 customer_id = #{customerId}
             </if>
+            and (g.customer_id is null)
         </where>
     </select>
 

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
- * Created by peng on 2017/8/16.
+ * Created by mj on 2017/8/16.
  */
 @ControllerAdvice
 public class BusinessExceptionController {

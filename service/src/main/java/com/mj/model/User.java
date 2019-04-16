@@ -66,16 +66,9 @@ public class User extends SubscribeUser{
     @JsonProperty("gender")
     private String gender;
 
-//    @JsonIgnore
-// @JsonProperty("user_goods")
-//    @JsonBackReference(value = "b")
-//    @OneToMany(targetEntity = Goods.class,fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.REMOVE)
     @Transient
     private Set<Goods> goods = new HashSet<>();
 
-//    @ManyToMany(targetEntity = User.class)
-//    @JsonBackReference(value = "a")
-//    @JoinTable(name = "user_relation", joinColumns = @JoinColumn(name = "active_id"), inverseJoinColumns = @JoinColumn(name = "passive_id"))
     @Transient
     private Set<User> users = new HashSet<>();
 

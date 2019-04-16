@@ -1,7 +1,7 @@
 package com.mj.enums;
 
 /**
- * Created by peng on 2017/8/29.
+ * Created by mj on 2017/8/29.
  */
 public enum ErrorMessage {
     EMPTY_LOGIN_NAME("用户名不能为空"), EMPTY_PASSWORD("密码不能为空"),
