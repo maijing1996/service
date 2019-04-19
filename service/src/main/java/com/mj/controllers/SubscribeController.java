@@ -5,8 +5,8 @@ import com.mj.enums.SubscribeEnum;
 import com.mj.model.Subscribe;
 import com.mj.model.SubscribeUser;
 import com.mj.model.User;
-import com.mj.service.Impl.UserServiceImpl;
 import com.mj.service.Impl.SubscribeServiceImpl;
+import com.mj.service.Impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -38,12 +38,16 @@ public class SubscribeController {
     @PostMapping("/subscribe/addUser/{id}")
     public ResponseEntity<?> subscribe(@PathVariable Integer id,
                                        @RequestBody JsonNode jsonNode) throws Exception {
-        User user = userService.getUser(id);
-        Integer userId = jsonNode.path("userId").asInt();//被关注的id
-        User OtherUser = userService.getUser(userId);
-        user.getUsers().add(OtherUser);
+        try{
+            User user = userService.getUser(id);
+            Integer userId = jsonNode.path("userId").asInt();//被关注的id
+            User OtherUser = userService.getUser(userId);
+            user.getUsers().add(OtherUser);
 
-        subscribeService.saveSubscribe(user, userId);
+            subscribeService.saveSubscribe(user, userId);
+        }catch (Exception e){
+            return ResponseEntity.ok("你已关注此用户！");
+        }
         return ResponseEntity.ok(null);
     }
 
@@ -70,8 +74,7 @@ public class SubscribeController {
     public ResponseEntity<?> cancelSubscribe(@PathVariable Integer id,
                                              @RequestBody JsonNode jsonNode) throws Exception {
         User user = userService.getUser(id);
-        Integer passiveId = jsonNode.path("passiveId").asInt();
-//        Integer passiveId = Integer.valueOf(jsonNode.path("passiveId").textValue().trim());
+        Integer passiveId = jsonNode.path("passiveId").asInt();//撤销
         User cancelUser = userService.getUser(passiveId);
 
         Iterator<User> iterator = user.getUsers().iterator();
@@ -81,13 +84,7 @@ public class SubscribeController {
                 iterator.remove();
             }
         }
-
-//        for (User user1 : user.getUsers()) {
-//            if (user1.equals(cancelUser)) {
-//                user.getUsers().remove(user1);
-//            }
-//        }
-        userService.saveUser(user);
+        subscribeService.delete(user.getId(), passiveId);
         return ResponseEntity.ok(null);
     }
 
@@ -95,12 +92,12 @@ public class SubscribeController {
     @GetMapping("/subscribe/getAllUsers/{id}")
     public ResponseEntity<?> getSubscribeUserAndAllUser(@PathVariable Integer id,
                                                         @RequestParam(required = false, value = "nickName") String nickName) {
-        if (nickName == null || "".equals(nickName)) {
-            return ResponseEntity.ok(null);
-        }
+//        if (nickName == null || "".equals(nickName)) {
+//            return ResponseEntity.ok(null);
+//        }
         List list = new ArrayList();
         List<User> userList = userService.getAllUser(nickName);
-        List<Subscribe> subscribeList = subscribeService.getSubscribe(id, nickName);
+        List<Subscribe> subscribeList = subscribeService.getSubscribeUser(id);//获取用户关注的所有
         for (SubscribeUser subscribeUser : userList) {
             for (Subscribe subscribe : subscribeList) {
                 if (subscribe.getId() == subscribeUser.getId()) {

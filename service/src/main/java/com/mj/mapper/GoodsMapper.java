@@ -16,4 +16,8 @@ public interface GoodsMapper extends Mapper<Goods> {
     Integer findDealGood();
 
     Integer insertAndGetId(Goods goods);
+
+    List<Goods> findAllGood(@Param("goodName") String goodName);
+
+    void deletes(@Param("ids") String ids);
 }

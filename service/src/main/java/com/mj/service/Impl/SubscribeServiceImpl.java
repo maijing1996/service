@@ -39,7 +39,6 @@ public class SubscribeServiceImpl implements SubscribeService {
     public void saveSubscribe(User user, Integer userId) {
         Subscribe subscribe = Subscribe.builder()
                 .avatarUrl(user.getAvatarUrl())
-                .id(user.getId())
                 .gender(user.getGender())
                 .nickName(user.getNickName())
                 .build();
@@ -50,5 +49,24 @@ public class SubscribeServiceImpl implements SubscribeService {
                 .passiveId(userId)
                 .build();
         userRelationMapper.insert(userRelation);
+    }
+
+    public void delete(Integer id, Integer passiveId) {
+        UserRelation build = UserRelation.builder()
+                .activeId(id)
+                .passiveId(passiveId)
+                .build();
+        userRelationMapper.delete(build);
+
+    }
+
+    /**
+     * 获取用户关注的用户
+     * @param id
+     * @return
+     */
+    public List<Subscribe> getSubscribeUser(Integer id) {
+        String nickName = null;
+        return subscribeMapper.getSubscribe(id, nickName);
     }
 }

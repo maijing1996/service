@@ -85,5 +85,17 @@
         insert into goods(goods_name,spec,price,original_price,type,user_id,good_attachments,customer_id,bulletin_date)
         values(#{goodsName},#{spec},#{price},#{originalPrice},#{type},#{userId},#{goodAttachments},#{customerId},#{bulletinDate})
     </insert>
-
+    
+    <select id="findAllGood" resultType="com.mj.model.Goods">
+        select * from goods
+        <where>
+            <if test="goodName != null and goodName != ''">
+                goods_name LIKE CONCAT('%', #{goodName}, '%')
+            </if>
+        </where>
+    </select>
+    
+    <delete id="deletes"  parameterType = "java.lang.String">
+        delete from goods where 1>2 or id in (${ids})
+    </delete>
 </mapper>
