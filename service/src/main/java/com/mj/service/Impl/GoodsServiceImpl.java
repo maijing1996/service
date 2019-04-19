@@ -8,6 +8,7 @@ import com.mj.exceptions.UnAuthorizedException;
 import com.mj.mapper.GoodsMapper;
 import com.mj.model.Goods;
 import com.mj.model.User;
+import com.mj.model.request.GoodRequest;
 import com.mj.service.GoodsService;
 import com.mj.utils.IgnoreProperty;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -90,5 +91,31 @@ public class GoodsServiceImpl implements GoodsService {
         List<Goods> list = goodsMapper.findAllUser(uid, goodsName, type);
 //        List<Goods> list = (List<Goods>)goodsRepository.findAll(booleanBuilder);
         return list;
+    }
+
+    /**
+     * 獲取所有的商品
+     * @param goodRequest
+     */
+    @Override
+    public  PageInfo<Goods> listInfo(GoodRequest goodRequest) {
+        if(goodRequest.getPage() != null && goodRequest.getSize() != null) {
+            PageHelper.startPage(goodRequest.getPage(), goodRequest.getSize());
+        } else {
+            PageHelper.startPage(1, 20);
+        }
+        List<Goods> goods = goodsMapper.findAllGood(goodRequest.getGoodName());
+        PageInfo<Goods> pageInfo = new PageInfo<Goods>(goods);
+        return pageInfo;
+    }
+
+    /**
+     * 批量删除
+     * @param ids
+     */
+    @Override
+    public void deletes(String ids) {
+
+        goodsMapper.deletes(ids);
     }
 }

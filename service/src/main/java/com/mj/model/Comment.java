@@ -41,8 +41,8 @@ public class Comment {
 
 
 //    @ManyToOne(targetEntity = User.class)
-    @JsonProperty(value = "commentUser")
 //    @JoinColumn(name = "comment_user_id")
+    @JsonProperty("userId")
     @Column(name = "comment_user_id")
     private Integer userId;
 
@@ -60,6 +60,7 @@ public class Comment {
     @Transient
     private User replyUser;
 
+    @JsonProperty("replyId")
     @Column(name="reply_id")
     private Integer replyId;
 
@@ -71,4 +72,6 @@ public class Comment {
     @Column(name = "comment_read")
     private Integer read;
 
+    @Transient
+    private User commentUser;
 }

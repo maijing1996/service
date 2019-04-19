@@ -2,6 +2,7 @@ package com.mj.service;
 
 import com.github.pagehelper.PageInfo;
 import com.mj.model.Goods;
+import com.mj.model.request.GoodRequest;
 
 import java.util.List;
 
@@ -17,4 +18,7 @@ public interface GoodsService {
 
     List<Goods> getAllGoodsByUser(Integer uid, String goodsName, String type);
 
+    PageInfo<Goods> listInfo(GoodRequest goodRequest);
+
+    void deletes(String ids);
 }

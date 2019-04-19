@@ -66,6 +66,17 @@ public class LoginInfo {
             user.setRole(UserRole.ORDINARY.getRole());
             user.setState(UserState.NORMAL.getState());
             userService.addWechatUser(user);
+        }else {
+            Integer userIdByOpenid = userService.getUserIdByOpenid(openid);
+            User user = User.builder()
+                    .nickName(nickName.trim())
+                    .avatarUrl(avatarUrl.trim())
+                    .gender(gender.trim())
+                    .role(UserRole.ORDINARY.getRole())
+                    .state(UserState.NORMAL.getState())
+                    .build();
+
+            userService.updateUser(user, userIdByOpenid);
         }
         Map<String,Object> map = new HashMap<>();
         Integer id = userService.getUserIdByOpenid(openid);
