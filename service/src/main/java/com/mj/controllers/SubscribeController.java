@@ -98,6 +98,7 @@ public class SubscribeController {
         List list = new ArrayList();
         List<User> userList = userService.getAllUser(nickName);
         List<Subscribe> subscribeList = subscribeService.getSubscribeUser(id);//获取用户关注的所有
+
         for (SubscribeUser subscribeUser : userList) {
             for (Subscribe subscribe : subscribeList) {
                 if (subscribe.getId() == subscribeUser.getId()) {

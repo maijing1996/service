@@ -85,7 +85,37 @@ public class CommentServiceImpl implements CommentService {
          * 组装评论
          */
         List commentList = new ArrayList();
-        for (Comment comment: list) {
+
+        list.forEach(comment -> {
+            User user = userService.getUser(comment.getUserId());
+            SecondComment secondComment = new SecondComment();
+            secondComment.setId(comment.getId());
+            secondComment.setContent(comment.getContent());
+            secondComment.setGoodsId(comment.getGoodsId());
+            secondComment.setUser(user);
+            secondComment.setUserId(comment.getUserId());
+            secondComment.setCommentDate(comment.getCommentDate());
+            secondComment.setReplyUser(comment.getReplyUser());
+            secondComment.setReplyCommentId(comment.getReplyCommentId());
+            secondComment.setRead(comment.getRead());
+            list2.forEach(comment2 ->{
+                if (secondComment.getList() == null) {
+                    secondComment.setList(new ArrayList<Comment>());
+                }
+                List<Comment> secondCommentList = secondComment.getList();
+                secondCommentList.forEach(comment3 -> {
+                    if (comment3.getId().equals(comment2.getReplyCommentId())) {
+                        comment2.setReplyCommentId(secondComment.getId());
+                    }
+                });
+                if (secondComment.getId().equals(comment2.getReplyCommentId())) {
+                    secondComment.getList().add(comment2);
+                }
+            });
+            commentList.add(secondComment);
+        });
+
+        /*for (Comment comment: list) {
             User user = userService.getUser(comment.getUserId());
             SecondComment secondComment = new SecondComment();
             secondComment.setId(comment.getId());
@@ -113,7 +143,7 @@ public class CommentServiceImpl implements CommentService {
 
             }
             commentList.add(secondComment);
-        }
+        }*/
         return commentList;
     }
 
@@ -169,7 +199,7 @@ public class CommentServiceImpl implements CommentService {
      */
     public List<Comment> getUnreadComment(Integer userId) {
         List<Comment> list = commentMapper.findCommentByUserId(userId);
-        for (Comment comment:list) {
+        list.forEach(comment -> {
             Integer replyId = comment.getReplyId();
             Integer userId2 = comment.getUserId();
             User user = userService.getUser(replyId);
@@ -177,7 +207,16 @@ public class CommentServiceImpl implements CommentService {
             comment.setReplyUser(user);
             comment.setCommentUser(user1);
             comment.setUser(user1);
-        }
+        });
+        /*for (Comment comment:list) {
+            Integer replyId = comment.getReplyId();
+            Integer userId2 = comment.getUserId();
+            User user = userService.getUser(replyId);
+            User user1 = userService.getUser(userId2);
+            comment.setReplyUser(user);
+            comment.setCommentUser(user1);
+            comment.setUser(user1);
+        }*/
         log.info("Unread"+list.size()+list.toString());
         return list;
     }
@@ -216,7 +255,7 @@ public class CommentServiceImpl implements CommentService {
         Comment com = new Comment();
         com.setReplyId(userId);
         List<Comment> list = commentMapper.select(com);
-        for (Comment comment:list) {
+        list.forEach(comment -> {
             Integer replyId = comment.getReplyId();
             Integer userId2 = comment.getUserId();
             User user = userService.getUser(replyId);
@@ -224,7 +263,16 @@ public class CommentServiceImpl implements CommentService {
             comment.setReplyUser(user);
             comment.setCommentUser(user1);
             comment.setUser(user1);
-        }
+        });
+        /*for (Comment comment:list) {
+            Integer replyId = comment.getReplyId();
+            Integer userId2 = comment.getUserId();
+            User user = userService.getUser(replyId);
+            User user1 = userService.getUser(userId2);
+            comment.setReplyUser(user);
+            comment.setCommentUser(user1);
+            comment.setUser(user1);
+        }*/
         log.info("Comment:"+list.toString()+list.size());
         return list;
     }
