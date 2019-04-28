@@ -2,4 +2,47 @@
         <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mj.mapper.UserMapper">
 
+    <sql id="base">
+        id;
+
+       openid;
+
+         username;
+
+        nickName;
+
+        password;
+
+        state;
+
+        role;
+
+       mobile;
+
+       qq;
+
+       avatarUrl;
+
+  gender;
+    </sql>
+
+    <select id="findById" resultType="com.mj.model.User">
+        select * from user where id = #{id}
+    </select>
+
+    <select id="listUser" resultType="com.mj.model.dto.UserDto">
+        select id, openid, username, nick_name nickName, password, state, role, mobile, qq, avatar_url avatarUrl, gender
+        from user
+        <where>
+            <if test="nickName != null and nickName != ''">
+                nick_name LIKE CONCAT('%', #{nickName}, '%')
+            </if>
+        </where>
+    </select>
+
+    <delete id="deletes"  parameterType = "java.lang.String">
+     delete from user where 1>2
+         or id in (${ids})
+    </delete>
+
 </mapper>

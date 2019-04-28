@@ -1,11 +1,14 @@
 package com.mj.service.Impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.mj.enums.ErrorCode;
 import com.mj.enums.ErrorMessage;
 import com.mj.exceptions.BusinessException;
 import com.mj.exceptions.UnAuthorizedException;
 import com.mj.mapper.UserMapper;
 import com.mj.model.User;
+import com.mj.model.dto.UserDto;
 import com.mj.service.UserService;
 import com.mj.utils.MD5Util;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +38,7 @@ public class UserServiceImpl implements UserService {
         try {
             User user1 = new User();
             user1.setId(id);
-            user = userMapper.selectOne(user1);
+            user = userMapper.findById(id);
 //            user = userRepository.getOne(id);
         } catch (BusinessException e) {
             throw new UnAuthorizedException(ErrorCode.USERNAME_NOT_EXIST, ErrorMessage.NOT_FOUND_USER);
@@ -58,7 +61,8 @@ public class UserServiceImpl implements UserService {
         {
             throw new UnAuthorizedException(ErrorCode.EMPTY_PASSWORD, ErrorMessage.EMPTY_PASSWORD);
         }
-        User user = userMapper.selectByPrimaryKey(username.trim());
+        User user2 = User.builder().username(username.trim()).build();
+        User user = userMapper.selectOne(user2);
 //        User user = userRepository.findByUsername(username.trim());
 
         if (user == null) {
@@ -103,6 +107,11 @@ public class UserServiceImpl implements UserService {
             oldUser.setUsername(user.getUsername());
             oldUser.setMobile(user.getMobile());
             oldUser.setQq(user.getQq());
+            oldUser.setAvatarUrl(user.getAvatarUrl());
+            oldUser.setState(user.getState());
+            oldUser.setGender(user.getGender());
+            oldUser.setNickName(user.getNickName());
+            oldUser.setRole(user.getRole());
         }
         userMapper.updateByPrimaryKeySelective(oldUser);
 //        userRepository.save(oldUser);
@@ -197,9 +206,34 @@ public class UserServiceImpl implements UserService {
 
     }
 
+    /**
+     * 所有的用户
+     * @return
+     */
+    @Override
+    public PageInfo<UserDto> listUser(Integer page, Integer size, String nickName) {
 
+        if(page != null && size != null) {
+            PageHelper.startPage(page, size);
+        } else {
+            PageHelper.startPage(1, 20);
+        }
+        List<UserDto> userDtoList = userMapper.listUser(nickName);
+        PageInfo<UserDto> pageInfo = new PageInfo<UserDto>(userDtoList);
+        return pageInfo;
+    }
 
+    @Override
+    public void delete(Integer id) {
+        User user = new User();
+        user.setId(id);
+        userMapper.delete(user);
+    }
 
+    @Override
+    public void deletes(String ids) {
+        userMapper.deletes(ids);
+    }
 
 
 }

@@ -4,7 +4,14 @@
     <select id="getSubscribe" resultType="com.mj.model.Subscribe">
         SELECT user_relation.passive_id as id ,user.nick_name,`user`.avatar_url,`user`.gender,`user`.gender
         FROM   user_relation LEFT JOIN `user` ON user_relation.passive_id = `user`.id
-        WHERE user_relation.active_id = #{id} and `user`.nick_name LIKE CONCAT('%', #{nickName}, '%')
+        <where>
+            <if test="id != null and id != ''">
+               and user_relation.active_id = #{id}
+            </if>
+            <if test="nickName != null and nickName != ''">
+                and `user`.nick_name LIKE CONCAT('%', #{nickName}, '%')
+            </if>
+        </where>
     </select>
 
 </mapper>

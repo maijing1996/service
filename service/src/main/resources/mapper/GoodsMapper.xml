@@ -13,7 +13,6 @@
         <result property="userId" column="user_id" />
         <result property="goodAttachments" column="good_attachments" />
         <result property="customerId" column="customer_id" />
-        <!-- 一对一关联映射：association -->
         <association property="user" javaType="com.mj.model.User">
             <id property="id" column="id" />
             <result property="openid" column="openid" />
@@ -28,7 +27,7 @@
             <result property="gender" column="gender" />
         </association>
         <collection property="attachments" ofType="com.mj.model.Attachment">
-            <id property="id" column="id" />
+            <result property="id" column="id" />
             <result column="attachment_name" property="attachmentName"/>
             <result column="attachment_url" property="attachmentUrl"/>
             <result column="goods_id" property="goodsId"/>
@@ -37,21 +36,22 @@
 
     <!--获取所有商品-->
     <select id="findAll" resultMap="resultMap">
-        select * from goods left join user on goods.user_id = user.id
-                      left join attachment on goods.id = attachment.goods_id
+        select * from goods g left join user u on g.user_id = u.id
+                      left join attachment a on g.id = a.goods_id
         <where>
             <if test="id != null and id != ''">
-                id = #{id}
+                g.user_id = #{id}
             </if>
             <if test="goodsName != null and goodsName != ''">
-                and goods_name LIKE CONCAT('%', #{goodsName}, '%')
+                and g.goods_name LIKE CONCAT('%', #{goodsName}, '%')
             </if>
             <if test="type != null and type != ''">
-                and type = #{type}
+                and g.type = #{type}
             </if>
             <if test="customerId != null and customerId != ''">
-                and customer_id = #{customerId}
+                and g.customer_id = #{customerId}
             </if>
+            and (g.customer_id is null)
         </where>
     </select>
     <!--LIKE CONCAT('%', #{title}, '%')-->
@@ -71,6 +71,7 @@
             <if test="customerId != null and customerId != ''">
                 customer_id = #{customerId}
             </if>
+            and (g.customer_id is null)
         </where>
     </select>
 
@@ -84,5 +85,17 @@
         insert into goods(goods_name,spec,price,original_price,type,user_id,good_attachments,customer_id,bulletin_date)
         values(#{goodsName},#{spec},#{price},#{originalPrice},#{type},#{userId},#{goodAttachments},#{customerId},#{bulletinDate})
     </insert>
-
+    
+    <select id="findAllGood" resultType="com.mj.model.Goods">
+        select * from goods
+        <where>
+            <if test="goodName != null and goodName != ''">
+                goods_name LIKE CONCAT('%', #{goodName}, '%')
+            </if>
+        </where>
+    </select>
+    
+    <delete id="deletes"  parameterType = "java.lang.String">
+        delete from goods where 1>2 or id in (${ids})
+    </delete>
 </mapper>

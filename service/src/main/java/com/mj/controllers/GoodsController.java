@@ -113,9 +113,8 @@ public class GoodsController {
         String goodsId = request.getParameter("goods");
         try {
             Integer id =  Integer.valueOf(goodsId);
-//            newGoods = goodsService.getGoodsById(Integer.valueOf(goodsId.trim()));
             if (multipartFiles != null) {
-                List urlList = uploadFile(multipartFiles, id);
+                uploadFile(multipartFiles, id);
             }
 
         } catch (IOException e) {
@@ -124,10 +123,7 @@ public class GoodsController {
         return ResponseEntity.ok(null);
     }
 
-//    @ResponseBody
-//    @PostMapping("/goods/upload/images")
     public List uploadFile(MultipartFile multipartFiles, Integer goodsId) throws Exception {
-//        List urlList = new ArrayList();
         String url = null;
         try {
 //            for (int i = 0; i < multipartFiles.length; i++) {
